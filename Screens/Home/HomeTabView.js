@@ -35,7 +35,7 @@ const productMiniSize = [
     img: require("../../assets/product/product_1.png"),
     brandName: "사뿐",
     productName: "뮤이안 베이직 롱부츠",
-    discount: "",
+    discountPercentage: "",
     zDiscount: false,
     originalPrice: "",
     price: "52,900",
@@ -47,7 +47,7 @@ const productMiniSize = [
     img: require("../../assets/product/product_2.png"),
     brandName: "시티브리즈",
     productName: "[21FW]케이블 니트",
-    discount: "5%",
+    discountPercentage: "5%",
     zDiscount: false,
     originalPrice: "",
     price: "119,700",
@@ -59,7 +59,7 @@ const productMiniSize = [
     img: require("../../assets/product/product_3.png"),
     brandName: "사뿐",
     productName: "페리아 스웨이드 스틸힐",
-    discount: "40%",
+    discountPercentage: "40%",
     zDiscount: true,
     originalPrice: "38,900",
     price: "23,340",
@@ -74,7 +74,7 @@ const productBigSize = [
     img: require("../../assets/product/product_4.png"),
     brandName: "순키",
     productName: "오프숄더 니트",
-    discount: "73%",
+    discountPercentage: "73%",
     zDiscount: true,
     originalPrice: "36,000",
     price: "9,800",
@@ -86,7 +86,7 @@ const productBigSize = [
     img: require("../../assets/product/product_5.png"),
     brandName: "더무드",
     productName: "실크원피스",
-    discount: "10%",
+    discountPercentage: "10%",
     zDiscount: false,
     originalPrice: "",
     price: "34,100",
@@ -98,7 +98,7 @@ const productBigSize = [
     img: require("../../assets/product/product_6.png"),
     brandName: "어텀뮤트",
     productName: "하이퀄리티 울 자켓",
-    discount: "",
+    discountPercentage: "",
     zDiscount: false,
     originalPrice: "",
     price: "109,000",
@@ -132,10 +132,10 @@ const zDiscountText = item => {
   }
 };
 
-const discountText = item => {
+const discountPercentageText = item => {
   const tempItem = item;
 
-  if (tempItem.discount !== "") {
+  if (tempItem.discountPercentage !== "") {
     return (
       <Text
         style={{
@@ -145,7 +145,7 @@ const discountText = item => {
           marginRight: screenHeight * 0.005,
         }}
       >
-        {tempItem.discount}
+        {tempItem.discountPercentage}
       </Text>
     );
   }
@@ -294,7 +294,7 @@ const HomeTabView = ({ navigation }) => {
                           </View>
 
                           <View style={styles.productMiniSizeDiscount}>
-                            {discountText(item)}
+                            {discountPercentageText(item)}
                             <Text style={styles.productMiniSizePrice}>
                               {item.price}
                             </Text>
@@ -348,7 +348,7 @@ const HomeTabView = ({ navigation }) => {
                           </View>
 
                           <View style={styles.productMiniSizeDiscount}>
-                            {discountText(item)}
+                            {discountPercentageText(item)}
                             <Text style={styles.productMiniSizePrice}>
                               {item.price}
                             </Text>
