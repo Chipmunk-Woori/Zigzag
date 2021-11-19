@@ -1,7 +1,8 @@
-import React, { useState, useEffect, Component } from "react";
+import React, { useState, useEffect, useRef } from "react";
+
+import Carousel from "react-native-snap-carousel";
 
 import {
-  AppRegistry,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -14,8 +15,6 @@ import {
   Dimensions,
   TouchableOpacity,
 } from "react-native";
-
-import Slick from "react-native-slick";
 
 const screenWidth = Dimensions.get("screen").width; // 전체화면 가로길이
 const screenHeight = Dimensions.get("screen").height; //전체화면 세로길이
@@ -148,6 +147,10 @@ const Sale = () => {
   const [pinkHeartArray, setPinkHeartArray] = useState([]); // 좋아요 누른 하트 들어있는 배열
   const [reload, setReload] = useState(false);
 
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  let carousel = useRef(null);
+
   // 하트 변경 함수
   // 내가 누른 상품이 핑크하트면 흰하트로 변경, 흰하트면 핑크하트로 변경
   const heartChange = index => {
@@ -198,92 +201,93 @@ const Sale = () => {
     return heartState;
   };
 
-  const getHeader = () => {
+  const getHeader = ({ item, index }) => {
+    //🌟각 게시물의 스타일
     return (
       <View>
-        <Text style={styles.firstContentTitle}>{firstContentTitle}</Text>
-        <FlatList
-          data={firstContentData}
-          listKey={(item, index) => {
-            index.toString();
-          }}
-          horizontal={true}
-          renderItem={({ item, index }) => {
-            return (
-              <View key={item} style={styles.firstContentView}>
-                <Image style={styles.firstContentImg} source={item.img} />
-                <View style={styles.firstContentSaleTextView}>
-                  <Text style={styles.firstContentSaleText}>타임특가</Text>
-                </View>
-                <View style={styles.firstContentTextLocation}>
-                  <View style={styles.firstContentTextView}>
-                    <View>
-                      <Text style={styles.firstContentBrandName}>
-                        {item.brandName}
-                      </Text>
-                    </View>
-                    <View>
-                      <Text style={styles.firstContentProductName}>
-                        {item.productName}
-                      </Text>
-                    </View>
-                    <View style={styles.firstContentZdiscount}>
-                      {zDiscountText(item)}
-                      {originalPriceText(item)}
-                    </View>
-
-                    <View style={styles.firstContentDiscount}>
-                      {discountPercentageText(item)}
-                      <Text style={styles.firstContentPrice}>{item.price}</Text>
-                    </View>
-                    <View
-                      style={{
-                        flexDirection: "row",
-                        alignItems: "center",
-                      }}
-                    >
-                      {freeShippingText(item)}
-                      <TouchableOpacity
-                        onPress={() => {
-                          heartChange(index);
-                        }}
-                      >
-                        <Image
-                          style={styles.firstContenHeart}
-                          source={
-                            returnHeartState(index)
-                              ? require("../../assets/icon/heart_pink.png")
-                              : require("../../assets/icon/heart_white.png")
-                          }
-                        />
-                      </TouchableOpacity>
-                    </View>
-                  </View>
-                </View>
+        <View key={item} style={styles.firstContentView}>
+          <Image style={styles.firstContentImg} source={item.img} />
+          <View style={styles.firstContentSaleTextView}>
+            <Text style={styles.firstContentSaleText}>타임특가</Text>
+          </View>
+          <View style={styles.firstContentTextLocation}>
+            <View style={styles.firstContentTextView}>
+              <View>
+                <Text style={styles.firstContentBrandName}>
+                  {item.brandName}
+                </Text>
               </View>
-            );
-          }}
-        />
+              <View>
+                <Text style={styles.firstContentProductName}>
+                  {item.productName}
+                </Text>
+              </View>
+              <View style={styles.firstContentZdiscount}>
+                {zDiscountText(item)}
+                {originalPriceText(item)}
+              </View>
+
+              <View style={styles.firstContentDiscount}>
+                {discountPercentageText(item)}
+                <Text style={styles.firstContentPrice}>{item.price}</Text>
+              </View>
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                }}
+              >
+                {freeShippingText(item)}
+                <TouchableOpacity
+                  onPress={() => {
+                    heartChange(index);
+                  }}
+                >
+                  <Image
+                    style={styles.firstContenHeart}
+                    source={
+                      returnHeartState(index)
+                        ? require("../../assets/icon/heart_pink.png")
+                        : require("../../assets/icon/heart_white.png")
+                    }
+                  />
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </View>
       </View>
     );
   };
 
   return (
     <View>
-      <FlatList
-        data={tempFlatListArray}
-        listKey={(item, index) => {
-          index.toString();
+      <Text style={styles.firstContentTitle}>{firstContentTitle}</Text>
+      <SafeAreaView
+        style={{
+          //🌟전체 화면 스타일
+          // backgroundColor: "rebeccapurple",
+          width: screenWidth,
+          height: screenHeight * 0.4 + screenHeight * 0.13 + 30,
         }}
-        ListHeaderComponent={getHeader}
-        renderItem={({ item }) => {
-          return (
-            <View key={item}>
-              <Text>-</Text>
-            </View>
-          );
-        }}
-      />
+      >
+        <View style={{ flexDirection: "row", justifyContent: "center" }}>
+          <Carousel
+            layout={"default"}
+            ref={ref => {
+              carousel = ref;
+            }}
+            data={firstContentData}
+            sliderWidth={300} //슬라이드 전체 너비
+            itemWidth={320}
+            //한 화면에서 (게시물 하나 + 양 옆 여비) 너비
+            //이게 너무 작으면 다음 게시물과 겹쳐
+
+            renderItem={getHeader}
+            onSnapToItem={index => setActiveIndex(index)}
+          />
+        </View>
+      </SafeAreaView>
     </View>
   );
 };
@@ -292,7 +296,6 @@ const styles = StyleSheet.create({
   firstContentView: {
     marginLeft: screenWidth * 0.06,
     marginTop: screenHeight * 0.03,
-    // marginRight: screenWidth * 0.03,
   },
   firstContentTitle: {
     fontSize: 20,
