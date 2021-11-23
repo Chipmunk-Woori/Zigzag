@@ -25,6 +25,14 @@ import Brand from "./Screens/Home/Brand";
 import Best from "./Screens/Home/Best";
 import Sale from "./Screens/Home/Sale";
 
+import Store_heartProduct from "./Store/Store_heartProduct";
+import { Provider } from "react-redux";
+import { createStore } from "redux";
+
+let store = createStore(() => {
+  return [{ id: 0, name: "ABC", quan: 2 }];
+});
+
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
@@ -48,112 +56,114 @@ const App = () => {
   };
 
   return (
-    <NavigationContainer>
-      <Tab.Navigator
-        tabBarOptions={{
-          activeTintColor: "black", //탭 활성화 색상
-          inactiveTintColor: "#C2CAD3", //탭 비활성화 색상
-        }}
-        screenOptions={{ headerShown: false }} //헤더 숨김
-      >
-        <Tab.Screen
-          name="Home"
-          component={HomeNavigator}
-          options={({ route }) => ({
-            tabBarIcon: ({ focused }) => {
-              return focused ? (
-                <Image
-                  source={require("./assets/icon/Tab_home_black.png")}
-                  style={{ width: 20, height: 20 }}
-                />
-              ) : (
-                <Image
-                  source={require("./assets/icon/Tab_home.png")}
-                  style={{ width: 20, height: 20 }}
-                />
-              );
-            },
-          })}
-        />
+    <Provider store={store}>
+      <NavigationContainer>
+        <Tab.Navigator
+          tabBarOptions={{
+            activeTintColor: "black", //탭 활성화 색상
+            inactiveTintColor: "#C2CAD3", //탭 비활성화 색상
+          }}
+          screenOptions={{ headerShown: false }} //헤더 숨김
+        >
+          <Tab.Screen
+            name="Home"
+            component={HomeNavigator}
+            options={({ route }) => ({
+              tabBarIcon: ({ focused }) => {
+                return focused ? (
+                  <Image
+                    source={require("./assets/icon/Tab_home_black.png")}
+                    style={{ width: 20, height: 20 }}
+                  />
+                ) : (
+                  <Image
+                    source={require("./assets/icon/Tab_home.png")}
+                    style={{ width: 20, height: 20 }}
+                  />
+                );
+              },
+            })}
+          />
 
-        <Tab.Screen
-          name="Store"
-          component={Store}
-          options={({ route }) => ({
-            tabBarIcon: ({ focused }) => {
-              return focused ? (
-                <Image
-                  source={require("./assets/icon/Tab_store_black.png")}
-                  style={{ width: 20, height: 20 }}
-                />
-              ) : (
-                <Image
-                  source={require("./assets/icon/Tab_store.png")}
-                  style={{ width: 20, height: 20 }}
-                />
-              );
-            },
-          })}
-        />
-        <Tab.Screen
-          name="Collection"
-          component={Collection}
-          options={({ route }) => ({
-            tabBarIcon: ({ focused }) => {
-              return focused ? (
-                <Image
-                  source={require("./assets/icon/Tab_menu_black.png")}
-                  style={{ width: 20, height: 20 }}
-                />
-              ) : (
-                <Image
-                  source={require("./assets/icon/Tab_menu.png")}
-                  style={{ width: 20, height: 20 }}
-                />
-              );
-            },
-          })}
-        />
-        <Tab.Screen
-          name="Heart"
-          component={Heart}
-          options={({ route }) => ({
-            tabBarIcon: ({ focused }) => {
-              return focused ? (
-                <Image
-                  source={require("./assets/icon/Tab_heart_black.png")}
-                  style={{ width: 20, height: 20 }}
-                />
-              ) : (
-                <Image
-                  source={require("./assets/icon/Tab_heart.png")}
-                  style={{ width: 20, height: 20 }}
-                />
-              );
-            },
-          })}
-        />
-        <Tab.Screen
-          name="MyPage"
-          component={MyPage}
-          options={({ route }) => ({
-            tabBarIcon: ({ focused }) => {
-              return focused ? (
-                <Image
-                  source={require("./assets/icon/Tab_mypage_black.png")}
-                  style={{ width: 20, height: 20 }}
-                />
-              ) : (
-                <Image
-                  source={require("./assets/icon/Tab_mypage.png")}
-                  style={{ width: 20, height: 20 }}
-                />
-              );
-            },
-          })}
-        />
-      </Tab.Navigator>
-    </NavigationContainer>
+          <Tab.Screen
+            name="Store"
+            component={Store}
+            options={({ route }) => ({
+              tabBarIcon: ({ focused }) => {
+                return focused ? (
+                  <Image
+                    source={require("./assets/icon/Tab_store_black.png")}
+                    style={{ width: 20, height: 20 }}
+                  />
+                ) : (
+                  <Image
+                    source={require("./assets/icon/Tab_store.png")}
+                    style={{ width: 20, height: 20 }}
+                  />
+                );
+              },
+            })}
+          />
+          <Tab.Screen
+            name="Collection"
+            component={Collection}
+            options={({ route }) => ({
+              tabBarIcon: ({ focused }) => {
+                return focused ? (
+                  <Image
+                    source={require("./assets/icon/Tab_menu_black.png")}
+                    style={{ width: 20, height: 20 }}
+                  />
+                ) : (
+                  <Image
+                    source={require("./assets/icon/Tab_menu.png")}
+                    style={{ width: 20, height: 20 }}
+                  />
+                );
+              },
+            })}
+          />
+          <Tab.Screen
+            name="Heart"
+            component={Heart}
+            options={({ route }) => ({
+              tabBarIcon: ({ focused }) => {
+                return focused ? (
+                  <Image
+                    source={require("./assets/icon/Tab_heart_black.png")}
+                    style={{ width: 20, height: 20 }}
+                  />
+                ) : (
+                  <Image
+                    source={require("./assets/icon/Tab_heart.png")}
+                    style={{ width: 20, height: 20 }}
+                  />
+                );
+              },
+            })}
+          />
+          <Tab.Screen
+            name="MyPage"
+            component={MyPage}
+            options={({ route }) => ({
+              tabBarIcon: ({ focused }) => {
+                return focused ? (
+                  <Image
+                    source={require("./assets/icon/Tab_mypage_black.png")}
+                    style={{ width: 20, height: 20 }}
+                  />
+                ) : (
+                  <Image
+                    source={require("./assets/icon/Tab_mypage.png")}
+                    style={{ width: 20, height: 20 }}
+                  />
+                );
+              },
+            })}
+          />
+        </Tab.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 };
 

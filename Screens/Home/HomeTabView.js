@@ -120,7 +120,7 @@ const zDiscountText = item => {
     return (
       <Text
         style={{
-          color: "#F13794",
+          color: "#F719A3",
           fontSize: 11,
           fontWeight: "bold",
           marginRight: screenHeight * 0.005,
@@ -139,7 +139,7 @@ const discountPercentageText = item => {
     return (
       <Text
         style={{
-          color: "#F13794",
+          color: "#F719A3",
           fontSize: 13,
           fontWeight: "bold",
           marginRight: screenHeight * 0.005,
@@ -274,6 +274,7 @@ const HomeTabView = ({ navigation }) => {
                                 height: screenHeight * 0.16,
                                 width: screenWidth * 0.29,
                                 marginBottom: screenHeight * 0.01,
+                                borderRadius: 5,
                               }}
                             />
                           </View>

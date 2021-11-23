@@ -89,8 +89,8 @@ const Home = ({ navigation }) => {
         <Image
           source={require("../../assets/icon/shoppingBasket.png")}
           style={{
-            width: screenWidth * 0.07,
-            height: screenHeight * 0.03,
+            width: screenWidth * 0.062,
+            height: screenHeight * 0.028,
             marginLeft: screenWidth * 0.04,
           }}
         />
