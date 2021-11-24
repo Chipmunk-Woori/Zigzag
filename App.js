@@ -25,13 +25,10 @@ import Brand from "./Screens/Home/Brand";
 import Best from "./Screens/Home/Best";
 import Sale from "./Screens/Home/Sale";
 
-import Store_heartProduct from "./Store/Store_heartProduct";
+// redux
+import { heartProductList } from "./Store/Store_heartProduct";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
-
-let store = createStore(() => {
-  return [{ id: 0, name: "ABC", quan: 2 }];
-});
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -56,7 +53,7 @@ const App = () => {
   };
 
   return (
-    <Provider store={store}>
+    <Provider store={heartProductList}>
       <NavigationContainer>
         <Tab.Navigator
           tabBarOptions={{
@@ -66,7 +63,7 @@ const App = () => {
           screenOptions={{ headerShown: false }} //헤더 숨김
         >
           <Tab.Screen
-            name="Home"
+            name="홈"
             component={HomeNavigator}
             options={({ route }) => ({
               tabBarIcon: ({ focused }) => {
@@ -86,7 +83,7 @@ const App = () => {
           />
 
           <Tab.Screen
-            name="Store"
+            name="스토어"
             component={Store}
             options={({ route }) => ({
               tabBarIcon: ({ focused }) => {
@@ -105,7 +102,7 @@ const App = () => {
             })}
           />
           <Tab.Screen
-            name="Collection"
+            name="모아보기"
             component={Collection}
             options={({ route }) => ({
               tabBarIcon: ({ focused }) => {
@@ -124,7 +121,7 @@ const App = () => {
             })}
           />
           <Tab.Screen
-            name="Heart"
+            name="찜"
             component={Heart}
             options={({ route }) => ({
               tabBarIcon: ({ focused }) => {
@@ -143,7 +140,7 @@ const App = () => {
             })}
           />
           <Tab.Screen
-            name="MyPage"
+            name="마이페이지"
             component={MyPage}
             options={({ route }) => ({
               tabBarIcon: ({ focused }) => {
