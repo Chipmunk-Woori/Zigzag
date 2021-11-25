@@ -1,4 +1,3 @@
-import { of } from "core-js/core/array";
 import React, { useState, useEffect } from "react";
 
 import {
@@ -15,7 +14,7 @@ import {
   FlatList,
 } from "react-native";
 
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 
 //장바구니 아이콘 색상 : #F719A3
 const screenWidth = Dimensions.get("screen").width; // 전체화면 가로길이
@@ -140,7 +139,7 @@ const Heart = () => {
       freeShipping: true,
     },
     {
-      id: 3,
+      id: 6,
       img: require("../../assets/product/product_6.png"),
       brandName: "어텀뮤트",
       productName: "하이퀄리티 울 자켓",
@@ -478,13 +477,4 @@ const styles = StyleSheet.create({
   },
 });
 
-//redux store 데이터 가져와서 props 로 변환해주는 함수
-const stateChangeProps = state => {
-  return {
-    heartProductList: state,
-  };
-};
-
-export default connect(stateChangeProps)(Heart);
-
-// export default Heart;
+export default Heart;

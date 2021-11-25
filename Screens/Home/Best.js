@@ -24,7 +24,7 @@ const firstContentTitle = "⏰ 하객룩 타임특가"; // 첫번째 게시글 �
 
 const firstContentData = [
   {
-    id: 1,
+    id: 9,
     img: require("../../assets/product/product_9.png"),
     brandName: "로즐리",
     productName: "[serenity] 세실리아 뷔스티에 원피스",
@@ -36,7 +36,7 @@ const firstContentData = [
     freeShipping: true,
   },
   {
-    id: 2,
+    id: 8,
     img: require("../../assets/product/product_8.png"),
     brandName: "위니크",
     productName: "시아 버튼 자켓 (2col)",
@@ -48,7 +48,7 @@ const firstContentData = [
     freeShipping: true,
   },
   {
-    id: 3,
+    id: 7,
     img: require("../../assets/product/product_7.png"),
     brandName: "빈스홀릭",
     productName: "하운드 더블 롱 코트",

@@ -16,15 +16,15 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 
 const posterData = [
   {
-    id: 1,
+    id: "poster1",
     img: require("../../assets/poster/poster_1.png"),
   },
   {
-    id: 2,
+    id: "poster2",
     img: require("../../assets/poster/poster_2.png"),
   },
   {
-    id: 3,
+    id: "poster3",
     img: require("../../assets/poster/poster_3.png"),
   },
 ];
@@ -70,7 +70,7 @@ const productMiniSize = [
 
 const productBigSize = [
   {
-    id: 1,
+    id: 4,
     img: require("../../assets/product/product_4.png"),
     brandName: "순키",
     productName: "오프숄더 니트",
@@ -82,7 +82,7 @@ const productBigSize = [
     freeShipping: true,
   },
   {
-    id: 2,
+    id: 5,
     img: require("../../assets/product/product_5.png"),
     brandName: "더무드",
     productName: "실크원피스",
@@ -94,7 +94,7 @@ const productBigSize = [
     freeShipping: false,
   },
   {
-    id: 3,
+    id: 6,
     img: require("../../assets/product/product_6.png"),
     brandName: "어텀뮤트",
     productName: "하이퀄리티 울 자켓",

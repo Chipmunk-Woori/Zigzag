@@ -13,12 +13,22 @@ import {
   TouchableOpacity,
   FlatList,
 } from "react-native";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 
 const screenWidth = Dimensions.get("screen").width; // 전체화면 가로길이
 const screenHeight = Dimensions.get("screen").height; //전체화면 세로길이
 
-const Collection = props => {
+//redux store 데이터 가져와서 props 로 변환해주는 함수
+//   const stateChangeProps = state => {
+//      return {
+//        heartProductList: state,
+//      };
+// };
+
+const Collection = () => {
+  let ProductList = useSelector(state => state);
+  console.log(ProductList);
+
   return (
     <View style={styles.View}>
       <View style={styles.headerView}>
@@ -32,9 +42,9 @@ const Collection = props => {
       </View>
       <View>
         <Text style={{ marginBottom: 40 }}>redux 잘 되는 중</Text>
-        <Text>{props.heartProductList[0].brandName}</Text>
+        <Text>{ProductList[0].brandName}</Text>
         <Image
-          source={props.heartProductList[0].img}
+          source={ProductList[0].img}
           style={{ width: 100, height: 100 }}
         />
       </View>
@@ -70,13 +80,4 @@ const styles = StyleSheet.create({
   },
 });
 
-//redux store 데이터 가져와서 props 로 변환해주는 함수
-const stateChangeProps = state => {
-  return {
-    heartProductList: state,
-  };
-};
-
-export default connect(stateChangeProps)(Collection);
-
-//export default Collection;
+export default Collection;

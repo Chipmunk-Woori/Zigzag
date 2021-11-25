@@ -26,7 +26,7 @@ import Best from "./Screens/Home/Best";
 import Sale from "./Screens/Home/Sale";
 
 // redux
-import { heartProductList } from "./Store/Store_heartProduct";
+import { ProductList } from "./Store/Store_ProductList";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
 
@@ -53,7 +53,7 @@ const App = () => {
   };
 
   return (
-    <Provider store={heartProductList}>
+    <Provider store={ProductList}>
       <NavigationContainer>
         <Tab.Navigator
           tabBarOptions={{
