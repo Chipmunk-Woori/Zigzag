@@ -25,12 +25,22 @@ const screenHeight = Dimensions.get("screen").height; //전체화면 세로길�
 //      };
 // };
 
-const Collection = () => {
-  let ProductList = useSelector(state => state);
-  console.log(ProductList);
+const Collection = props => {
+  let reducer1 = useSelector(state => {
+    return state.reducer1;
+  });
+
+  let reducer2 = useSelector(state => {
+    return state.reducer2;
+  });
+
+  let consoleTemp = () => {
+    return console.log(reducer2);
+  };
 
   return (
     <View style={styles.View}>
+      {consoleTemp()}
       <View style={styles.headerView}>
         <Text style={styles.headerText}>모아보기</Text>
         <TouchableOpacity>
@@ -41,12 +51,7 @@ const Collection = () => {
         </TouchableOpacity>
       </View>
       <View>
-        <Text style={{ marginBottom: 40 }}>redux 잘 되는 중</Text>
-        <Text>{ProductList[0].brandName}</Text>
-        <Image
-          source={ProductList[0].img}
-          style={{ width: 100, height: 100 }}
-        />
+        <Image source={reducer2[0].img} style={{ width: 100, height: 100 }} />
       </View>
     </View>
   );

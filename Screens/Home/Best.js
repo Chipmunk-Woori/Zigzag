@@ -370,9 +370,9 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   firstContenHeart: {
-    height: screenHeight * 0.024,
-    width: screenWidth * 0.05,
     marginLeft: textMarginBottom * 98,
+    height: screenHeight * 0.023,
+    width: screenWidth * 0.049,
   },
 });
 

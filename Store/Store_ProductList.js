@@ -1,5 +1,6 @@
 import { Provider } from "react-redux";
 import { createStore, combineReducers } from "redux";
+import { useState } from "react";
 
 import {
   StyleSheet,
@@ -9,8 +10,6 @@ import {
   TouchableOpacity,
   FlatList,
 } from "react-native";
-
-import { reducer2 } from "../Store/Store_heartProduct";
 
 let ProductListState = [
   {
@@ -123,19 +122,48 @@ let ProductListState = [
   },
 ];
 
-let reducer1 = (state = ProductListState, action) => {
-  if (action.type === "plusHeartList") {
-    // '찜’탭 화면에 정렬
-    // or heartProductListState 에 추가
-    let copy = [...state];
+let heartProductListState = [
+  {
+    id: 7,
+    img: require("../assets/product/product_7.png"),
+    brandName: "빈스홀릭",
+    productName: "하운드 더블 롱 코트",
+    discountPercentage: "30%",
+    zDiscount: true,
+    originalPrice: "117,200",
+    price: "81,900",
+    brand: false,
+    freeShipping: true,
+  },
+  {
+    id: 8,
+    img: require("../assets/product/product_8.png"),
+    brandName: "위니크",
+    productName: "시아 버튼 자켓 (2col)",
+    discountPercentage: "30%",
+    zDiscount: true,
+    originalPrice: "238,000",
+    price: "165,900",
+    brand: false,
+    freeShipping: true,
+  },
+];
 
-    return copy;
+let reducer2 = (state = heartProductListState, action) => {
+  if (action.type === "plusHeart") {
+    let tempArray = [...heartProductListState];
+    tempArray.push(action.payload);
+    return tempArray;
   } else {
     return state;
   }
 };
 
-let ProductList = createStore(combineReducers({ reducer1, reducer2 }));
+let reducer1 = (state = ProductListState, action) => {
+  return state;
+};
+
+export let store = createStore(combineReducers({ reducer1, reducer2 }));
 
 export const Store_productList = () => {
   return (

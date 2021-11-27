@@ -26,7 +26,7 @@ import Best from "./Screens/Home/Best";
 import Sale from "./Screens/Home/Sale";
 
 // redux
-import { ProductList } from "./Store/Store_ProductList";
+import { store } from "./Store/Store_ProductList";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
 
@@ -53,14 +53,20 @@ const App = () => {
   };
 
   return (
-    <Provider store={ProductList}>
+    <Provider store={store}>
       <NavigationContainer>
         <Tab.Navigator
-          tabBarOptions={{
-            activeTintColor: "black", //탭 활성화 색상
-            inactiveTintColor: "#C2CAD3", //탭 비활성화 색상
+          screenOptions={{
+            headerShown: false,
+            tabBarActiveTintColor: "black",
+            tabBarInactiveTintColor: "#C2CAD3",
+            tabBarStyle: [
+              {
+                display: "flex",
+              },
+              null,
+            ],
           }}
-          screenOptions={{ headerShown: false }} //헤더 숨김
         >
           <Tab.Screen
             name="홈"

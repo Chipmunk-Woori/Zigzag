@@ -16,6 +16,8 @@ import {
   TouchableOpacity,
 } from "react-native";
 
+import { useDispatch, useSelector } from "react-redux";
+
 const screenWidth = Dimensions.get("screen").width; // 전체화면 가로길이
 const screenHeight = Dimensions.get("screen").height; //전체화면 세로길이
 const textMarginBottom = screenHeight * 0.0019;
@@ -142,14 +144,26 @@ const freeShippingText = item => {
   }
 };
 
-const Sale = () => {
+const Sale = props => {
   const tempFlatListArray = [0, 1];
   const [pinkHeartArray, setPinkHeartArray] = useState([]); // 좋아요 누른 하트 들어있는 배열
   const [reload, setReload] = useState(false);
-
   const [activeIndex, setActiveIndex] = useState(0);
-
   let carousel = useRef(null);
+
+  let dispatch = useDispatch();
+
+  let reducer1 = useSelector(state => {
+    return state.reducer1;
+  });
+
+  let reducer2 = useSelector(state => {
+    return state.reducer2;
+  });
+
+  let consoleTemp = () => {
+    return console.log(reducer2);
+  };
 
   // 하트 변경 함수
   // 내가 누른 상품이 핑크하트면 흰하트로 변경, 흰하트면 핑크하트로 변경
@@ -203,6 +217,7 @@ const Sale = () => {
 
   const getHeader = ({ item, index }) => {
     //🌟각 게시물의 스타일
+
     return (
       <View>
         <View key={item} style={styles.firstContentView}>
@@ -241,6 +256,7 @@ const Sale = () => {
                 <TouchableOpacity
                   onPress={() => {
                     heartChange(index);
+                    dispatch({ type: "plusHeart", payload: { item } });
                   }}
                 >
                   <Image
@@ -288,6 +304,16 @@ const Sale = () => {
           />
         </View>
       </SafeAreaView>
+      <View>
+        {reducer2.map((a, i) => {
+          return (
+            <View>
+              {/* <Image source={a[0].img} style={{ width: 60, height: 100 }} /> */}
+              <Text>{a.brandName}</Text>
+            </View>
+          );
+        })}
+      </View>
     </View>
   );
 };
@@ -378,8 +404,8 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   firstContenHeart: {
-    height: screenHeight * 0.024,
-    width: screenWidth * 0.05,
+    height: screenHeight * 0.023,
+    width: screenWidth * 0.049,
     marginLeft: textMarginBottom * 98,
   },
 });

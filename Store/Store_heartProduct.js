@@ -11,7 +11,7 @@ import {
   FlatList,
 } from "react-native";
 
-let heartProductListState = [
+export let heartProductListState = [
   {
     id: 1,
     img: require("../assets/product/product_1.png"),
@@ -26,11 +26,9 @@ let heartProductListState = [
   },
 ];
 
-let reducer2 = (state = heartProductListState, action) => {
+export let reducer2 = (state = heartProductListState, action) => {
   return state;
 };
-
-export const heartProductList = createStore(reducer2);
 
 export const Store_heartProduct = () => {
   return (
