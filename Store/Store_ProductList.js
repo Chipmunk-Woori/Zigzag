@@ -124,36 +124,40 @@ let ProductListState = [
 
 let heartProductListState = [
   {
-    id: 7,
-    img: require("../assets/product/product_7.png"),
-    brandName: "빈스홀릭",
-    productName: "하운드 더블 롱 코트",
-    discountPercentage: "30%",
-    zDiscount: true,
-    originalPrice: "117,200",
-    price: "81,900",
+    id: 1,
+    img: require("../assets/product/product_1.png"),
+    brandName: "사뿐",
+    productName: "뮤이안 베이직 롱부츠",
+    discountPercentage: "",
+    zDiscount: false,
+    originalPrice: "",
+    price: "52,900",
     brand: false,
     freeShipping: true,
   },
   {
-    id: 8,
-    img: require("../assets/product/product_8.png"),
-    brandName: "위니크",
-    productName: "시아 버튼 자켓 (2col)",
-    discountPercentage: "30%",
-    zDiscount: true,
-    originalPrice: "238,000",
-    price: "165,900",
-    brand: false,
+    id: 2,
+    img: require("../assets/product/product_2.png"),
+    brandName: "시티브리즈",
+    productName: "[21FW]케이블 니트",
+    discountPercentage: "5%",
+    zDiscount: false,
+    originalPrice: "",
+    price: "119,700",
+    brand: true,
     freeShipping: true,
   },
 ];
 
 let reducer2 = (state = heartProductListState, action) => {
   if (action.type === "plusHeart") {
-    let tempArray = [...heartProductListState];
-    tempArray.push(action.payload);
-    return tempArray;
+    //let tempArray = [...heartProductListState];
+    //tempArray.push(action.payload);
+    // ^ 기존 코드는 임시로 지금 추가한 하나만 보여주도록 되어있었음
+
+    console.log(action.payload);
+    heartProductListState.push(action.payload);
+    return heartProductListState;
   } else {
     return state;
   }

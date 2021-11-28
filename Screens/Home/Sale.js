@@ -149,6 +149,8 @@ const Sale = props => {
   const [pinkHeartArray, setPinkHeartArray] = useState([]); // 좋아요 누른 하트 들어있는 배열
   const [reload, setReload] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [likeProcudtList, setListProductList] = useState([]);
+
   let carousel = useRef(null);
 
   let dispatch = useDispatch();
@@ -161,8 +163,15 @@ const Sale = props => {
     return state.reducer2;
   });
 
-  let consoleTemp = () => {
-    return console.log(reducer2);
+  // reducer2 에 추가될 때마다
+  useEffect(() => {
+    console.log({ reducer2 });
+    setListProductList(reducer2);
+    setReload(!reload);
+  }, [reducer2]);
+
+  let consoleReducer2 = () => {
+    console.log(reducer2);
   };
 
   // 하트 변경 함수
@@ -256,7 +265,12 @@ const Sale = props => {
                 <TouchableOpacity
                   onPress={() => {
                     heartChange(index);
-                    dispatch({ type: "plusHeart", payload: { item } });
+                    dispatch({
+                      type: "plusHeart",
+                      payload: item,
+                      // ^ {} 으로 하면 {item: (내용)} 으로 들어감
+                    });
+                    consoleReducer2();
                   }}
                 >
                   <Image
@@ -294,7 +308,7 @@ const Sale = props => {
               carousel = ref;
             }}
             data={firstContentData}
-            sliderWidth={300} //슬라이드 전체 너비
+            sliderWidth={300} //슬라이드 전체 너비ƒ
             itemWidth={320}
             //한 화면에서 (게시물 하나 + 양 옆 여비) 너비
             //이게 너무 작으면 다음 게시물과 겹쳐
@@ -305,10 +319,9 @@ const Sale = props => {
         </View>
       </SafeAreaView>
       <View>
-        {reducer2.map((a, i) => {
+        {likeProcudtList.map(a => {
           return (
-            <View>
-              {/* <Image source={a[0].img} style={{ width: 60, height: 100 }} /> */}
+            <View key={a.id}>
               <Text>{a.brandName}</Text>
             </View>
           );
