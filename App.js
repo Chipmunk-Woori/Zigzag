@@ -25,6 +25,11 @@ import Brand from "./Screens/Home/Brand";
 import Best from "./Screens/Home/Best";
 import Sale from "./Screens/Home/Sale";
 
+import Ranking from "./Screens/Store/Ranking";
+import Bookmark from "./Screens/Store/Bookmark";
+import Ranking_Brand from "./Screens/Store/Ranking_Brand";
+import Ranking_Shoppingmall from "./Screens/Store/Ranking_Shoppingmall";
+
 // redux
 import { store } from "./Store/Store_ProductList";
 import { Provider } from "react-redux";
@@ -48,6 +53,25 @@ const App = () => {
         <Stack.Screen name="Best" component={Best} />
         <Stack.Screen name="Sale" component={Sale} />
         <Stack.Screen name="HomeTabView" component={HomeTabView} />
+      </Stack.Navigator>
+    );
+  };
+
+  const StoreNavigator = () => {
+    return (
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
+        }}
+      >
+        <Stack.Screen name="Store" component={Store} />
+        <Stack.Screen name="Ranking" component={Ranking} />
+        <Stack.Screen name="Bookmark" component={Bookmark} />
+        <Stack.Screen
+          name="Ranking_Shoppingmall"
+          component={Ranking_Shoppingmall}
+        />
+        <Stack.Screen name="Ranking_Brand" component={Ranking_Brand} />
       </Stack.Navigator>
     );
   };
@@ -90,7 +114,7 @@ const App = () => {
 
           <Tab.Screen
             name="스토어"
-            component={Store}
+            component={StoreNavigator}
             options={({ route }) => ({
               tabBarIcon: ({ focused }) => {
                 return focused ? (
