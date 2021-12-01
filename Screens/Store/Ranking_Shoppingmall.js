@@ -7,8 +7,12 @@ import {
   TouchableOpacity,
   Dimensions,
   StyleSheet,
+  Alert,
+  Modal,
+  Pressable,
 } from "react-native";
 import { linear } from "react-native/Libraries/Animated/Easing";
+import { useSelector } from "react-redux";
 
 const screenWidth = Dimensions.get("screen").width; // 전체화면 가로길이
 const screenHeight = Dimensions.get("screen").height; // 전체화면 세로길이
@@ -54,45 +58,119 @@ const shoppingmallList = [
     freeShipping: true,
     bookmarkNumber: "47만",
   },
-  {
-    id: "shoppingmall_5",
-    shoppingmallName: "베니토",
-    zOnly: true,
-    img: require("../../assets/shoppingmall/poster_2.png"),
-    filter: "20대·30대·오피스룩·러블리",
-    coupon: "최대 20,000원 쿠폰",
-    freeShipping: true,
-    bookmarkNumber: "42.3만",
-  },
-  {
-    id: "shoppingmall_6",
-    shoppingmallName: "블랙업",
-    zOnly: false,
-    img: require("../../assets/shoppingmall/poster_3.png"),
-    filter: "20대·30대·심플베이직·러블리",
-    coupon: "최대 20,000원 쿠폰",
-    freeShipping: true,
-    bookmarkNumber: "99.5만",
-  },
+  // {
+  //   id: "shoppingmall_5",
+  //   shoppingmallName: "베니토",
+  //   zOnly: true,
+  //   img: require("../../assets/shoppingmall/poster_2.png"),
+  //   filter: "20대·30대·오피스룩·러블리",
+  //   coupon: "최대 20,000원 쿠폰",
+  //   freeShipping: true,
+  //   bookmarkNumber: "42.3만",
+  // },
+  // {
+  //   id: "shoppingmall_6",
+  //   shoppingmallName: "블랙업",
+  //   zOnly: false,
+  //   img: require("../../assets/shoppingmall/poster_3.png"),
+  //   filter: "20대·30대·심플베이직·러블리",
+  //   coupon: "최대 20,000원 쿠폰",
+  //   freeShipping: true,
+  //   bookmarkNumber: "99.5만",
+  // },
 ];
 
 const Ranking_Shoppingmall = () => {
+  const [modalVisible, setModalVisible] = useState(false);
+  const [categoryOption, setCategoryOption] = useState(true);
+  const [styleOption, setStyleOption] = useState(false);
+  const [ageOption, setAgeOption] = useState(false);
+
+  const CategoryOption = () => {
+    return (
+      <View style={styles.optionView}>
+        <Pressable style={[styles.button, styles.filterOption]}>
+          <Text style={styles.filterOptionText}>의류</Text>
+        </Pressable>
+        <Pressable style={[styles.button, styles.filterOption]}>
+          <Text style={styles.filterOptionText}>가방</Text>
+        </Pressable>
+        <Pressable style={[styles.button, styles.filterOption]}>
+          <Text style={styles.filterOptionText}>슈즈</Text>
+        </Pressable>
+        <Pressable style={[styles.button, styles.filterOption]}>
+          <Text style={styles.filterOptionText}>이너웨어</Text>
+        </Pressable>
+      </View>
+    );
+  };
+
+  const StyleOption = () => {
+    return (
+      <View style={styles.optionView}>
+        <Pressable style={[styles.button, styles.filterOption]}>
+          <Text style={styles.filterOptionText}>심플베이직</Text>
+        </Pressable>
+        <Pressable style={[styles.button, styles.filterOption]}>
+          <Text style={styles.filterOptionText}>캐주얼</Text>
+        </Pressable>
+        <Pressable style={[styles.button, styles.filterOption]}>
+          <Text style={styles.filterOptionText}>모던시크</Text>
+        </Pressable>
+        <Pressable style={[styles.button, styles.filterOption]}>
+          <Text style={styles.filterOptionText}>러블리</Text>
+        </Pressable>
+      </View>
+    );
+  };
+
+  const AgeOption = () => {
+    return (
+      <View style={styles.optionView}>
+        <Pressable style={[styles.button, styles.filterOption]}>
+          <Text style={styles.filterOptionText}>10대</Text>
+        </Pressable>
+        <Pressable style={[styles.button, styles.filterOption]}>
+          <Text style={styles.filterOptionText}>20대 초반</Text>
+        </Pressable>
+        <Pressable style={[styles.button, styles.filterOption]}>
+          <Text style={styles.filterOptionText}>20대 중반</Text>
+        </Pressable>
+        <Pressable style={[styles.button, styles.filterOption]}>
+          <Text style={styles.filterOptionText}>20대 후반</Text>
+        </Pressable>
+      </View>
+    );
+  };
+
   return (
     <View style={{ flex: 1 }}>
       <View style={styles.menuView}>
-        <TouchableOpacity style={styles.menuIconTouchableOpacity}>
+        <TouchableOpacity
+          onPress={() => setModalVisible(true)}
+          style={[styles.menuTouchableOpacity, styles.menuIconTouchableOpacity]}
+        >
           <Image
             source={require("../../assets/icon/filter.png")}
             style={styles.menuIcon}
           />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.menuTextOpacityCloth}>
+        <TouchableOpacity
+          onPress={() => setModalVisible(true)}
+          style={[styles.menuTouchableOpacity, styles.menuTextOpacityCloth]}
+        >
           <Text style={styles.menuText}>의류</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.menuTextOpacityStyle}>
+        <TouchableOpacity
+          onPress={() => setModalVisible(true)}
+          style={[styles.menuTouchableOpacity, styles.menuTextOpacityStyle]}
+        >
           <Text style={styles.menuText}>스타일 7</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.menuTextOpacityStyle}>
+        <TouchableOpacity
+          onPress={() => setModalVisible(true)}
+          style={[styles.menuTouchableOpacity, styles.menuTextOpacityStyle]}
+        >
           <Text style={styles.menuText}>연령대 3</Text>
         </TouchableOpacity>
       </View>
@@ -156,6 +234,110 @@ const Ranking_Shoppingmall = () => {
           );
         }}
       />
+
+      <View style={styles.centeredView}>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            Alert.alert("Modal has been closed.");
+            setModalVisible(!modalVisible);
+          }}
+        >
+          <View style={styles.modalView}>
+            <View style={{ flexDirection: "row" }}>
+              <TouchableOpacity
+                onPress={() => {
+                  setStyleOption(false);
+                  setAgeOption(false);
+                  setCategoryOption(true);
+                }}
+                style={styles.filterMenu}
+              >
+                <Text
+                  style={
+                    categoryOption
+                      ? styles.filterMenuText
+                      : styles.filterMenuText_none
+                  }
+                >
+                  카테고리
+                </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={() => {
+                  setStyleOption(true);
+                  setAgeOption(false);
+                  setCategoryOption(false);
+                }}
+                style={styles.filterMenu}
+              >
+                <Text
+                  style={
+                    styleOption
+                      ? styles.filterMenuText
+                      : styles.filterMenuText_none
+                  }
+                >
+                  스타일
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  setStyleOption(false);
+                  setAgeOption(true);
+                  setCategoryOption(false);
+                }}
+                style={styles.filterMenu}
+              >
+                <Text
+                  style={
+                    ageOption
+                      ? styles.filterMenuText
+                      : styles.filterMenuText_none
+                  }
+                >
+                  연령대
+                </Text>
+              </TouchableOpacity>
+            </View>
+
+            <View>{styleOption && StyleOption()}</View>
+            <View>{ageOption && AgeOption()}</View>
+            <View>{categoryOption && CategoryOption()}</View>
+
+            <View
+              style={{
+                borderStyle: "solid",
+                borderWidth: 0.3,
+                borderColor: "#EEF0F6",
+                width: "100%",
+                marginBottom: 13,
+              }}
+            ></View>
+            <View style={styles.bottomButtonView}>
+              <TouchableOpacity
+                style={{ flexDirection: "row", alignItems: "center" }}
+              >
+                <Image
+                  style={{ width: 12, height: 12, marginRight: 10 }}
+                  source={require("../../assets/icon/refresh.png")}
+                />
+                <Text style={{ fontSize: 14 }}>카테고리 초기화</Text>
+              </TouchableOpacity>
+
+              <Pressable
+                style={[styles.button, styles.buttonClose]}
+                onPress={() => setModalVisible(!modalVisible)}
+              >
+                <Text style={styles.buttonCloseText}>선택 완료</Text>
+              </Pressable>
+            </View>
+          </View>
+        </Modal>
+      </View>
     </View>
   );
 };
@@ -166,51 +348,43 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginBottom: screenHeight * 0.02,
   },
-  menuIconTouchableOpacity: {
+  menuTouchableOpacity: {
     backgroundColor: "#EEF0F6",
-    width: screenWidth * 0.072,
-    height: screenHeight * 0.033,
-    borderRadius: 100,
     justifyContent: "center",
     alignItems: "center",
     marginRight: screenWidth * 0.01,
+  },
+  menuIconTouchableOpacity: {
+    width: screenWidth * 0.072,
+    height: screenHeight * 0.033,
+    borderRadius: 100,
   },
   menuIcon: {
     width: screenWidth * 0.029,
     height: screenHeight * 0.015,
   },
   menuTextOpacityCloth: {
-    backgroundColor: "#EEF0F6",
     width: screenWidth * 0.11,
     height: screenHeight * 0.033,
     borderRadius: 13,
-    justifyContent: "center",
-    alignItems: "center",
-    marginRight: screenWidth * 0.01,
   },
   menuText: {
     fontSize: 12,
     fontWeight: "bold",
   },
   menuTextOpacityStyle: {
-    backgroundColor: "#EEF0F6",
     width: screenWidth * 0.15,
     height: screenHeight * 0.033,
     borderRadius: 13,
-    justifyContent: "center",
-    alignItems: "center",
-    marginRight: screenWidth * 0.01,
   },
   listView: {
     flexDirection: "row",
     width: screenWidth,
     height: screenHeight * 0.09,
     alignItems: "center",
-    //backgroundColor: "skyblue",
   },
   listNumber: {
     fontSize: 18,
-    //fontWeight: "bold",
     color: "#C2CAD3",
     marginRight: screenWidth * 0.04,
   },
@@ -224,7 +398,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginBottom: screenHeight * 0.005,
-    // backgroundColor: "yellow",
   },
   shoppingmallName: {
     fontSize: 15,
@@ -255,17 +428,90 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: screenWidth * 0.13,
     marginLeft: screenWidth * 0.09,
-    //backgroundColor: "yellow",
   },
   starIcon: {
     width: screenWidth * 0.03,
     height: screenHeight * 0.015,
     marginBottom: screenHeight * 0.003,
-    //backgroundColor: "skyblue",
   },
   bookmarkNumber: {
     fontSize: 8,
     color: "#A1A8B0",
+  },
+  centeredView: {
+    backgroundColor: "blue",
+    // width: "100%",
+    // height: "100%",
+  },
+  modalView: {
+    width: "100%",
+    height: 385,
+    marginTop: 460,
+    backgroundColor: "white",
+    borderRadius: 10,
+    padding: 20,
+
+    borderStyle: "solid",
+    borderWidth: 0.2,
+    borderColor: "black",
+    //backgroundColor: "lavender",
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  buttonClose: {
+    backgroundColor: "black",
+    width: 150,
+    height: 40,
+    marginLeft: 50,
+  },
+  buttonCloseText: {
+    color: "white",
+    fontWeight: "bold",
+  },
+  filterOptionText: {
+    fontSize: 13,
+  },
+  filterOption: {
+    width: 70,
+    height: 28,
+    padding: 5,
+    borderColor: "lightgray",
+    borderStyle: "solid",
+    borderWidth: 1,
+    marginRight: 10,
+    marginTop: 20,
+  },
+  optionView: {
+    flexDirection: "row",
+    width: "100%",
+    height: 190,
+    // backgroundColor: "yellow",
+  },
+  filterMenu: {
+    width: 70,
+    height: 40,
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 4,
+  },
+  filterMenuText: {
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  filterMenuText_none: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "lightgray",
+  },
+  bottomButtonView: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
 });
 
