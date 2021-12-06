@@ -58,90 +58,88 @@ const shoppingmallList = [
     freeShipping: true,
     bookmarkNumber: "47만",
   },
-  // {
-  //   id: "shoppingmall_5",
-  //   shoppingmallName: "베니토",
-  //   zOnly: true,
-  //   img: require("../../assets/shoppingmall/poster_2.png"),
-  //   filter: "20대·30대·오피스룩·러블리",
-  //   coupon: "최대 20,000원 쿠폰",
-  //   freeShipping: true,
-  //   bookmarkNumber: "42.3만",
-  // },
-  // {
-  //   id: "shoppingmall_6",
-  //   shoppingmallName: "블랙업",
-  //   zOnly: false,
-  //   img: require("../../assets/shoppingmall/poster_3.png"),
-  //   filter: "20대·30대·심플베이직·러블리",
-  //   coupon: "최대 20,000원 쿠폰",
-  //   freeShipping: true,
-  //   bookmarkNumber: "99.5만",
-  // },
+  {
+    id: "shoppingmall_5",
+    shoppingmallName: "베니토",
+    zOnly: true,
+    img: require("../../assets/shoppingmall/poster_2.png"),
+    filter: "20대·30대·오피스룩·러블리",
+    coupon: "최대 20,000원 쿠폰",
+    freeShipping: true,
+    bookmarkNumber: "42.3만",
+  },
+  {
+    id: "shoppingmall_6",
+    shoppingmallName: "블랙업",
+    zOnly: false,
+    img: require("../../assets/shoppingmall/poster_3.png"),
+    filter: "20대·30대·심플베이직·러블리",
+    coupon: "최대 20,000원 쿠폰",
+    freeShipping: true,
+    bookmarkNumber: "99.5만",
+  },
 ];
 
 const Ranking_Shoppingmall = () => {
   const [modalVisible, setModalVisible] = useState(false);
+
+  // 수정해야함 ------------------------------------------------
   const [categoryOption, setCategoryOption] = useState(true);
   const [styleOption, setStyleOption] = useState(false);
   const [ageOption, setAgeOption] = useState(false);
+  // ----------------------------------------------------
 
-  const CategoryOption = () => {
+  const [optionArray, setOptionArray] = useState([
+    {
+      id: "optionTitle_1",
+      title: "카테고리",
+      option: ["의류", "가방", "슈즈", "이너웨어"],
+    },
+    {
+      id: "optionTitle_2",
+      title: "스타일",
+      option: ["심플베이직", "캐주얼", "모던시크", "러블리"],
+    },
+    {
+      id: "optionTitle_3",
+      title: "연령대",
+      option: ["10대", "20대 초반", "20대 중반", "20대 후반"],
+    },
+  ]);
+
+  // 하는중 -----------------------------------------------
+  let [choicedArray, setChoicedArray] = useState([]);
+  const choiced = item => {
+    let tempArray = [];
+    tempArray.push(item);
+    setChoicedArray(tempArray);
+  };
+
+  const tempTest = item => {
+    if (choicedArray.length !== 0) {
+      if (choicedArray[0].id == item.id) {
+        console.log(choicedArray[0].id);
+        return true;
+      } else {
+        return false;
+      }
+    }
+  };
+
+  const optionView = index => {
     return (
       <View style={styles.optionView}>
-        <Pressable style={[styles.button, styles.filterOption]}>
-          <Text style={styles.filterOptionText}>의류</Text>
-        </Pressable>
-        <Pressable style={[styles.button, styles.filterOption]}>
-          <Text style={styles.filterOptionText}>가방</Text>
-        </Pressable>
-        <Pressable style={[styles.button, styles.filterOption]}>
-          <Text style={styles.filterOptionText}>슈즈</Text>
-        </Pressable>
-        <Pressable style={[styles.button, styles.filterOption]}>
-          <Text style={styles.filterOptionText}>이너웨어</Text>
-        </Pressable>
+        {optionArray[index].option.map(optionItem => {
+          return (
+            <TouchableOpacity style={[styles.button, styles.filterOption]}>
+              <Text style={styles.filterOptionText}>{optionItem}</Text>
+            </TouchableOpacity>
+          );
+        })}
       </View>
     );
   };
-
-  const StyleOption = () => {
-    return (
-      <View style={styles.optionView}>
-        <Pressable style={[styles.button, styles.filterOption]}>
-          <Text style={styles.filterOptionText}>심플베이직</Text>
-        </Pressable>
-        <Pressable style={[styles.button, styles.filterOption]}>
-          <Text style={styles.filterOptionText}>캐주얼</Text>
-        </Pressable>
-        <Pressable style={[styles.button, styles.filterOption]}>
-          <Text style={styles.filterOptionText}>모던시크</Text>
-        </Pressable>
-        <Pressable style={[styles.button, styles.filterOption]}>
-          <Text style={styles.filterOptionText}>러블리</Text>
-        </Pressable>
-      </View>
-    );
-  };
-
-  const AgeOption = () => {
-    return (
-      <View style={styles.optionView}>
-        <Pressable style={[styles.button, styles.filterOption]}>
-          <Text style={styles.filterOptionText}>10대</Text>
-        </Pressable>
-        <Pressable style={[styles.button, styles.filterOption]}>
-          <Text style={styles.filterOptionText}>20대 초반</Text>
-        </Pressable>
-        <Pressable style={[styles.button, styles.filterOption]}>
-          <Text style={styles.filterOptionText}>20대 중반</Text>
-        </Pressable>
-        <Pressable style={[styles.button, styles.filterOption]}>
-          <Text style={styles.filterOptionText}>20대 후반</Text>
-        </Pressable>
-      </View>
-    );
-  };
+  // ----------------------------------------------------
 
   return (
     <View style={{ flex: 1 }}>
@@ -241,99 +239,59 @@ const Ranking_Shoppingmall = () => {
           transparent={true}
           visible={modalVisible}
           onRequestClose={() => {
-            Alert.alert("Modal has been closed.");
             setModalVisible(!modalVisible);
           }}
         >
-          <View style={styles.modalView}>
-            <View style={{ flexDirection: "row" }}>
-              <TouchableOpacity
-                onPress={() => {
-                  setStyleOption(false);
-                  setAgeOption(false);
-                  setCategoryOption(true);
+          <View style={styles.modalBackground}>
+            <View style={styles.modalView}>
+              <View style={{ flexDirection: "row" }}>
+                {/* 하는 중 --------------------------------------- */}
+                {optionArray.map((item, index) => {
+                  return (
+                    <View style={{ height: 250 }}>
+                      <TouchableOpacity
+                        onPress={() => {
+                          choiced(item);
+                        }}
+                        style={styles.filterMenu}
+                      >
+                        <Text style={styles.filterMenuText}>{item.title}</Text>
+                      </TouchableOpacity>
+                      {index === 0 && optionView(0)}
+                      {!(index === 0) && optionView(index)}
+                    </View>
+                  );
+                })}
+                {/* -------------------------------------- */}
+              </View>
+
+              <View
+                style={{
+                  borderStyle: "solid",
+                  borderWidth: 0.3,
+                  borderColor: "#EEF0F6",
+                  width: "100%",
+                  marginBottom: 13,
                 }}
-                style={styles.filterMenu}
-              >
-                <Text
-                  style={
-                    categoryOption
-                      ? styles.filterMenuText
-                      : styles.filterMenuText_none
-                  }
+              ></View>
+              <View style={styles.bottomButtonView}>
+                <TouchableOpacity
+                  style={{ flexDirection: "row", alignItems: "center" }}
                 >
-                  카테고리
-                </Text>
-              </TouchableOpacity>
+                  <Image
+                    style={{ width: 12, height: 12, marginRight: 10 }}
+                    source={require("../../assets/icon/refresh.png")}
+                  />
+                  <Text style={{ fontSize: 14 }}>카테고리 초기화</Text>
+                </TouchableOpacity>
 
-              <TouchableOpacity
-                onPress={() => {
-                  setStyleOption(true);
-                  setAgeOption(false);
-                  setCategoryOption(false);
-                }}
-                style={styles.filterMenu}
-              >
-                <Text
-                  style={
-                    styleOption
-                      ? styles.filterMenuText
-                      : styles.filterMenuText_none
-                  }
+                <Pressable
+                  style={[styles.button, styles.buttonClose]}
+                  onPress={() => setModalVisible(!modalVisible)}
                 >
-                  스타일
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => {
-                  setStyleOption(false);
-                  setAgeOption(true);
-                  setCategoryOption(false);
-                }}
-                style={styles.filterMenu}
-              >
-                <Text
-                  style={
-                    ageOption
-                      ? styles.filterMenuText
-                      : styles.filterMenuText_none
-                  }
-                >
-                  연령대
-                </Text>
-              </TouchableOpacity>
-            </View>
-
-            <View>{styleOption && StyleOption()}</View>
-            <View>{ageOption && AgeOption()}</View>
-            <View>{categoryOption && CategoryOption()}</View>
-
-            <View
-              style={{
-                borderStyle: "solid",
-                borderWidth: 0.3,
-                borderColor: "#EEF0F6",
-                width: "100%",
-                marginBottom: 13,
-              }}
-            ></View>
-            <View style={styles.bottomButtonView}>
-              <TouchableOpacity
-                style={{ flexDirection: "row", alignItems: "center" }}
-              >
-                <Image
-                  style={{ width: 12, height: 12, marginRight: 10 }}
-                  source={require("../../assets/icon/refresh.png")}
-                />
-                <Text style={{ fontSize: 14 }}>카테고리 초기화</Text>
-              </TouchableOpacity>
-
-              <Pressable
-                style={[styles.button, styles.buttonClose]}
-                onPress={() => setModalVisible(!modalVisible)}
-              >
-                <Text style={styles.buttonCloseText}>선택 완료</Text>
-              </Pressable>
+                  <Text style={styles.buttonCloseText}>선택 완료</Text>
+                </Pressable>
+              </View>
             </View>
           </View>
         </Modal>
@@ -439,9 +397,13 @@ const styles = StyleSheet.create({
     color: "#A1A8B0",
   },
   centeredView: {
-    backgroundColor: "blue",
-    // width: "100%",
-    // height: "100%",
+    //backgroundColor: "yellow",
+    flex: 1,
+  },
+  modalBackground: {
+    // backgroundColor: "black",
+    // opacity: 1,
+    flex: 1,
   },
   modalView: {
     width: "100%",
@@ -450,11 +412,10 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: 10,
     padding: 20,
-
     borderStyle: "solid",
     borderWidth: 0.2,
-    borderColor: "black",
-    //backgroundColor: "lavender",
+    borderColor: "gray",
+    opacity: 1,
   },
   button: {
     borderRadius: 20,
@@ -480,11 +441,13 @@ const styles = StyleSheet.create({
     width: 70,
     height: 28,
     padding: 5,
-    borderColor: "lightgray",
+
     borderStyle: "solid",
     borderWidth: 1,
     marginRight: 10,
     marginTop: 20,
+
+    borderColor: "lightgray",
   },
   optionView: {
     flexDirection: "row",
@@ -500,10 +463,12 @@ const styles = StyleSheet.create({
     marginRight: 4,
   },
   filterMenuText: {
+    //클릭된 title
     fontSize: 16,
     fontWeight: "bold",
   },
   filterMenuText_none: {
+    //클릭안된 title
     fontSize: 16,
     fontWeight: "bold",
     color: "lightgray",

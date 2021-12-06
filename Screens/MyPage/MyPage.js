@@ -1,5 +1,4 @@
-
-import React from 'react';
+import React from "react";
 
 import {
   SafeAreaView,
@@ -9,18 +8,10 @@ import {
   Text,
   useColorScheme,
   View,
-} from 'react-native';
+} from "react-native";
 
 const MyPage = () => {
-    return(
-        <View>
-            <View>
-                <Text>
-                    Brand
-                </Text>
-            </View>
-        </View>
-    )
-}
+  return <View></View>;
+};
 
 export default MyPage;
