@@ -82,6 +82,7 @@ const shoppingmallList = [
 
 const Ranking_Shoppingmall = () => {
   const [modalVisible, setModalVisible] = useState(false);
+  const [reload, setReload] = useState(false);
 
   const [optionArray, setOptionArray] = useState([
     {
@@ -101,6 +102,47 @@ const Ranking_Shoppingmall = () => {
     },
   ]);
 
+  let [choicedOption, setChoicedOption] = useState([]); // 🍀선택된 옵션들
+
+  // 🍀누른 옵션
+  const PressedOption = optionItem => {
+    let temp = [...choicedOption];
+    let check = false;
+
+    if (choicedOption.length !== 0) {
+      choicedOption.map(item => {
+        if (item == optionItem) {
+          temp = temp.filter(tempItem => {
+            tempItem !== optionItem;
+          });
+          check = true;
+        }
+      });
+    }
+
+    if (check == false) {
+      temp.push(optionItem);
+    }
+
+    setChoicedOption(temp);
+    setReload(!reload);
+  };
+
+  // 🍀옵션 현재 상태 체크
+  const OptionResult = optionItem => {
+    let check = false;
+
+    if (choicedOption.length !== 0) {
+      choicedOption.map(mapItem => {
+        if (optionItem == mapItem) {
+          check = true;
+        }
+      });
+    }
+
+    return check;
+  };
+
   // ⭐️배열일 필요가 없음 : 선택한 아이템만 들어갈거니까
   // ⭐️체크박스처럼 여러 개를 넣을 경우 배열
   let [choicedItem, setChoicedItem] = useState();
@@ -118,8 +160,25 @@ const Ranking_Shoppingmall = () => {
         <View style={styles.optionView}>
           {choicedItem.option.map(optionItem => {
             return (
-              <TouchableOpacity style={[styles.button, styles.filterOption]}>
-                <Text style={styles.filterOptionText}>{optionItem}</Text>
+              <TouchableOpacity
+                onPress={() => {
+                  PressedOption(optionItem);
+                }}
+                style={
+                  OptionResult(optionItem)
+                    ? [styles.button, styles.button_choiced]
+                    : styles.button
+                }
+              >
+                <Text
+                  style={
+                    OptionResult(optionItem)
+                      ? styles.filterOption_choiced
+                      : styles.filterOption_none
+                  }
+                >
+                  {optionItem}
+                </Text>
               </TouchableOpacity>
             );
           })}
@@ -133,14 +192,37 @@ const Ranking_Shoppingmall = () => {
           <View style={styles.optionView}>
             {optionArray[0].option.map(optionItem => {
               return (
-                <TouchableOpacity style={[styles.button, styles.filterOption]}>
-                  <Text style={styles.filterOptionText}>{optionItem}</Text>
+                <TouchableOpacity
+                  onPress={() => {
+                    PressedOption(optionItem);
+                  }}
+                  style={styles.button}
+                >
+                  <Text
+                    style={
+                      OptionResult(optionItem)
+                        ? styles.filterOption_choiced
+                        : styles.filterOption_none
+                    }
+                  >
+                    {optionItem}
+                  </Text>
                 </TouchableOpacity>
               );
             })}
           </View>
         );
       }
+    }
+  };
+
+  const pressOrNot = item => {
+    if (choicedItem) {
+      if (choicedItem == item) {
+        return true;
+      }
+    } else {
+      return false;
     }
   };
 
@@ -257,7 +339,15 @@ const Ranking_Shoppingmall = () => {
                         }}
                         style={styles.filterMenu}
                       >
-                        <Text style={styles.filterMenuText}>{item.title}</Text>
+                        <Text
+                          style={
+                            pressOrNot(item)
+                              ? styles.filterMenuText
+                              : styles.filterMenuText_none
+                          }
+                        >
+                          {item.title}
+                        </Text>
                       </TouchableOpacity>
                     </View>
                   );
@@ -286,7 +376,7 @@ const Ranking_Shoppingmall = () => {
                 </TouchableOpacity>
 
                 <Pressable
-                  style={[styles.button, styles.buttonClose]}
+                  style={styles.buttonClose}
                   onPress={() => setModalVisible(!modalVisible)}
                 >
                   <Text style={styles.buttonCloseText}>선택 완료</Text>
@@ -417,18 +507,14 @@ const styles = StyleSheet.create({
     borderColor: "gray",
     opacity: 1,
   },
-  button: {
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
-    justifyContent: "center",
-    alignItems: "center",
-  },
   buttonClose: {
     backgroundColor: "black",
     width: 150,
     height: 40,
     marginLeft: 50,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 18,
   },
   buttonCloseText: {
     color: "white",
@@ -437,17 +523,27 @@ const styles = StyleSheet.create({
   filterOptionText: {
     fontSize: 13,
   },
-  filterOption: {
-    width: 70,
-    height: 28,
-    padding: 5,
-
+  button: {
+    justifyContent: "center",
+    alignItems: "center",
+    width: 75,
+    height: 30,
+    borderRadius: 15,
     borderStyle: "solid",
     borderWidth: 1,
-    marginRight: 10,
-    marginTop: 20,
-
     borderColor: "lightgray",
+    marginRight: 10,
+    // elevation: 2,
+    // backgroundColor: "lavender",
+  },
+  button_choiced: {
+    borderColor: "#F719A3",
+  },
+  filterOption_none: {
+    color: "black",
+  },
+  filterOption_choiced: {
+    color: "#F719A3",
   },
   optionView: {
     flexDirection: "row",
