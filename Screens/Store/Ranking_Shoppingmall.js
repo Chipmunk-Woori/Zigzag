@@ -83,12 +83,6 @@ const shoppingmallList = [
 const Ranking_Shoppingmall = () => {
   const [modalVisible, setModalVisible] = useState(false);
 
-  // 수정해야함 ------------------------------------------------
-  const [categoryOption, setCategoryOption] = useState(true);
-  const [styleOption, setStyleOption] = useState(false);
-  const [ageOption, setAgeOption] = useState(false);
-  // ----------------------------------------------------
-
   const [optionArray, setOptionArray] = useState([
     {
       id: "optionTitle_1",
@@ -107,39 +101,48 @@ const Ranking_Shoppingmall = () => {
     },
   ]);
 
-  // 하는중 -----------------------------------------------
-  let [choicedArray, setChoicedArray] = useState([]);
+  // ⭐️배열일 필요가 없음 : 선택한 아이템만 들어갈거니까
+  // ⭐️체크박스처럼 여러 개를 넣을 경우 배열
+  let [choicedItem, setChoicedItem] = useState();
+
+  // ⭐️누른 카테고리 객체를 choicedItem에 넣어줌
   const choiced = item => {
-    let tempArray = [];
-    tempArray.push(item);
-    setChoicedArray(tempArray);
+    setChoicedItem(item);
   };
 
-  const tempTest = item => {
-    if (choicedArray.length !== 0) {
-      if (choicedArray[0].id == item.id) {
-        console.log(choicedArray[0].id);
-        return true;
-      } else {
-        return false;
+  // ⭐️choicedItem에 있는 애를 보여줌
+  const optionView = () => {
+    if (choicedItem) {
+      // ⭐️choicedItem 가 null, undefined 가 아니라면(=유효하다면) true 반환
+      return (
+        <View style={styles.optionView}>
+          {choicedItem.option.map(optionItem => {
+            return (
+              <TouchableOpacity style={[styles.button, styles.filterOption]}>
+                <Text style={styles.filterOptionText}>{optionItem}</Text>
+              </TouchableOpacity>
+            );
+          })}
+        </View>
+      );
+    } else {
+      // ⭐️맨 처음 아무것도 선택하지 않았을 때
+      if (optionArray.length > 0) {
+        // ⭐️에러 방지
+        return (
+          <View style={styles.optionView}>
+            {optionArray[0].option.map(optionItem => {
+              return (
+                <TouchableOpacity style={[styles.button, styles.filterOption]}>
+                  <Text style={styles.filterOptionText}>{optionItem}</Text>
+                </TouchableOpacity>
+              );
+            })}
+          </View>
+        );
       }
     }
   };
-
-  const optionView = index => {
-    return (
-      <View style={styles.optionView}>
-        {optionArray[index].option.map(optionItem => {
-          return (
-            <TouchableOpacity style={[styles.button, styles.filterOption]}>
-              <Text style={styles.filterOptionText}>{optionItem}</Text>
-            </TouchableOpacity>
-          );
-        })}
-      </View>
-    );
-  };
-  // ----------------------------------------------------
 
   return (
     <View style={{ flex: 1 }}>
@@ -245,10 +248,9 @@ const Ranking_Shoppingmall = () => {
           <View style={styles.modalBackground}>
             <View style={styles.modalView}>
               <View style={{ flexDirection: "row" }}>
-                {/* 하는 중 --------------------------------------- */}
                 {optionArray.map((item, index) => {
                   return (
-                    <View style={{ height: 250 }}>
+                    <View>
                       <TouchableOpacity
                         onPress={() => {
                           choiced(item);
@@ -257,13 +259,11 @@ const Ranking_Shoppingmall = () => {
                       >
                         <Text style={styles.filterMenuText}>{item.title}</Text>
                       </TouchableOpacity>
-                      {index === 0 && optionView(0)}
-                      {!(index === 0) && optionView(index)}
                     </View>
                   );
                 })}
-                {/* -------------------------------------- */}
               </View>
+              <View>{optionView()}</View>
 
               <View
                 style={{
@@ -453,7 +453,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "100%",
     height: 190,
-    // backgroundColor: "yellow",
+    //backgroundColor: "yellow",
   },
   filterMenu: {
     width: 70,
