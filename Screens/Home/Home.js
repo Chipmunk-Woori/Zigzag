@@ -12,6 +12,7 @@ import {
   useWindowDimensions,
   TextInput,
   Dimensions,
+  TouchableOpacity,
 } from "react-native";
 
 import { TabView, SceneMap, TabBar } from "react-native-tab-view";
@@ -81,11 +82,22 @@ const Home = ({ navigation }) => {
         >
           ZIGZAG
         </Text>
-        <TextInput
-          style={styles.searchTextInput}
-          onChangeText={onChangeText}
-          value={text}
-        />
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("Search");
+          }}
+          style={styles.searchTouch}
+        >
+          <TextInput
+            style={styles.searchTextInput}
+            onChangeText={onChangeText}
+            value={text}
+          />
+          <Image
+            style={styles.searchImg}
+            source={require("../../assets/icon/search_gray.png")}
+          />
+        </TouchableOpacity>
         <Image
           source={require("../../assets/icon/shoppingBasket.png")}
           style={{
@@ -115,14 +127,32 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: screenHeight * 0.04,
   },
-  searchTextInput: {
+  searchTouch: {
     height: "60%",
-    width: "60%",
-    margin: 12,
-    padding: 5,
-    backgroundColor: `#f1f1f1`,
+    width: "65%",
+    justifyContent: "center",
+    alignItems: "center",
+    marginLeft: 15,
+    flexDirection: "row",
+    position: "relative",
+    // backgroundColor: "lavender",
+  },
+  searchTextInput: {
+    height: "80%",
+    width: "100%",
+    padding: 15,
+    paddingLeft: 30,
+    backgroundColor: `#EAF0FA`,
     fontSize: 12,
     borderRadius: 20,
+    color: "gray",
+  },
+  searchImg: {
+    width: 14,
+    height: 14,
+    position: "absolute",
+    left: 10,
+    //#ACACAC
   },
 });
 

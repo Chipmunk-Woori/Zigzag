@@ -88,17 +88,45 @@ const Ranking_Shoppingmall = () => {
     {
       id: "optionTitle_1",
       title: "카테고리",
-      option: ["의류", "가방", "슈즈", "이너웨어"],
+      option: [
+        "의류",
+        "가방",
+        "슈즈",
+        "이너웨어",
+        "액세사리",
+        "패션소품",
+        "빅사이즈",
+        "애슬레저",
+        "비치웨어",
+        "커플룩",
+      ],
     },
     {
       id: "optionTitle_2",
       title: "스타일",
-      option: ["심플베이직", "캐주얼", "모던시크", "러블리"],
+      option: [
+        "심플베이직",
+        "캐주얼",
+        "모던시크",
+        "러블리",
+        "로맨틱",
+        "유니크",
+        "캠퍼스룩",
+        "아메카지",
+      ],
     },
     {
       id: "optionTitle_3",
       title: "연령대",
-      option: ["10대", "20대 초반", "20대 중반", "20대 후반"],
+      option: [
+        "10대",
+        "20대 초반",
+        "20대 중반",
+        "20대 후반",
+        "30대 초반",
+        "30대 중반",
+        "30대 후반",
+      ],
     },
   ]);
 
@@ -222,6 +250,9 @@ const Ranking_Shoppingmall = () => {
         return true;
       }
     } else {
+      if (item.id == "optionTitle_1") {
+        return true;
+      }
       return false;
     }
   };
@@ -549,7 +580,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "100%",
     height: 190,
-    //backgroundColor: "yellow",
+    flexWrap: "wrap",
+    // backgroundColor: "lavender",
   },
   filterMenu: {
     width: 70,

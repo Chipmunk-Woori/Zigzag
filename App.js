@@ -24,6 +24,7 @@ import HomeTabView from "./Screens/Home/HomeTabView";
 import Brand from "./Screens/Home/Brand";
 import Best from "./Screens/Home/Best";
 import Sale from "./Screens/Home/Sale";
+import Search from "./Screens/Home/Search";
 
 import Ranking from "./Screens/Store/Ranking";
 import Bookmark from "./Screens/Store/Bookmark";
@@ -53,6 +54,7 @@ const App = () => {
         <Stack.Screen name="Best" component={Best} />
         <Stack.Screen name="Sale" component={Sale} />
         <Stack.Screen name="HomeTabView" component={HomeTabView} />
+        <Stack.Screen name="Search" component={Search} />
       </Stack.Navigator>
     );
   };
