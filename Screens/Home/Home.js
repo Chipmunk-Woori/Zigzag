@@ -92,6 +92,8 @@ const Home = ({ navigation }) => {
             style={styles.searchTextInput}
             onChangeText={onChangeText}
             value={text}
+            clearButtonMode={"while-editing"}
+            clearTextOnFocus={true}
           />
           <Image
             style={styles.searchImg}
@@ -140,7 +142,6 @@ const styles = StyleSheet.create({
   searchTextInput: {
     height: "80%",
     width: "100%",
-    padding: 15,
     paddingLeft: 30,
     backgroundColor: `#EAF0FA`,
     fontSize: 12,
