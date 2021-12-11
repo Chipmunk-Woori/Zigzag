@@ -20,38 +20,18 @@ const Search = ({ navigation, props }) => {
   let [inputText, setInputText] = useState("아이템과 스토어를 검색해보세요");
   const [matchArray, setMatchArray] = useState([]);
   const [reload, setReload] = useState(false);
-  const [editMode, setEditMode] = useState(false);
+  const [editMode, setEditMode] = useState("basic"); //basic, search, submit
+
+  // 검색했던 목록 배열
+  const [submitArray, setSubmitArray] = useState([
+    "횰릭",
+    "프롬비기닝",
+    "달바",
+  ]);
 
   let productList = useSelector(state => {
     return state.reducer1;
   });
-
-  const [flatListArray, setFlatListArray] = useState([
-    {
-      id: 1,
-      img: require("../../assets/product/product_1.png"),
-      brandName: "사뿐",
-      productName: "뮤이안 베이직 롱부츠",
-      discountPercentage: "",
-      zDiscount: false,
-      originalPrice: "",
-      price: "52,900",
-      brand: false,
-      freeShipping: true,
-    },
-    {
-      id: 2,
-      img: require("../../assets/product/product_2.png"),
-      brandName: "시티브리즈",
-      productName: "[21FW]케이블 니트",
-      discountPercentage: "5%",
-      zDiscount: false,
-      originalPrice: "",
-      price: "119,700",
-      brand: true,
-      freeShipping: true,
-    },
-  ]);
 
   useEffect(() => {
     matchFunction();
@@ -62,12 +42,10 @@ const Search = ({ navigation, props }) => {
     let temp = [];
 
     if (inputText !== "" && inputText !== "아이템과 스토어를 검색해보세요") {
-      setEditMode(true);
+      setEditMode("search");
       productList.map(i => {
-        if (i.brandName == inputText) {
-          temp.push(i.brandName);
-        } else if (i.productName == inputText) {
-          temp.push(i.productName);
+        if (i.brandName.indexOf(inputText) >= 0) {
+          temp.push(i);
         }
       });
 
@@ -76,10 +54,18 @@ const Search = ({ navigation, props }) => {
     }
 
     if (inputText == "") {
-      setEditMode(false);
+      setEditMode("basic");
     }
+  };
 
-    console.log(inputText);
+  // 엔터 누르면 세번째 화면 보여주기
+  const submitEditing = () => {
+    setEditMode("submit");
+    let temp = [...submitArray];
+
+    temp.push(inputText);
+    setSubmitArray(temp);
+    setReload(!reload);
   };
 
   return (
@@ -102,9 +88,9 @@ const Search = ({ navigation, props }) => {
             value={inputText}
             clearButtonMode={"while-editing"} //입력창 전부 지우는 버튼
             clearTextOnFocus={true} //입력창에 focus하면 빈 칸 만들어줌
-            // onKeyPress={() => {
-            //   matchFunction();
-            // }}
+            onSubmitEditing={() => {
+              submitEditing();
+            }}
           />
           <Image
             style={styles.searchImg}
@@ -115,63 +101,83 @@ const Search = ({ navigation, props }) => {
 
       {/* ------------------------------------------------------------     */}
 
-      <View style={editMode ? styles.eidtModeView : styles.NoEditModeView}>
-        <FlatList
-          data={flatListArray}
-          keyExtractor={(item, index) => {
-            index.toString();
-          }}
-          renderItem={({ item, index }) => {
-            return (
-              <View key={index.toString()}>
-                <View style={styles.flatLsitView}>
-                  <Image style={styles.listImg} source={item.img} />
-                  <Text>{item.brandName}</Text>
+      {editMode == "search" && (
+        <View style={styles.eidtModeView}>
+          <FlatList
+            data={matchArray}
+            keyExtractor={(item, index) => {
+              index.toString();
+            }}
+            renderItem={({ item, index }) => {
+              return (
+                <View key={index.toString()}>
+                  <View style={styles.flatLsitView}>
+                    <Image style={styles.listImg} source={item.img} />
+                    <Text>{item.brandName}</Text>
+                  </View>
+                  <View style={styles.lineView} />
                 </View>
-                <View style={styles.lineView} />
-              </View>
-            );
-          }}
-        />
-      </View>
+              );
+            }}
+          />
+        </View>
+      )}
 
       {/* ------------------------------------------------------------     */}
 
-      <View style={!editMode ? styles.eidtModeView : styles.NoEditModeView}>
-        <View style={styles.secondView}>
-          <Text style={{ color: "gray" }}>내가 찾아봤던</Text>
-          <TouchableOpacity style={{ marginRight: 15 }}>
-            <Text>지우기</Text>
-          </TouchableOpacity>
+      {editMode == "basic" && (
+        <View style={styles.EditModeView}>
+          <View style={styles.secondView}>
+            <Text style={{ color: "gray" }}>내가 찾아봤던</Text>
+            <TouchableOpacity style={{ marginRight: 15 }}>
+              <Text>지우기</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.optionView}>
+            {submitArray.map(i => {
+              return (
+                <TouchableOpacity
+                  style={[
+                    styles.menuTouchableOpacity,
+                    styles.menuTextOpacityStyle,
+                  ]}
+                >
+                  <Text style={styles.menuText}>{i}</Text>
+                </TouchableOpacity>
+              );
+            })}
+          </View>
+          <View style={styles.secondView}>
+            <Text style={{ color: "gray" }}>지금 가장 인기있는</Text>
+          </View>
+          <View style={styles.optionView}>
+            <TouchableOpacity
+              style={[styles.menuTouchableOpacity, styles.menuTextOpacityStyle]}
+            >
+              <Text style={styles.menuText}>숏패딩</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.secondView}>
+            <Text style={{ color: "gray" }}>최근 본 상품</Text>
+          </View>
+          <View style={styles.optionView}>
+            <TouchableOpacity
+              style={[styles.menuTouchableOpacity, styles.menuTextOpacityStyle]}
+            >
+              <Text style={styles.menuText}>니트</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-        <View style={styles.optionView}>
-          <TouchableOpacity
-            style={[styles.menuTouchableOpacity, styles.menuTextOpacityStyle]}
-          >
-            <Text style={styles.menuText}>횰릭</Text>
-          </TouchableOpacity>
+      )}
+
+      {/* ------------------------------------------------------------     */}
+      {editMode == "submit" && (
+        <View style={{ flex: 1 }}>
+          <Text style={{ padding: 30 }}>상품, 쇼핑몰 목록</Text>
         </View>
-        <View style={styles.secondView}>
-          <Text style={{ color: "gray" }}>지금 가장 인기있는</Text>
-        </View>
-        <View style={styles.optionView}>
-          <TouchableOpacity
-            style={[styles.menuTouchableOpacity, styles.menuTextOpacityStyle]}
-          >
-            <Text style={styles.menuText}>숏패딩</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.secondView}>
-          <Text style={{ color: "gray" }}>최근 본 상품</Text>
-        </View>
-        <View style={styles.optionView}>
-          <TouchableOpacity
-            style={[styles.menuTouchableOpacity, styles.menuTextOpacityStyle]}
-          >
-            <Text style={styles.menuText}>니트</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+      )}
+
+      {/* ------------------------------------------------------------     */}
     </View>
   );
 };
@@ -231,22 +237,23 @@ const styles = StyleSheet.create({
   },
 
   menuTextOpacityStyle: {
-    width: screenWidth * 0.15,
+    // width: screenWidth * 0.15,
     height: screenHeight * 0.033,
     borderRadius: 13,
-    // backgroundColor: "red",
+    alignSelf: "flex-start",
+    paddingLeft: 10,
+    paddingRight: 10,
   },
   secondView: {
     flexDirection: "row",
     justifyContent: "space-between",
     height: 40,
-    // backgroundColor: "lavender",
   },
   menuText: {
     fontSize: 12,
-    // fontWeight: "bold",
   },
   optionView: {
+    flexDirection: "row",
     height: 50,
   },
   listImg: {
@@ -268,10 +275,6 @@ const styles = StyleSheet.create({
   },
   eidtModeView: {
     flex: 1,
-  },
-  NoEditModeView: {
-    flex: 1,
-    display: "none",
   },
 });
 export default Search;
