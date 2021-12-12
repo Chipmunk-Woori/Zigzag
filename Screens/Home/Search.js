@@ -23,6 +23,7 @@ const Search = ({ navigation, props }) => {
   const [editMode, setEditMode] = useState("basic"); //basic, search, submit
 
   // 검색했던 목록 배열
+  // ⭐️공유해야 다른 페이지 다녀와도 그대로 볼 수 있음
   const [submitArray, setSubmitArray] = useState([
     "횰릭",
     "프롬비기닝",
@@ -37,7 +38,7 @@ const Search = ({ navigation, props }) => {
     matchFunction();
   }, [inputText]);
 
-  // 🎀입력값과 일치하는 브랜드명, 상품명을 matchArray에 넣기
+  // 입력값과 일치하는 브랜드명, 상품명을 matchArray에 넣기
   const matchFunction = () => {
     let temp = [];
 
@@ -87,7 +88,7 @@ const Search = ({ navigation, props }) => {
             onChangeText={text => setInputText(text)}
             value={inputText}
             clearButtonMode={"while-editing"} //입력창 전부 지우는 버튼
-            clearTextOnFocus={true} //입력창에 focus하면 빈 칸 만들어줌
+            clearTextOnFocus={editMode != "submit"} //입력창에 focus하면 빈 칸 만들어줌 //⭐️
             onSubmitEditing={() => {
               submitEditing();
             }}

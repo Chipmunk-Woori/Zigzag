@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 import {
   SafeAreaView,
@@ -18,40 +18,65 @@ import { useSelector } from "react-redux";
 const screenWidth = Dimensions.get("screen").width; // 전체화면 가로길이
 const screenHeight = Dimensions.get("screen").height; //전체화면 세로길이
 
-//redux store 데이터 가져와서 props 로 변환해주는 함수
-//   const stateChangeProps = state => {
-//      return {
-//        heartProductList: state,
-//      };
-// };
-
-const Collection = props => {
-  let reducer1 = useSelector(state => {
-    return state.reducer1;
-  });
-
-  let reducer2 = useSelector(state => {
-    return state.reducer2;
-  });
-
-  let consoleTemp = () => {
-    return console.log(reducer2);
-  };
-
+const Collection = () => {
+  const [categoryArray, setCategoryArray] = useState([
+    {
+      categorySeq: 1,
+      categoryName: "무료배송",
+      img: require("../../assets/icon/freeShipping.png"),
+    },
+    {
+      categorySeq: 2,
+      categoryName: "아우터",
+      img: require("../../assets/icon/outer.png"),
+    },
+    {
+      categorySeq: 3,
+      categoryName: "무료배송",
+      img: require("../../assets/icon/top.png"),
+    },
+    {
+      categorySeq: 4,
+      categoryName: "무료배송",
+      img: require("../../assets/icon/dress.png"),
+    },
+    {
+      categorySeq: 5,
+      categoryName: "바지",
+      img: require("../../assets/icon/pants.png"),
+    },
+  ]);
   return (
     <View style={styles.View}>
-      {consoleTemp()}
       <View style={styles.headerView}>
-        <Text style={styles.headerText}>모아보기</Text>
-        <TouchableOpacity>
-          <Image
-            style={styles.headerIconShoppingBasket}
-            source={require("../../assets/icon/shoppingBasket.png")}
-          />
-        </TouchableOpacity>
+        <View>
+          <Text style={styles.headerText}>모아보기</Text>
+        </View>
+
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+          }}
+        >
+          <TouchableOpacity>
+            <Image
+              style={styles.headerIconShoppingBasket}
+              source={require("../../assets/icon/shoppingBasket.png")}
+            />
+          </TouchableOpacity>
+        </View>
       </View>
-      <View>
-        <Image source={reducer2[0].img} style={{ width: 100, height: 100 }} />
+
+      <View style={styles.categoryView}>
+        {categoryArray.map(i => {
+          return (
+            <TouchableOpacity style={styles.categoryTouchable}>
+              <Image style={styles.categoryIcon} source={i.img} />
+              <Text style={styles.categoryText}>{i.categoryName}</Text>
+            </TouchableOpacity>
+          );
+        })}
       </View>
     </View>
   );
@@ -61,10 +86,11 @@ const styles = StyleSheet.create({
   View: {
     paddingHorizontal: screenHeight * 0.02,
     backgroundColor: "white",
+    flex: 1,
   },
   headerView: {
     marginTop: screenHeight * 0.07,
-    marginBottom: screenHeight * 0.03,
+    marginBottom: screenHeight * 0.018,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
@@ -73,15 +99,30 @@ const styles = StyleSheet.create({
     fontSize: 21,
     fontWeight: "bold",
   },
-  headerIcon: {
-    width: screenWidth * 0.046,
-    height: screenHeight * 0.022,
-    marginLeft: screenWidth * 0.06,
-  },
   headerIconShoppingBasket: {
     width: screenWidth * 0.062,
     height: screenHeight * 0.028,
     marginLeft: screenWidth * 0.06,
+  },
+  categoryView: {
+    width: "100%",
+    height: 150,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingHorizontal: 10,
+    marginTop: 10,
+    // backgroundColor: "lavender",
+  },
+  categoryTouchable: {
+    alignItems: "center",
+  },
+  categoryIcon: {
+    width: 40,
+    height: 40,
+  },
+  categoryText: {
+    fontSize: 11,
+    marginTop: 8,
   },
 });
 
