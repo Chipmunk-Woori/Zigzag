@@ -140,14 +140,6 @@ let ProductListState = [
   },
 ];
 
-// let shopList = [
-// {
-//   shopSeq: 1,
-//   shopName: '',
-//   categorySeqArr: []
-// }
-// ]
-
 let heartProductListState = [
   {
     id: 1,

@@ -19,98 +19,171 @@ import {
 import { useSelector } from "react-redux";
 import { TabView, SceneMap, TabBar } from "react-native-tab-view";
 
-import Cardigan from "../Collection/Outer/Cardigan";
-import Jacket from "../Collection/Outer/Jacket";
-import Totality from "../Collection/Outer/Totality";
+import OptionScreen from "./OptionScreen";
 
 const screenWidth = Dimensions.get("screen").width; // 전체화면 가로길이
 const screenHeight = Dimensions.get("screen").height; //전체화면 세로길이
 
-const Collection = () => {
+const Collection = props => {
+  let ProductListState = useSelector(state => state.reducer1);
+  const [secondCategoryArray, setSecondCategoryArray] = useState([
+    {
+      secondTypeSeq: 1,
+      secondTypeName: "가디건",
+      firstTypeSeq: 2,
+    },
+    {
+      secondTypeSeq: 2,
+      secondTypeName: "자켓",
+      firstTypeSeq: 2,
+    },
+    {
+      secondTypeSeq: 3,
+      secondTypeName: "코트",
+      firstTypeSeq: 2,
+    },
+    {
+      secondTypeSeq: 4,
+      secondTypeName: "점퍼",
+      firstTypeSeq: 2,
+    },
+    {
+      secondTypeSeq: 5,
+      secondTypeName: "티셔츠",
+      firstTypeSeq: 3,
+    },
+    {
+      secondTypeSeq: 6,
+      secondTypeName: "니트/스웨터",
+      firstTypeSeq: 3,
+    },
+    {
+      secondTypeSeq: 7,
+      secondTypeName: "셔츠/남방",
+      firstTypeSeq: 3,
+    },
+    {
+      secondTypeSeq: 8,
+      secondTypeName: "미니원피스",
+      firstTypeSeq: 4,
+    },
+    {
+      secondTypeSeq: 9,
+      secondTypeName: "미디원피스",
+      firstTypeSeq: 4,
+    },
+  ]);
   const [categoryArray, setCategoryArray] = useState([
     {
-      categorySeq: 1,
-      categoryName: "무료배송",
+      firstTypeSeq: 1,
+      firstTypeName: "무료배송",
       img: require("../../assets/icon/freeShipping.png"),
-      option: {
-        1: "아이템",
-        2: "쇼핑몰",
-      },
     },
     {
-      categorySeq: 2,
-      categoryName: "아우터",
+      firstTypeSeq: 2,
+      firstTypeName: "아우터",
       img: require("../../assets/icon/outer.png"),
-      option: {
-        1: "전체",
-        2: "가디건",
-        3: "자켓",
-        4: "코트",
-      },
     },
     {
-      categorySeq: 3,
-      categoryName: "상의",
+      firstTypeSeq: 3,
+      firstTypeName: "상의",
       img: require("../../assets/icon/top.png"),
-      option: {
-        1: "티셔츠",
-        2: "니트/스웨터",
-        3: "셔츠/남방",
-        4: "멘투맨",
-      },
     },
     {
-      categorySeq: 4,
-      categoryName: "원피스/세트",
+      firstTypeSeq: 4,
+      firstTypeName: "원피스/세트",
       img: require("../../assets/icon/dress.png"),
     },
     {
-      categorySeq: 5,
-      categoryName: "바지",
+      firstTypeSeq: 5,
+      firstTypeName: "바지",
       img: require("../../assets/icon/pants.png"),
     },
     {
-      categorySeq: 6,
-      categoryName: "스커트",
+      firstTypeSeq: 6,
+      firstTypeName: "스커트",
       img: require("../../assets/icon/skirts.png"),
     },
     {
-      categorySeq: 7,
-      categoryName: "슈즈",
+      firstTypeSeq: 7,
+      firstTypeName: "슈즈",
       img: require("../../assets/icon/shoes.png"),
     },
     {
-      categorySeq: 8,
-      categoryName: "가방",
+      firstTypeSeq: 8,
+      firstTypeName: "가방",
       img: require("../../assets/icon/bag.png"),
     },
     {
-      categorySeq: 9,
-      categoryName: "악세사리",
+      firstTypeSeq: 9,
+      firstTypeName: "악세사리",
       img: require("../../assets/icon/accessory.png"),
     },
     {
-      categorySeq: 10,
-      categoryName: "더보기",
+      firstTypeSeq: 10,
+      firstTypeName: "더보기",
       img: require("../../assets/icon/plus.png"),
     },
   ]);
 
   const [modalVisible, setModalVisible] = useState(false);
-  const [pressedCategory, setPressedCategory] = useState(); //선택된 카테고리
+  const [pressedCategory, setPressedCategory] = useState(null); //선택된 카테고리
   const layout = useWindowDimensions();
   const [index, setIndex] = useState(0);
-  const renderScene = SceneMap({
-    1: () => <Totality />,
-    2: () => <Cardigan />,
-    3: () => <Jacket />,
-  });
 
-  const [routes] = useState([
-    { key: 1, title: "전체" },
-    { key: 2, title: "가디건" },
-    { key: 3, title: "자켓" },
+  // ---------------------------------------------------------
+  const [routes, setRoutes] = useState([
+    { key: 1, firstTypeSeq: 2, secondTypeName: "전체" },
+    { key: 2, firstTypeSeq: 2, secondTypeName: "가디건" },
   ]);
+
+  useEffect(() => {
+    if (pressedCategory !== null) {
+      // ↓ tmpArray : B. 클릭한 first에 속하는 second 모음.
+      // ① ↓ 맨처음은 다 '전체'니까
+      let tmpArray = [
+        {
+          key: 0, // Q.다른 secondTypeSeq는 겹치지않게 했는데 이건 겹쳐도되는지?
+          secondTypeName: "전체",
+          firstTypeSeq: pressedCategory.firstTypeSeq,
+        },
+      ];
+
+      // ② ↓ second 전체에서 찾기
+      secondCategoryArray.map(item => {
+        if (item.firstTypeSeq == pressedCategory.firstTypeSeq) {
+          let tmpSecondObject = {
+            key: item.secondTypeSeq,
+            secondTypeName: item.secondTypeName,
+            firstTypeSeq: item.firstTypeSeq,
+          };
+          tmpArray.push(tmpSecondObject);
+        }
+      });
+      setRoutes(tmpArray);
+      // ---------------------------------------------------------
+      // if (pressedCategory.firstTypeSeq === 1) {
+      //   setRoutes([
+      //     { key: 1, secondTypeName: "전체" },
+      //     { key: 2, secondTypeName: "가디건" },
+      //     { key: 3, secondTypeName: "자켓" },
+      //   ]);
+      // } else if (pressedCategory.firstTypeSeq === 2) {
+      //   setRoutes([
+      //     { key: 1, secondTypeName: "전체" },
+      //     { key: 2, secondTypeName: "티셔츠" },
+      //     { key: 3, secondTypeName: "니트/스웨터" },
+      //   ]);
+      // }
+    }
+  }, [pressedCategory]);
+  // ---------------------------------------------------------
+
+  const returnRenderScene = ({ routes }) => {
+    return <OptionScreen />;
+  };
+
+  // ---------------------------------------------------------
 
   const renderTabBar = props => (
     <TabBar
@@ -119,7 +192,7 @@ const Collection = () => {
       style={{ backgroundColor: "white" }} //탭 배경 색상
       renderLabel={(
         { route, color } //탭 글자 색상
-      ) => <Text style={{ color: "black" }}>{route.title}</Text>}
+      ) => <Text style={{ color: "black" }}>{route.secondTypeName}</Text>}
     />
   );
 
@@ -149,14 +222,14 @@ const Collection = () => {
               </TouchableOpacity>
               {pressedCategory && (
                 <Text style={styles.modalHeaderText}>
-                  {pressedCategory.categoryName}
+                  {pressedCategory.firstTypeName}
                 </Text>
               )}
             </View>
 
             <TabView
               navigationState={{ index, routes }}
-              renderScene={renderScene}
+              renderScene={returnRenderScene}
               onIndexChange={setIndex}
               initialLayout={{ width: layout.width }}
               renderTabBar={renderTabBar}
@@ -190,17 +263,17 @@ const Collection = () => {
       </View>
 
       <View style={styles.categoryView}>
-        {categoryArray.map(i => {
+        {categoryArray.map(item => {
           return (
             <TouchableOpacity
               onPress={() => {
                 setModalVisible(true);
-                setPressedCategory(i);
+                setPressedCategory(item);
               }}
               style={styles.categoryTouchable}
             >
-              <Image style={styles.categoryIcon} source={i.img} />
-              <Text style={styles.categoryText}>{i.categoryName}</Text>
+              <Image style={styles.categoryIcon} source={item.img} />
+              <Text style={styles.categoryText}>{item.firstTypeName}</Text>
             </TouchableOpacity>
           );
         })}

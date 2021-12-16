@@ -17,10 +17,10 @@ import { TabView, SceneMap } from "react-native-tab-view";
 const screenWidth = Dimensions.get("screen").width; // 전체화면 가로길이
 const screenHeight = Dimensions.get("screen").height; //전체화면 세로길이
 
-const Cardigan = () => {
+const OptionScreen = () => {
   return (
     <View style={{ marginTop: 50 }}>
-      <Text>가디건</Text>
+      <Text>옵션 화면이 될 화면입니당</Text>
     </View>
   );
 };
@@ -28,4 +28,4 @@ const Cardigan = () => {
 const styles = StyleSheet.create({
   View: {},
 });
-export default Cardigan;
+export default OptionScreen;
