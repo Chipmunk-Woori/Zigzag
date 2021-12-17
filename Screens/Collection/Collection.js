@@ -20,6 +20,7 @@ import { useSelector } from "react-redux";
 import { TabView, SceneMap, TabBar } from "react-native-tab-view";
 
 import OptionScreen from "./OptionScreen";
+import shoppingBasket from "../Home/ShoppingBasket";
 
 const screenWidth = Dimensions.get("screen").width; // 전체화면 가로길이
 const screenHeight = Dimensions.get("screen").height; //전체화면 세로길이
@@ -161,26 +162,11 @@ const Collection = props => {
         }
       });
       setRoutes(tmpArray);
-      // ---------------------------------------------------------
-      // if (pressedCategory.firstTypeSeq === 1) {
-      //   setRoutes([
-      //     { key: 1, secondTypeName: "전체" },
-      //     { key: 2, secondTypeName: "가디건" },
-      //     { key: 3, secondTypeName: "자켓" },
-      //   ]);
-      // } else if (pressedCategory.firstTypeSeq === 2) {
-      //   setRoutes([
-      //     { key: 1, secondTypeName: "전체" },
-      //     { key: 2, secondTypeName: "티셔츠" },
-      //     { key: 3, secondTypeName: "니트/스웨터" },
-      //   ]);
-      // }
     }
   }, [pressedCategory]);
-  // ---------------------------------------------------------
 
-  const returnRenderScene = ({ routes }) => {
-    return <OptionScreen />;
+  const renderScene = ({ routes }) => {
+    return <OptionScreen props={routes} />;
   };
 
   // ---------------------------------------------------------
@@ -229,7 +215,7 @@ const Collection = props => {
 
             <TabView
               navigationState={{ index, routes }}
-              renderScene={returnRenderScene}
+              renderScene={renderScene}
               onIndexChange={setIndex}
               initialLayout={{ width: layout.width }}
               renderTabBar={renderTabBar}

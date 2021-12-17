@@ -21,6 +21,7 @@ import HomeTabView from "./HomeTabView";
 import Brand from "./Brand";
 import Best from "./Best";
 import Sale from "./Sale";
+import shoppingBasket from "./ShoppingBasket";
 
 const screenWidth = Dimensions.get("screen").width;
 const screenHeight = Dimensions.get("screen").height;
@@ -100,14 +101,20 @@ const Home = ({ navigation }) => {
             source={require("../../assets/icon/search_gray.png")}
           />
         </TouchableOpacity>
-        <Image
-          source={require("../../assets/icon/shoppingBasket.png")}
-          style={{
-            width: screenWidth * 0.062,
-            height: screenHeight * 0.028,
-            marginLeft: screenWidth * 0.04,
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("ShoppingBasket");
           }}
-        />
+        >
+          <Image
+            source={require("../../assets/icon/shoppingBasket.png")}
+            style={{
+              width: screenWidth * 0.062,
+              height: screenHeight * 0.028,
+              marginLeft: screenWidth * 0.04,
+            }}
+          />
+        </TouchableOpacity>
       </View>
 
       <TabView
