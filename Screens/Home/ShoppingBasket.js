@@ -60,7 +60,7 @@ const ShoppingBasket = ({ navigation }) => {
             style={styles.shoppingmallImg}
             source={require("../../assets/shoppingmall/shoppingmall_1.png")}
           />
-          <Text style={styles.shoppingmallName}>횰릭</Text>
+          <Text style={styles.shoppingmallName}>쵸퍼</Text>
         </View>
         <View style={styles.ViewLine} />
         {/* ---------------------------------------------------------------- */}
@@ -73,7 +73,7 @@ const ShoppingBasket = ({ navigation }) => {
             />
           </TouchableOpacity>
 
-          {/* ---------------------------------------------------------------- */}
+          {/* 체크박스 옆---------------------------------------------------------------- */}
           <View>
             <View style={{ flexDirection: "row" }}>
               <Image
@@ -95,27 +95,84 @@ const ShoppingBasket = ({ navigation }) => {
               </TouchableOpacity>
             </View>
             <Text style={styles.freeShippingText}>배송비 무료 상품</Text>
-            {/* ---------------------------------------------------------------- */}
-            <View style={{ flexDirection: "row" }}>
-              <TouchableOpacity>
-                <Image
-                  style={styles.amountButton}
-                  source={require("../../assets/icon/minus.png")}
-                />
+            {/* 상품 가격---------------------------------------------------------------- */}
+            <View style={styles.amountView}>
+              <View style={{ flexDirection: "row" }}>
+                <TouchableOpacity>
+                  <Image
+                    style={styles.amountButton}
+                    source={require("../../assets/icon/minus.png")}
+                  />
+                </TouchableOpacity>
+                <Text style={styles.amountText}>1</Text>
+                <TouchableOpacity>
+                  <Image
+                    style={styles.amountButton}
+                    source={require("../../assets/icon/add.png")}
+                  />
+                </TouchableOpacity>
+              </View>
+              <Text style={styles.productPrice}>32,000원</Text>
+            </View>
+            <View style={styles.ViewLine} />
+            <View style={styles.deliveryChargeView}>
+              <Text style={styles.deliveryChargeText}>배송비</Text>
+              <Text style={styles.deliveryChargeText}>무료</Text>
+            </View>
+            <View style={styles.ViewLine} />
+            <View style={styles.deliveryChargeView}>
+              <Text style={styles.deliveryChargeText}>총 결제금액</Text>
+              <Text style={styles.totalProductPriceText}>32,000원</Text>
+            </View>
+            <View style={styles.purchaseButtonView}>
+              <TouchableOpacity style={styles.purchaseButton_choice}>
+                <Text
+                  style={[
+                    styles.purchaseButtonText_noChoice,
+                    styles.purchaseButtonText_choice,
+                  ]}
+                >
+                  바로구매
+                </Text>
               </TouchableOpacity>
-              <Text style={styles.amountText}>1</Text>
-              <TouchableOpacity>
-                <Image
-                  style={styles.amountButton}
-                  source={require("../../assets/icon/add.png")}
-                />
+              <TouchableOpacity
+                style={[
+                  styles.purchaseButton_choice,
+                  styles.purchaseButton_noChoice,
+                ]}
+              >
+                <Text style={styles.purchaseButtonText_noChoice}>상품추가</Text>
               </TouchableOpacity>
             </View>
-            <TouchableOpacity></TouchableOpacity>
-            <Text>32,000원</Text>
+            {/* ---------------------------------------------------------------- */}
           </View>
         </View>
       </View>
+      {/* ---------------------------------------------------------------- */}
+      <View style={{ marginTop: 10 }}>
+        <View style={styles.deliveryChargeView}>
+          <Text style={styles.deliveryChargeText}>총 결제금액</Text>
+          <Text style={styles.productPrice}>0원</Text>
+        </View>
+        <View style={styles.deliveryChargeView}>
+          <Text style={styles.deliveryChargeText}>총 배송비</Text>
+          <Text style={styles.productPrice}>0원</Text>
+        </View>
+        <View style={styles.ViewLine} />
+        <View style={styles.deliveryChargeView}>
+          <Text style={[styles.deliveryChargeText, styles.fontSizeUp]}>
+            총 결제예상금액
+          </Text>
+          <Text style={styles.totalProductPriceText}>0원</Text>
+        </View>
+      </View>
+      {/* ---------------------------------------------------------------- */}
+      {/* <View style={{ marginTop: 80, backgroundColor: "orange" }}>
+        <View style={styles.deliveryChargeView}>
+          <Text style={styles.deliveryChargeText}>총 결제금액</Text>
+          <Text style={styles.productPrice}>0원</Text>
+        </View>
+      </View> */}
     </View>
   );
 };
@@ -155,7 +212,6 @@ const styles = StyleSheet.create({
   secondView: {
     width: "100%",
     height: 40,
-
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
@@ -166,27 +222,27 @@ const styles = StyleSheet.create({
   },
   productView: {
     width: "100%",
-    height: 330,
-    backgroundColor: "orange",
+    marginTop: 10,
+    // backgroundColor: "orange",
   },
   shoppingmallView: {
     flexDirection: "row",
     alignItems: "center",
-    height: 55,
+    height: 45,
   },
   shoppingmallImg: {
-    width: 40,
-    height: 40,
+    width: 33,
+    height: 33,
     borderRadius: 20,
     marginRight: 10,
   },
   shoppingmallName: {
     fontWeight: "bold",
-    fontSize: 17,
+    fontSize: 16,
   },
   ViewLine: {
-    borderBottomColor: "lightgray",
-    borderBottomWidth: 1,
+    borderBottomColor: "#E8EFF2",
+    borderBottomWidth: 0.8,
     borderStyle: "solid",
   },
   productDetailView: {
@@ -199,7 +255,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   productNameView: {
-    marginLeft: 10,
+    marginLeft: 15,
   },
   productNameText: {
     marginTop: 8,
@@ -224,8 +280,15 @@ const styles = StyleSheet.create({
   freeShippingText: {
     color: "green",
     marginTop: 20,
-    marginBottom: 17,
-    marginLeft: 10,
+    marginBottom: 6,
+    marginLeft: 7,
+    fontSize: 12,
+  },
+  amountView: {
+    flexDirection: "row",
+    alignItems: "center",
+    height: 50,
+    justifyContent: "space-between",
   },
   amountButton: {
     width: 18,
@@ -235,6 +298,48 @@ const styles = StyleSheet.create({
   amountText: {
     marginLeft: 10,
     marginRight: 10,
+  },
+  productPrice: {
+    fontSize: 14,
+  },
+  deliveryChargeView: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    height: 47,
+    alignItems: "center",
+    // backgroundColor: "yellow",
+  },
+  deliveryChargeText: {
+    color: "gray",
+    fontSize: 12,
+  },
+  totalProductPriceText: {
+    fontSize: 17,
+  },
+  purchaseButtonView: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 12,
+  },
+  purchaseButton_choice: {
+    borderStyle: "solid",
+    borderColor: "#F719A3",
+    borderRadius: 20,
+    borderWidth: 2,
+    padding: 10,
+    width: 150,
+    alignItems: "center",
+  },
+  purchaseButton_noChoice: {
+    borderColor: "lightgray",
+  },
+  purchaseButtonText_noChoice: {},
+  purchaseButtonText_choice: {
+    color: "#F719A3",
+  },
+  fontSizeUp: {
+    fontSize: 15,
+    fontWeight: "bold",
   },
 });
 
