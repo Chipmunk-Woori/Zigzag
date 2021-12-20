@@ -22,6 +22,49 @@ const screenWidth = Dimensions.get("screen").width; // 전체화면 가로길이
 const screenHeight = Dimensions.get("screen").height; //전체화면 세로길이
 
 const ShoppingBasket = ({ navigation }) => {
+  const Basketproducts = [
+    {
+      productId: 1,
+      productName: "다이아루즈브이넥니트",
+      productColor: "소라",
+      productPrice: "32,000",
+      productImg: require("../../assets/product/product_10.png"),
+      shoppingmallName: "쵸퍼",
+      shoppingmallImg: require("../../assets/shoppingmall/shoppingmall_1.png"),
+    },
+    {
+      productId: 2,
+      productName: "리튼 양털하프패딩점퍼 (2color)",
+      productColor: "도브그레이",
+      productPrice: "105,500",
+      productImg: require("../../assets/product/product_11.png"),
+      shoppingmallName: "프롬비기닝",
+      shoppingmallImg: require("../../assets/shoppingmall/shoppingmall_2.png"),
+    },
+  ];
+
+  const getFooter = () => {
+    return (
+      <View style={{ marginTop: 10 }}>
+        <View style={styles.deliveryChargeView}>
+          <Text style={styles.deliveryChargeText}>총 결제금액</Text>
+          <Text style={styles.productPrice}>32,000원</Text>
+        </View>
+        <View style={styles.deliveryChargeView}>
+          <Text style={styles.deliveryChargeText}>총 배송비</Text>
+          <Text style={styles.productPrice}>0원</Text>
+        </View>
+        <View style={styles.ViewLine} />
+        <View style={styles.deliveryChargeView}>
+          <Text style={[styles.deliveryChargeText, styles.fontSizeUp]}>
+            총 결제예상금액
+          </Text>
+          <Text style={styles.totalProductPriceText}>32,000원</Text>
+        </View>
+      </View>
+    );
+  };
+
   const [headerText, setTeaderText] = useState("장바구니");
   return (
     <View style={styles.View}>
@@ -51,128 +94,138 @@ const ShoppingBasket = ({ navigation }) => {
           <Text>(1/1)</Text>
         </View>
         <TouchableOpacity>
-          <Text>선택삭제</Text>
+          <Text>상품삭제</Text>
         </TouchableOpacity>
       </View>
-      <View style={styles.productView}>
-        <View style={styles.shoppingmallView}>
-          <Image
-            style={styles.shoppingmallImg}
-            source={require("../../assets/shoppingmall/shoppingmall_1.png")}
-          />
-          <Text style={styles.shoppingmallName}>쵸퍼</Text>
-        </View>
-        <View style={styles.ViewLine} />
-        {/* ---------------------------------------------------------------- */}
-        <View style={styles.productDetailView}>
-          <TouchableOpacity>
-            <Image
-              style={styles.checkIcon}
-              source={require("../../assets/icon/checked.png")}
-              //source={require("../../assets/icon/unchecked_gray.png")}
-            />
-          </TouchableOpacity>
 
-          {/* 체크박스 옆---------------------------------------------------------------- */}
-          <View>
-            <View style={{ flexDirection: "row" }}>
-              <Image
-                source={require("../../assets/product/product_10.png")}
-                style={styles.productImg}
-              />
-              <View style={styles.productNameView}>
-                <Text style={styles.productNameText}>다이아루즈브이넥니트</Text>
-                <View style={{ flexDirection: "row", marginTop: 10 }}>
-                  <Text style={styles.productColorText}>소라</Text>
-                  <Text style={styles.productAmountText}>1개</Text>
+      {/* {productShow()} */}
+      <View>
+        <FlatList
+          data={Basketproducts}
+          keyExtractor={item => item.productId}
+          ListFooterComponent={getFooter}
+          renderItem={({ item, index }) => {
+            return (
+              <View style={styles.productView} key={index.toString()}>
+                <View style={styles.shoppingmallView}>
+                  <Image
+                    style={styles.shoppingmallImg}
+                    source={item.shoppingmallImg}
+                  />
+                  <Text style={styles.shoppingmallName}>
+                    {item.shoppingmallName}
+                  </Text>
+                </View>
+                <View style={styles.ViewLine} />
+
+                <View style={styles.productDetailView}>
+                  <TouchableOpacity>
+                    <Image
+                      style={styles.checkIcon}
+                      source={require("../../assets/icon/checked.png")}
+                      //source={require("../../assets/icon/unchecked_gray.png")}
+                    />
+                  </TouchableOpacity>
+
+                  {/* 체크박스 오른쪽 내용---------------------------------------------------------------- */}
+                  <View>
+                    <View style={{ flexDirection: "row" }}>
+                      <Image
+                        source={item.productImg}
+                        style={styles.productImg}
+                      />
+                      <View style={styles.productNameView}>
+                        <Text style={styles.productNameText}>
+                          {item.productName}
+                        </Text>
+                        <View style={{ flexDirection: "row", marginTop: 10 }}>
+                          <Text style={styles.productColorText}>
+                            {item.productColor}
+                          </Text>
+                          <Text style={styles.productAmountText}>1개</Text>
+                        </View>
+                      </View>
+                      <TouchableOpacity>
+                        <Image
+                          style={styles.productDeleteButton}
+                          source={require("../../assets/icon/cancel.png")}
+                        />
+                      </TouchableOpacity>
+                    </View>
+                    <Text style={styles.freeShippingText}>
+                      배송비 무료 상품
+                    </Text>
+                    {/* 상품 가격---------------------------------------------------------------- */}
+                    <View style={styles.amountView}>
+                      <View style={{ flexDirection: "row" }}>
+                        <TouchableOpacity>
+                          <Image
+                            style={styles.amountButton}
+                            source={require("../../assets/icon/minus.png")}
+                          />
+                        </TouchableOpacity>
+                        <Text style={styles.amountText}>1</Text>
+                        <TouchableOpacity>
+                          <Image
+                            style={styles.amountButton}
+                            source={require("../../assets/icon/add.png")}
+                          />
+                        </TouchableOpacity>
+                      </View>
+                      <Text style={styles.productPrice}>
+                        {item.productPrice}
+                      </Text>
+                    </View>
+                    <View style={styles.ViewLine} />
+                    <View style={styles.deliveryChargeView}>
+                      <Text style={styles.deliveryChargeText}>배송비</Text>
+                      <Text style={styles.deliveryChargeText}>무료</Text>
+                    </View>
+                    <View style={styles.ViewLine} />
+                    <View style={styles.deliveryChargeView}>
+                      <Text style={styles.deliveryChargeText}>총 결제금액</Text>
+                      <Text style={styles.totalProductPriceText}>32,000원</Text>
+                    </View>
+                    <View style={styles.purchaseButtonView}>
+                      <TouchableOpacity style={styles.purchaseButton_choice}>
+                        <Text
+                          style={[
+                            styles.purchaseButtonText_noChoice,
+                            styles.purchaseButtonText_choice,
+                          ]}
+                        >
+                          바로구매
+                        </Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        style={[
+                          styles.purchaseButton_choice,
+                          styles.purchaseButton_noChoice,
+                        ]}
+                      >
+                        <Text style={styles.purchaseButtonText_noChoice}>
+                          상품추가
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
                 </View>
               </View>
-              <TouchableOpacity>
-                <Image
-                  style={styles.productDeleteButton}
-                  source={require("../../assets/icon/cancel.png")}
-                />
-              </TouchableOpacity>
-            </View>
-            <Text style={styles.freeShippingText}>배송비 무료 상품</Text>
-            {/* 상품 가격---------------------------------------------------------------- */}
-            <View style={styles.amountView}>
-              <View style={{ flexDirection: "row" }}>
-                <TouchableOpacity>
-                  <Image
-                    style={styles.amountButton}
-                    source={require("../../assets/icon/minus.png")}
-                  />
-                </TouchableOpacity>
-                <Text style={styles.amountText}>1</Text>
-                <TouchableOpacity>
-                  <Image
-                    style={styles.amountButton}
-                    source={require("../../assets/icon/add.png")}
-                  />
-                </TouchableOpacity>
-              </View>
-              <Text style={styles.productPrice}>32,000원</Text>
-            </View>
-            <View style={styles.ViewLine} />
-            <View style={styles.deliveryChargeView}>
-              <Text style={styles.deliveryChargeText}>배송비</Text>
-              <Text style={styles.deliveryChargeText}>무료</Text>
-            </View>
-            <View style={styles.ViewLine} />
-            <View style={styles.deliveryChargeView}>
-              <Text style={styles.deliveryChargeText}>총 결제금액</Text>
-              <Text style={styles.totalProductPriceText}>32,000원</Text>
-            </View>
-            <View style={styles.purchaseButtonView}>
-              <TouchableOpacity style={styles.purchaseButton_choice}>
-                <Text
-                  style={[
-                    styles.purchaseButtonText_noChoice,
-                    styles.purchaseButtonText_choice,
-                  ]}
-                >
-                  바로구매
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[
-                  styles.purchaseButton_choice,
-                  styles.purchaseButton_noChoice,
-                ]}
-              >
-                <Text style={styles.purchaseButtonText_noChoice}>상품추가</Text>
-              </TouchableOpacity>
-            </View>
-            {/* ---------------------------------------------------------------- */}
-          </View>
-        </View>
+            );
+          }}
+        />
       </View>
-      {/* ---------------------------------------------------------------- */}
-      <View style={{ marginTop: 10 }}>
-        <View style={styles.deliveryChargeView}>
+
+      {/* 구매하기 버튼---------------------------------------------------------------- */}
+      <View style={styles.buyButtonView}>
+        <View style={styles.buyButtonPriceView}>
           <Text style={styles.deliveryChargeText}>총 결제금액</Text>
-          <Text style={styles.productPrice}>0원</Text>
+          <Text style={styles.buyButtonPriceText}>32,000원</Text>
         </View>
-        <View style={styles.deliveryChargeView}>
-          <Text style={styles.deliveryChargeText}>총 배송비</Text>
-          <Text style={styles.productPrice}>0원</Text>
-        </View>
-        <View style={styles.ViewLine} />
-        <View style={styles.deliveryChargeView}>
-          <Text style={[styles.deliveryChargeText, styles.fontSizeUp]}>
-            총 결제예상금액
-          </Text>
-          <Text style={styles.totalProductPriceText}>0원</Text>
-        </View>
+        <TouchableOpacity style={styles.buyButton}>
+          <Text style={{ color: "white" }}>구매하기</Text>
+        </TouchableOpacity>
       </View>
-      {/* ---------------------------------------------------------------- */}
-      {/* <View style={{ marginTop: 80, backgroundColor: "orange" }}>
-        <View style={styles.deliveryChargeView}>
-          <Text style={styles.deliveryChargeText}>총 결제금액</Text>
-          <Text style={styles.productPrice}>0원</Text>
-        </View>
-      </View> */}
     </View>
   );
 };
@@ -189,6 +242,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
     height: 40,
+  },
+  cancelTouch: {
+    width: 10,
   },
   headerCancelIcon: {
     width: 15,
@@ -260,6 +316,8 @@ const styles = StyleSheet.create({
   productNameText: {
     marginTop: 8,
     fontSize: 15,
+    width: 220,
+    marginRight: 10,
   },
   productColorText: {
     color: "gray",
@@ -275,7 +333,6 @@ const styles = StyleSheet.create({
     width: 11,
     height: 11,
     marginTop: 10,
-    marginLeft: 100,
   },
   freeShippingText: {
     color: "green",
@@ -340,6 +397,28 @@ const styles = StyleSheet.create({
   fontSizeUp: {
     fontSize: 15,
     fontWeight: "bold",
+  },
+  buyButtonView: {
+    height: 60,
+    marginTop: 70,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  buyButtonPriceView: {
+    justifyContent: "center",
+  },
+  buyButtonPriceText: {
+    fontSize: 16,
+    marginTop: 6,
+  },
+  buyButton: {
+    backgroundColor: "#F719A3",
+    width: 170,
+    height: 40,
+    borderRadius: 20,
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
 

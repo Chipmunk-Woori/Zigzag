@@ -368,6 +368,7 @@ const styles = StyleSheet.create({
   View: {
     paddingHorizontal: screenHeight * 0.02,
     backgroundColor: "white",
+    flex: 1,
   },
   headerView: {
     marginTop: screenHeight * 0.07,
@@ -377,7 +378,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   headerText: {
-    fontSize: 21,
+    fontSize: 19.5,
     fontWeight: "bold",
   },
   headerTextEditMode: {

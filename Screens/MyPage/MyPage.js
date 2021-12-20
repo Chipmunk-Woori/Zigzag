@@ -71,6 +71,67 @@ const MyPage = () => {
           <Text style={styles.userEmailText}>혜택보기</Text>
         </TouchableOpacity>
       </View>
+      <View style={styles.TouchIconsView}>
+        <TouchableOpacity style={styles.TouchIconsTouch}>
+          <Image
+            source={require("../../assets/icon/truck.png")}
+            style={styles.TouchIconsicon}
+          />
+          <Text style={styles.TouchIconText}>주문 · 배송</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.TouchIconsTouch}>
+          <Image
+            source={require("../../assets/icon/review.png")}
+            style={styles.TouchIconsicon}
+          />
+          <Text style={styles.TouchIconText}>리뷰</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.TouchIconsTouch}>
+          <Image
+            source={require("../../assets/icon/coupon.png")}
+            style={styles.TouchIconsicon}
+          />
+          <Text style={styles.TouchIconText}>쿠폰</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.TouchIconsTouch}>
+          <Image
+            source={require("../../assets/icon/point.png")}
+            style={styles.TouchIconsicon}
+          />
+          <Text style={styles.TouchIconText}>포인트</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.bannerView}></View>
+      <View style={styles.bannerTextView}>
+        <Text style={styles.bannerText}>
+          마이픽쿠폰은 앱 6.84.0이상 버전에서 볼 수 있어요
+        </Text>
+      </View>
+      <View style={styles.ViewLine} />
+
+      <View>
+        <View style={styles.categoryView}>
+          <Text style={styles.categoryViewText}>쇼핑</Text>
+        </View>
+        <View style={styles.categoryOptionView}>
+          <Text style={styles.categoryOptionText}>문의 내역</Text>
+        </View>
+        <View style={styles.categoryOptionView}>
+          <Text style={styles.categoryOptionText}>최근 본 상품</Text>
+        </View>
+      </View>
+      <View style={styles.ViewLine_2} />
+      <View>
+        <View style={styles.categoryView}>
+          <Text style={styles.categoryViewText}>서비스 설정</Text>
+        </View>
+        <View style={styles.categoryOptionView}>
+          <Text style={styles.categoryOptionText}>실험실</Text>
+        </View>
+        <View style={styles.categoryOptionView}>
+          <Text style={styles.categoryOptionText}>설정</Text>
+        </View>
+      </View>
     </View>
   );
 };
@@ -115,13 +176,13 @@ const styles = StyleSheet.create({
   },
   gradeView: {
     backgroundColor: "white", //배경색이 없으면 그림자 안 보일 수 있음
-    shadowColor: "lightgray", //그림자 색
-    shadowOpacity: 0.3, //그림자 투명도
+    shadowColor: "gray", //그림자 색
+    shadowOpacity: 0.2, //그림자 투명도
     shadowRadius: 4, //그림자 퍼지는 길이
     shadowOffset: {
       //그림자 위치
-      height: 2,
-      width: 2,
+      height: 0,
+      width: 0,
     },
 
     borderRadius: 4,
@@ -151,6 +212,66 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontWeight: "bold",
     marginRight: 180,
+  },
+  TouchIconsView: {
+    height: 98,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  TouchIconsTouch: {
+    alignItems: "center",
+    width: 75,
+  },
+  TouchIconsicon: {
+    width: 25,
+    height: 25,
+  },
+  TouchIconText: {
+    fontSize: 13,
+    marginTop: 4,
+  },
+  bannerView: {
+    height: 50,
+    borderColor: "lightgray",
+    borderWidth: 1,
+    borderStyle: "solid",
+  },
+  bannerTextView: {
+    alignItems: "center",
+    height: 30,
+    justifyContent: "center",
+  },
+  bannerText: {
+    fontSize: 10,
+    color: "gray",
+  },
+  ViewLine: {
+    borderColor: "lightgray",
+    borderBottomWidth: 0.5,
+    borderStyle: "solid",
+  },
+  categoryView: {
+    height: 50,
+    justifyContent: "center",
+  },
+  categoryViewText: {
+    fontSize: 12,
+    color: "gray",
+  },
+  categoryOptionView: {
+    height: 50,
+    justifyContent: "center",
+  },
+  categoryOptionText: {
+    fontSize: 16,
+  },
+  ViewLine_2: {
+    borderColor: "lightgray",
+    borderBottomWidth: 0.2,
+    borderStyle: "solid",
+    marginTop: 21,
+    marginBottom: 6,
   },
 });
 
