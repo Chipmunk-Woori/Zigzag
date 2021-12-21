@@ -21,45 +21,198 @@ import { useSelector } from "react-redux";
 const screenWidth = Dimensions.get("screen").width; // 전체화면 가로길이
 const screenHeight = Dimensions.get("screen").height; //전체화면 세로길이
 
+const Basketproducts = [
+  {
+    productId: 101,
+    productName: "다이아루즈브이넥니트",
+    productColor: "소라",
+    productPrice: "30000",
+    deliveryCharge: "무료",
+    productImg: require("../../assets/product/product_10.png"),
+    shoppingmallName: "쵸퍼",
+    shoppingmallImg: require("../../assets/shoppingmall/shoppingmall_1.png"),
+  },
+  {
+    productId: 102,
+    productName: "리튼 양털하프패딩점퍼 (2color)",
+    productColor: "도브그레이",
+    productPrice: "20000",
+    deliveryCharge: "2500",
+    productImg: require("../../assets/product/product_11.png"),
+    shoppingmallName: "프롬비기닝",
+    shoppingmallImg: require("../../assets/shoppingmall/shoppingmall_2.png"),
+  },
+  {
+    productId: 103,
+    productName: "스트라이프 니트",
+    productColor: "노랑",
+    productPrice: "10000",
+    deliveryCharge: "2500",
+    productImg: require("../../assets/product/product_12.png"),
+    shoppingmallName: "아베아무아",
+    shoppingmallImg: require("../../assets/shoppingmall/shoppingmall_3.png"),
+  },
+];
+
 const ShoppingBasket = ({ navigation }) => {
-  const Basketproducts = [
-    {
-      productId: 1,
-      productName: "다이아루즈브이넥니트",
-      productColor: "소라",
-      productPrice: "32,000",
-      productImg: require("../../assets/product/product_10.png"),
-      shoppingmallName: "쵸퍼",
-      shoppingmallImg: require("../../assets/shoppingmall/shoppingmall_1.png"),
-    },
-    {
-      productId: 2,
-      productName: "리튼 양털하프패딩점퍼 (2color)",
-      productColor: "도브그레이",
-      productPrice: "105,500",
-      productImg: require("../../assets/product/product_11.png"),
-      shoppingmallName: "프롬비기닝",
-      shoppingmallImg: require("../../assets/shoppingmall/shoppingmall_2.png"),
-    },
-  ];
+  const [reload, setReload] = useState(false);
+  const [shoppingList, setShoppingList] = useState([]); //구매 목록
+  const [productAmount, setProductAmount] = useState(1);
+  const [shoppingResult, setShoppingResult] = useState([]);
+
+  //체크박스 누르면 shoppingList에 넣어주는 함수
+  const pressCheckbox = pressedItem => {
+    let tempArray = [...shoppingList];
+    let check = false;
+
+    if (shoppingList.length !== 0) {
+      shoppingList.map(item => {
+        if (item.productId == pressedItem.productId) {
+          tempArray = tempArray.filter(ti => {
+            return ti.productId !== pressedItem.productId;
+          });
+          check = true;
+        }
+      });
+    }
+
+    if (check == false) {
+      tempArray.push(pressedItem);
+    }
+
+    setShoppingList(tempArray);
+    setReload(!reload);
+  };
+
+  const returnState = pressedItem => {
+    let state = false;
+
+    if (shoppingList.length !== 0) {
+      shoppingList.map(item => {
+        if (item.productId == pressedItem.productId) {
+          state = true;
+        }
+      });
+    }
+
+    return state;
+  };
+
+  const returnTotalPrice = item => {
+    let a = item.productPrice;
+    let b = item.deliveryCharge;
+    let totalPrice;
+
+    if (b == "무료") {
+      totalPrice = parseFloat(a);
+    } else {
+      totalPrice = parseFloat(a) + parseFloat(b);
+    }
+
+    return totalPrice;
+  };
+
+  const returnWholeSelection = () => {
+    let bp = Basketproducts.length;
+    let sl = shoppingList.length;
+    let result = (
+      <Text>
+        ({sl}/{bp})
+      </Text>
+    );
+
+    return result;
+  };
+
+  const shoppingListTotalPrice = () => {
+    let tempTotal = 0;
+
+    if (shoppingList.length !== 0) {
+      shoppingList.map(item => {
+        if (item.deliveryCharge == "무료") {
+          tempTotal = tempTotal + parseFloat(item.productPrice);
+        } else {
+          tempTotal =
+            tempTotal +
+            parseFloat(item.productPrice) +
+            parseFloat(item.deliveryCharge);
+        }
+      });
+
+      console.log("값:" + tempTotal);
+    }
+
+    let result = <Text style={styles.productPrice}>{tempTotal}</Text>;
+
+    return result;
+  };
+
+  const returnAmount = item => {
+    let amount = 1;
+    shoppingResult.map(shoppingResult => {
+      if (shoppingResult.productId == item.productId) {
+        amount = shoppingResult.amount;
+      }
+    });
+
+    return amount;
+  };
+
+  useEffect(() => {
+    const returnWholeSelection = () => {
+      let bp = Basketproducts.length;
+      let sl = shoppingList.length;
+      let result = (
+        <Text>
+          ({sl}/{bp})
+        </Text>
+      );
+
+      return result;
+    };
+  }, [shoppingList, Basketproducts]);
+
+  useEffect(() => {
+    let initShoppingResultArr = [];
+    Basketproducts.map(item => {
+      let resultObject = new Object();
+      resultObject.productId = item.productId;
+      resultObject.amount = 1;
+      resultObject.price = item.productPrice;
+      resultObject.deliveryCharge = item.deliveryCharge;
+      initShoppingResultArr.push(resultObject);
+    });
+    setShoppingResult(initShoppingResultArr);
+  }, []);
 
   const getFooter = () => {
     return (
-      <View style={{ marginTop: 10 }}>
-        <View style={styles.deliveryChargeView}>
-          <Text style={styles.deliveryChargeText}>총 결제금액</Text>
-          <Text style={styles.productPrice}>32,000원</Text>
+      <View style={{ paddingBottom: 80 }}>
+        <View style={{ marginTop: 0 }}>
+          <View style={styles.deliveryChargeView}>
+            <Text style={styles.deliveryChargeText}>총 결제금액</Text>
+            {shoppingListTotalPrice()}
+          </View>
+          <View style={styles.deliveryChargeView}>
+            <Text style={styles.deliveryChargeText}>총 배송비</Text>
+            <Text style={styles.productPrice}>0원</Text>
+          </View>
+          <View style={styles.ViewLine} />
+          <View style={styles.deliveryChargeView}>
+            <Text style={[styles.deliveryChargeText, styles.fontSizeUp]}>
+              총 결제예상금액
+            </Text>
+            <Text style={styles.totalProductPriceText}>32,000원</Text>
+          </View>
         </View>
-        <View style={styles.deliveryChargeView}>
-          <Text style={styles.deliveryChargeText}>총 배송비</Text>
-          <Text style={styles.productPrice}>0원</Text>
-        </View>
-        <View style={styles.ViewLine} />
-        <View style={styles.deliveryChargeView}>
-          <Text style={[styles.deliveryChargeText, styles.fontSizeUp]}>
-            총 결제예상금액
-          </Text>
-          <Text style={styles.totalProductPriceText}>32,000원</Text>
+        <View style={styles.buyButtonView}>
+          <View style={styles.buyButtonPriceView}>
+            <Text style={styles.deliveryChargeText}>총 결제금액</Text>
+            <Text style={styles.buyButtonPriceText}>32,000원</Text>
+          </View>
+          <TouchableOpacity style={styles.buyButton}>
+            <Text style={{ color: "white" }}>구매하기</Text>
+          </TouchableOpacity>
         </View>
       </View>
     );
@@ -91,7 +244,7 @@ const ShoppingBasket = ({ navigation }) => {
             />
           </TouchableOpacity>
           <Text>전체선택</Text>
-          <Text>(1/1)</Text>
+          {returnWholeSelection()}
         </View>
         <TouchableOpacity>
           <Text>상품삭제</Text>
@@ -105,6 +258,7 @@ const ShoppingBasket = ({ navigation }) => {
           keyExtractor={item => item.productId}
           ListFooterComponent={getFooter}
           renderItem={({ item, index }) => {
+            let aaa = 1;
             return (
               <View style={styles.productView} key={index.toString()}>
                 <View style={styles.shoppingmallView}>
@@ -119,11 +273,18 @@ const ShoppingBasket = ({ navigation }) => {
                 <View style={styles.ViewLine} />
 
                 <View style={styles.productDetailView}>
-                  <TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => {
+                      pressCheckbox(item);
+                    }}
+                  >
                     <Image
                       style={styles.checkIcon}
-                      source={require("../../assets/icon/checked.png")}
-                      //source={require("../../assets/icon/unchecked_gray.png")}
+                      source={
+                        returnState(item)
+                          ? require("../../assets/icon/checked.png")
+                          : require("../../assets/icon/unchecked_gray.png")
+                      }
                     />
                   </TouchableOpacity>
 
@@ -157,15 +318,33 @@ const ShoppingBasket = ({ navigation }) => {
                     </Text>
                     {/* 상품 가격---------------------------------------------------------------- */}
                     <View style={styles.amountView}>
-                      <View style={{ flexDirection: "row" }}>
+                      <View
+                        style={{ flexDirection: "row", alignItems: "center" }}
+                      >
                         <TouchableOpacity>
                           <Image
                             style={styles.amountButton}
                             source={require("../../assets/icon/minus.png")}
                           />
                         </TouchableOpacity>
-                        <Text style={styles.amountText}>1</Text>
-                        <TouchableOpacity>
+                        <Text style={styles.amountText}>
+                          {returnAmount(item)}
+                        </Text>
+                        <TouchableOpacity
+                          onPress={() => {
+                            let newShoppingResult = [];
+                            shoppingResult.map(shoppingResult => {
+                              if (shoppingResult.productId == item.productId) {
+                                shoppingResult.amount =
+                                  shoppingResult.amount + 1;
+                              }
+                              newShoppingResult.push(shoppingResult);
+                            });
+                            setShoppingResult(newShoppingResult);
+                            // setProductAmount(productAmount + 1);
+                            // 🟡
+                          }}
+                        >
                           <Image
                             style={styles.amountButton}
                             source={require("../../assets/icon/add.png")}
@@ -173,18 +352,28 @@ const ShoppingBasket = ({ navigation }) => {
                         </TouchableOpacity>
                       </View>
                       <Text style={styles.productPrice}>
-                        {item.productPrice}
+                        {item.productPrice}원
                       </Text>
                     </View>
                     <View style={styles.ViewLine} />
                     <View style={styles.deliveryChargeView}>
                       <Text style={styles.deliveryChargeText}>배송비</Text>
-                      <Text style={styles.deliveryChargeText}>무료</Text>
+                      {item.deliveryCharge == "무료" ? (
+                        <Text style={styles.deliveryChargeText}>
+                          {item.deliveryCharge}
+                        </Text>
+                      ) : (
+                        <Text style={styles.deliveryChargeText}>
+                          {item.deliveryCharge}원
+                        </Text>
+                      )}
                     </View>
                     <View style={styles.ViewLine} />
                     <View style={styles.deliveryChargeView}>
                       <Text style={styles.deliveryChargeText}>총 결제금액</Text>
-                      <Text style={styles.totalProductPriceText}>32,000원</Text>
+                      <Text style={styles.totalProductPriceText}>
+                        {returnTotalPrice(item)}원
+                      </Text>
                     </View>
                     <View style={styles.purchaseButtonView}>
                       <TouchableOpacity style={styles.purchaseButton_choice}>
@@ -214,17 +403,6 @@ const ShoppingBasket = ({ navigation }) => {
             );
           }}
         />
-      </View>
-
-      {/* 구매하기 버튼---------------------------------------------------------------- */}
-      <View style={styles.buyButtonView}>
-        <View style={styles.buyButtonPriceView}>
-          <Text style={styles.deliveryChargeText}>총 결제금액</Text>
-          <Text style={styles.buyButtonPriceText}>32,000원</Text>
-        </View>
-        <TouchableOpacity style={styles.buyButton}>
-          <Text style={{ color: "white" }}>구매하기</Text>
-        </TouchableOpacity>
       </View>
     </View>
   );
@@ -348,8 +526,10 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   amountButton: {
-    width: 18,
-    height: 18,
+    width: 10,
+    height: 10,
+    backgroundColor: "#E8EDEF",
+    borderRadius: 20,
     // marginLeft: 5,
   },
   amountText: {
@@ -372,6 +552,7 @@ const styles = StyleSheet.create({
   },
   totalProductPriceText: {
     fontSize: 17,
+    alignItems: "flex-end",
   },
   purchaseButtonView: {
     flexDirection: "row",
