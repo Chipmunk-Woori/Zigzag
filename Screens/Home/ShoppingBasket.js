@@ -58,7 +58,10 @@ const ShoppingBasket = ({ navigation }) => {
   const [reload, setReload] = useState(false);
   const [shoppingList, setShoppingList] = useState([]); //구매 목록
   const [productAmount, setProductAmount] = useState(1);
-  const [shoppingResult, setShoppingResult] = useState([]);
+
+  const [shoppingResultArr, setShoppingResultArr] = useState([]);
+  //🟢 [{productId : 101, price : 10000, deliveryChare: 3000, amount: 5, checkYn: Y},
+  //{productId: 102 ...}]
 
   //체크박스 누르면 shoppingList에 넣어주는 함수
   const pressCheckbox = pressedItem => {
@@ -98,15 +101,24 @@ const ShoppingBasket = ({ navigation }) => {
     return state;
   };
 
+  //🟢
   const returnTotalPrice = item => {
+    //🟢
+    let amount = 1;
+    shoppingResultArr.map(shoppingResult => {
+      if (shoppingResult.productId == item.productId) {
+        amount = shoppingResult.amount;
+      }
+    });
+
     let a = item.productPrice;
     let b = item.deliveryCharge;
     let totalPrice;
 
     if (b == "무료") {
-      totalPrice = parseFloat(a);
+      totalPrice = parseFloat(a) * amount;
     } else {
-      totalPrice = parseFloat(a) + parseFloat(b);
+      totalPrice = parseFloat(a) * amount + parseFloat(b);
     }
 
     return totalPrice;
@@ -147,9 +159,10 @@ const ShoppingBasket = ({ navigation }) => {
     return result;
   };
 
+  //🟢
   const returnAmount = item => {
     let amount = 1;
-    shoppingResult.map(shoppingResult => {
+    shoppingResultArr.map(shoppingResult => {
       if (shoppingResult.productId == item.productId) {
         amount = shoppingResult.amount;
       }
@@ -172,17 +185,19 @@ const ShoppingBasket = ({ navigation }) => {
     };
   }, [shoppingList, Basketproducts]);
 
+  //🟢
   useEffect(() => {
     let initShoppingResultArr = [];
     Basketproducts.map(item => {
       let resultObject = new Object();
       resultObject.productId = item.productId;
+      resultObject.price = item.productPrice; //없어도됨??
+      resultObject.deliveryCharge = item.deliveryCharge; //없어도됨??
       resultObject.amount = 1;
-      resultObject.price = item.productPrice;
-      resultObject.deliveryCharge = item.deliveryCharge;
+      resultObject.checkYn = "N";
       initShoppingResultArr.push(resultObject);
     });
-    setShoppingResult(initShoppingResultArr);
+    setShoppingResultArr(initShoppingResultArr);
   }, []);
 
   const getFooter = () => {
@@ -328,20 +343,24 @@ const ShoppingBasket = ({ navigation }) => {
                           />
                         </TouchableOpacity>
                         <Text style={styles.amountText}>
+                          {/* 🟢 */}
                           {returnAmount(item)}
                         </Text>
                         <TouchableOpacity
                           onPress={() => {
-                            let newShoppingResult = [];
-                            shoppingResult.map(shoppingResult => {
+                            {
+                              /* 🟢 */
+                            }
+                            let newShoppingResultArr = [];
+                            shoppingResultArr.map(shoppingResult => {
                               if (shoppingResult.productId == item.productId) {
                                 shoppingResult.amount =
                                   shoppingResult.amount + 1;
                               }
-                              newShoppingResult.push(shoppingResult);
+                              newShoppingResultArr.push(shoppingResult);
                             });
-                            setShoppingResult(newShoppingResult);
-                            // setProductAmount(productAmount + 1);
+                            setShoppingResultArr(newShoppingResultArr);
+
                             // 🟡
                           }}
                         >
