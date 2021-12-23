@@ -60,8 +60,8 @@ const ShoppingBasket = ({ navigation }) => {
   const [productAmount, setProductAmount] = useState(1);
 
   const [shoppingResultArr, setShoppingResultArr] = useState([]);
-  //🟢 [{productId : 101, price : 10000, deliveryChare: 3000, amount: 5, checkYn: Y},
-  //{productId: 102 ...}]
+  //🟢amount 추가해 새로 만든 배열
+  //🟢[{productId : 101, price : 10000, deliveryChare: 3000, amount: 5, checkYn: Y}
 
   //체크박스 누르면 shoppingList에 넣어주는 함수
   const pressCheckbox = pressedItem => {
@@ -101,8 +101,43 @@ const ShoppingBasket = ({ navigation }) => {
     return state;
   };
 
-  //🟢
-  const returnTotalPrice = item => {
+  //전체선택(n/n)
+  const returnWholeSelection = () => {
+    let bp = Basketproducts.length;
+    let sl = shoppingList.length;
+    let result = (
+      <Text>
+        ({sl}/{bp})
+      </Text>
+    );
+
+    return result;
+  };
+
+  //🟢상품 + 버튼
+  const returnAmount = item => {
+    let amount = 1; //🟠왜 있는거??
+    shoppingResultArr.map(shoppingResult => {
+      if (shoppingResult.productId == item.productId) {
+        amount = shoppingResult.amount;
+      }
+    });
+
+    return amount;
+  };
+
+  //🟠이건 왜 안될까?
+  //체크한 상품이 아니면 개수가 안 나옴
+  const question = item => {
+    shoppingResultArr.map(i => {
+      if (item.productId == i.productId) {
+        return i.amount;
+      }
+    });
+  };
+
+  //🟢상품 한 칸 당 '총 결제금액'
+  const returnProductTotalPrice = item => {
     //🟢
     let amount = 1;
     shoppingResultArr.map(shoppingResult => {
@@ -124,21 +159,21 @@ const ShoppingBasket = ({ navigation }) => {
     return totalPrice;
   };
 
-  const returnWholeSelection = () => {
-    let bp = Basketproducts.length;
-    let sl = shoppingList.length;
-    let result = (
-      <Text>
-        ({sl}/{bp})
-      </Text>
-    );
+  //상품 한 칸 당 '상품가격'
+  const returnProductPrice = item => {
+    let price = 0;
+    shoppingResultArr.map(i => {
+      if (i.productId == item.productId) {
+        price = i.amount * i.price;
+      }
+    });
 
-    return result;
+    return price;
   };
 
-  const shoppingListTotalPrice = () => {
-    let tempTotal = 0;
-
+  let tempTotal = 0;
+  //최종 '총 결제금액' :  상품 가격들만 더한 금액
+  const returnLastTotalPrice = () => {
     if (shoppingList.length !== 0) {
       shoppingList.map(item => {
         if (item.deliveryCharge == "무료") {
@@ -150,8 +185,6 @@ const ShoppingBasket = ({ navigation }) => {
             parseFloat(item.deliveryCharge);
         }
       });
-
-      console.log("값:" + tempTotal);
     }
 
     let result = <Text style={styles.productPrice}>{tempTotal}</Text>;
@@ -159,16 +192,12 @@ const ShoppingBasket = ({ navigation }) => {
     return result;
   };
 
-  //🟢
-  const returnAmount = item => {
-    let amount = 1;
-    shoppingResultArr.map(shoppingResult => {
-      if (shoppingResult.productId == item.productId) {
-        amount = shoppingResult.amount;
-      }
+  //returnLastTotalPrice 을 다 더해야함
+  const returnLastTotalPrice2 = () => {
+    let totalPrice = 0;
+    shoppingResultArr.map(i => {
+      totalPrice = i + tempTotal;
     });
-
-    return amount;
   };
 
   useEffect(() => {
@@ -206,7 +235,7 @@ const ShoppingBasket = ({ navigation }) => {
         <View style={{ marginTop: 0 }}>
           <View style={styles.deliveryChargeView}>
             <Text style={styles.deliveryChargeText}>총 결제금액</Text>
-            {shoppingListTotalPrice()}
+            {returnLastTotalPrice()}
           </View>
           <View style={styles.deliveryChargeView}>
             <Text style={styles.deliveryChargeText}>총 배송비</Text>
@@ -273,7 +302,6 @@ const ShoppingBasket = ({ navigation }) => {
           keyExtractor={item => item.productId}
           ListFooterComponent={getFooter}
           renderItem={({ item, index }) => {
-            let aaa = 1;
             return (
               <View style={styles.productView} key={index.toString()}>
                 <View style={styles.shoppingmallView}>
@@ -336,7 +364,20 @@ const ShoppingBasket = ({ navigation }) => {
                       <View
                         style={{ flexDirection: "row", alignItems: "center" }}
                       >
-                        <TouchableOpacity>
+                        <TouchableOpacity
+                          onPress={() => {
+                            let tempArray = [...shoppingResultArr];
+                            tempArray.map(arrItem => {
+                              if (arrItem.productId == item.productId) {
+                                if (arrItem.amount > 1) {
+                                  arrItem.amount = arrItem.amount - 1;
+                                }
+                              }
+                            });
+
+                            setShoppingResultArr(tempArray);
+                          }}
+                        >
                           <Image
                             style={styles.amountButton}
                             source={require("../../assets/icon/minus.png")}
@@ -345,12 +386,11 @@ const ShoppingBasket = ({ navigation }) => {
                         <Text style={styles.amountText}>
                           {/* 🟢 */}
                           {returnAmount(item)}
+                          {/* {question(item)} */}
                         </Text>
+                        {/* 🟢 */}
                         <TouchableOpacity
                           onPress={() => {
-                            {
-                              /* 🟢 */
-                            }
                             let newShoppingResultArr = [];
                             shoppingResultArr.map(shoppingResult => {
                               if (shoppingResult.productId == item.productId) {
@@ -360,10 +400,9 @@ const ShoppingBasket = ({ navigation }) => {
                               newShoppingResultArr.push(shoppingResult);
                             });
                             setShoppingResultArr(newShoppingResultArr);
-
-                            // 🟡
                           }}
                         >
+                          {/* ------------------------------------------------------------------------------- */}
                           <Image
                             style={styles.amountButton}
                             source={require("../../assets/icon/add.png")}
@@ -371,7 +410,7 @@ const ShoppingBasket = ({ navigation }) => {
                         </TouchableOpacity>
                       </View>
                       <Text style={styles.productPrice}>
-                        {item.productPrice}원
+                        {returnProductPrice(item)}원
                       </Text>
                     </View>
                     <View style={styles.ViewLine} />
@@ -391,7 +430,7 @@ const ShoppingBasket = ({ navigation }) => {
                     <View style={styles.deliveryChargeView}>
                       <Text style={styles.deliveryChargeText}>총 결제금액</Text>
                       <Text style={styles.totalProductPriceText}>
-                        {returnTotalPrice(item)}원
+                        {returnProductTotalPrice(item)}원
                       </Text>
                     </View>
                     <View style={styles.purchaseButtonView}>
