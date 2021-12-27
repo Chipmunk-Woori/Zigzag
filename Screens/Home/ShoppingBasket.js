@@ -26,8 +26,8 @@ const Basketproducts = [
     productId: 101,
     productName: "다이아루즈브이넥니트",
     productColor: "소라",
-    productPrice: "30000",
-    deliveryCharge: "무료",
+    productPrice: 30000,
+    deliveryCharge: 0,
     productImg: require("../../assets/product/product_10.png"),
     shoppingmallName: "쵸퍼",
     shoppingmallImg: require("../../assets/shoppingmall/shoppingmall_1.png"),
@@ -36,8 +36,8 @@ const Basketproducts = [
     productId: 102,
     productName: "리튼 양털하프패딩점퍼 (2color)",
     productColor: "도브그레이",
-    productPrice: "20000",
-    deliveryCharge: "2500",
+    productPrice: 20000,
+    deliveryCharge: 2500,
     productImg: require("../../assets/product/product_11.png"),
     shoppingmallName: "프롬비기닝",
     shoppingmallImg: require("../../assets/shoppingmall/shoppingmall_2.png"),
@@ -46,8 +46,8 @@ const Basketproducts = [
     productId: 103,
     productName: "스트라이프 니트",
     productColor: "노랑",
-    productPrice: "10000",
-    deliveryCharge: "2500",
+    productPrice: 10000,
+    deliveryCharge: 2500,
     productImg: require("../../assets/product/product_12.png"),
     shoppingmallName: "아베아무아",
     shoppingmallImg: require("../../assets/shoppingmall/shoppingmall_3.png"),
@@ -56,12 +56,12 @@ const Basketproducts = [
 
 const ShoppingBasket = ({ navigation }) => {
   const [reload, setReload] = useState(false);
-  const [shoppingList, setShoppingList] = useState([]); //구매 목록
-  const [productAmount, setProductAmount] = useState(1);
-
+  const [shoppingList, setShoppingList] = useState([]); //구매 목록(체크된 상품들)
+  const [productTotalPriceArr, setProductTotalPriceArr] = useState([]); //🔥총 결제금액 합계
   const [shoppingResultArr, setShoppingResultArr] = useState([]);
   //🟢amount 추가해 새로 만든 배열
-  //🟢[{productId : 101, price : 10000, deliveryChare: 3000, amount: 5, checkYn: Y}
+  //🟢[{productId : 101, price : 10000, deliveryCharge: 3000, amount: 5, checkYn: Y}]
+  let [wholeSelectionState, setWholeSelectionState] = useState(false);
 
   //체크박스 누르면 shoppingList에 넣어주는 함수
   const pressCheckbox = pressedItem => {
@@ -75,12 +75,27 @@ const ShoppingBasket = ({ navigation }) => {
             return ti.productId !== pressedItem.productId;
           });
           check = true;
+
+          if (shoppingResultArr.length !== 0) {
+            shoppingResultArr.map(sri => {
+              if (sri.productId == pressedItem.productId) {
+                sri.checkYn = "N";
+              }
+            });
+          }
         }
       });
     }
 
     if (check == false) {
       tempArray.push(pressedItem);
+      if (shoppingResultArr.length !== 0) {
+        shoppingResultArr.map(sri => {
+          if (sri.productId == pressedItem.productId) {
+            sri.checkYn = "Y";
+          }
+        });
+      }
     }
 
     setShoppingList(tempArray);
@@ -114,9 +129,32 @@ const ShoppingBasket = ({ navigation }) => {
     return result;
   };
 
+  //전체선택 버튼
+  const changeWholeSelection = () => {
+    let tempArr = [];
+
+    if (Basketproducts.length !== shoppingList.length) {
+      Basketproducts.map(item => {
+        tempArr.push(item);
+      });
+      setWholeSelectionState(true);
+      shoppingResultArr.map(item => {
+        item.checkYn = "Y";
+      });
+    } else {
+      setWholeSelectionState(false);
+      shoppingResultArr.map(item => {
+        item.checkYn = "N";
+      });
+    }
+
+    setShoppingList(tempArr);
+    setReload(!reload);
+  };
+
   //🟢상품 + 버튼
   const returnAmount = item => {
-    let amount = 1; //🟠왜 있는거??
+    let amount = 1;
     shoppingResultArr.map(shoppingResult => {
       if (shoppingResult.productId == item.productId) {
         amount = shoppingResult.amount;
@@ -126,18 +164,8 @@ const ShoppingBasket = ({ navigation }) => {
     return amount;
   };
 
-  //🟠이건 왜 안될까?
-  //체크한 상품이 아니면 개수가 안 나옴
-  const question = item => {
-    shoppingResultArr.map(i => {
-      if (item.productId == i.productId) {
-        return i.amount;
-      }
-    });
-  };
-
   //🟢상품 한 칸 당 '총 결제금액'
-  const returnProductTotalPrice = item => {
+  const returnTotalProductPrice = item => {
     //🟢
     let amount = 1;
     shoppingResultArr.map(shoppingResult => {
@@ -150,11 +178,7 @@ const ShoppingBasket = ({ navigation }) => {
     let b = item.deliveryCharge;
     let totalPrice;
 
-    if (b == "무료") {
-      totalPrice = parseFloat(a) * amount;
-    } else {
-      totalPrice = parseFloat(a) * amount + parseFloat(b);
-    }
+    totalPrice = a * amount + b;
 
     return totalPrice;
   };
@@ -172,35 +196,53 @@ const ShoppingBasket = ({ navigation }) => {
   };
 
   let tempTotal = 0;
-  //최종 '총 결제금액' :  상품 가격들만 더한 금액
-  const returnLastTotalPrice = () => {
-    if (shoppingList.length !== 0) {
-      shoppingList.map(item => {
-        if (item.deliveryCharge == "무료") {
-          tempTotal = tempTotal + parseFloat(item.productPrice);
-        } else {
-          tempTotal =
-            tempTotal +
-            parseFloat(item.productPrice) +
-            parseFloat(item.deliveryCharge);
-        }
-      });
-    }
 
-    let result = <Text style={styles.productPrice}>{tempTotal}</Text>;
+  //최종 '총 결제금액' : 상품 가격들만 더한 금액
+  const returnLastTotalProductPrice = () => {
+    let lastTotalPrice = 0;
+
+    shoppingResultArr.map(item => {
+      if (item.checkYn == "Y") {
+        lastTotalPrice = item.price * item.amount + lastTotalPrice;
+      }
+    });
+
+    return lastTotalPrice;
+  };
+
+  //최종 '총 배송비' : 배송비들만 더한 금액
+  const returnLastTotalDeliveryCharge = () => {
+    let lastTotalDeliveryCharge = 0;
+
+    shoppingResultArr.map(item => {
+      if (item.checkYn == "Y") {
+        lastTotalDeliveryCharge = item.deliveryCharge + lastTotalDeliveryCharge;
+      }
+    });
+
+    return lastTotalDeliveryCharge;
+  };
+
+  //최종 '총 결제예상금액' : 상품 가격 + 배송비 더한 금액🔥
+  const returnLastTotalPrice = () => {
+    let a = returnLastTotalProductPrice();
+    let b = returnLastTotalDeliveryCharge();
+
+    let result = a + b;
 
     return result;
   };
 
-  //returnLastTotalPrice 을 다 더해야함
-  const returnLastTotalPrice2 = () => {
-    let totalPrice = 0;
-    shoppingResultArr.map(i => {
-      totalPrice = i + tempTotal;
-    });
-  };
-
   useEffect(() => {
+    if (Basketproducts.length !== shoppingList.length) {
+      setWholeSelectionState(false);
+    }
+
+    if (Basketproducts.length == shoppingList.length) {
+      setWholeSelectionState(true);
+    }
+
+    //전체선택(n/n)
     const returnWholeSelection = () => {
       let bp = Basketproducts.length;
       let sl = shoppingList.length;
@@ -220,8 +262,8 @@ const ShoppingBasket = ({ navigation }) => {
     Basketproducts.map(item => {
       let resultObject = new Object();
       resultObject.productId = item.productId;
-      resultObject.price = item.productPrice; //없어도됨??
-      resultObject.deliveryCharge = item.deliveryCharge; //없어도됨??
+      resultObject.price = item.productPrice;
+      resultObject.deliveryCharge = item.deliveryCharge;
       resultObject.amount = 1;
       resultObject.checkYn = "N";
       initShoppingResultArr.push(resultObject);
@@ -235,24 +277,36 @@ const ShoppingBasket = ({ navigation }) => {
         <View style={{ marginTop: 0 }}>
           <View style={styles.deliveryChargeView}>
             <Text style={styles.deliveryChargeText}>총 결제금액</Text>
-            {returnLastTotalPrice()}
+            <Text style={styles.productPrice}>
+              {returnLastTotalProductPrice()}원
+            </Text>
           </View>
           <View style={styles.deliveryChargeView}>
             <Text style={styles.deliveryChargeText}>총 배송비</Text>
-            <Text style={styles.productPrice}>0원</Text>
+            {returnLastTotalDeliveryCharge() == 0 ? (
+              <Text style={styles.productPrice}>무료</Text>
+            ) : (
+              <Text style={styles.productPrice}>
+                {returnLastTotalDeliveryCharge()}원
+              </Text>
+            )}
           </View>
           <View style={styles.ViewLine} />
           <View style={styles.deliveryChargeView}>
             <Text style={[styles.deliveryChargeText, styles.fontSizeUp]}>
               총 결제예상금액
             </Text>
-            <Text style={styles.totalProductPriceText}>32,000원</Text>
+            <Text style={styles.totalProductPriceText}>
+              {returnLastTotalPrice()}원
+            </Text>
           </View>
         </View>
         <View style={styles.buyButtonView}>
           <View style={styles.buyButtonPriceView}>
             <Text style={styles.deliveryChargeText}>총 결제금액</Text>
-            <Text style={styles.buyButtonPriceText}>32,000원</Text>
+            <Text style={styles.buyButtonPriceText}>
+              {returnLastTotalPrice()}원
+            </Text>
           </View>
           <TouchableOpacity style={styles.buyButton}>
             <Text style={{ color: "white" }}>구매하기</Text>
@@ -280,11 +334,18 @@ const ShoppingBasket = ({ navigation }) => {
       </View>
       <View style={styles.secondView}>
         <View style={styles.wholeSelection}>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              changeWholeSelection();
+            }}
+          >
             <Image
               style={styles.checkIcon}
-              source={require("../../assets/icon/checked.png")}
-              //source={require("../../assets/icon/unchecked_gray.png")}
+              source={
+                wholeSelectionState
+                  ? require("../../assets/icon/checked.png")
+                  : require("../../assets/icon/unchecked_gray.png")
+              }
             />
           </TouchableOpacity>
           <Text>전체선택</Text>
@@ -386,7 +447,6 @@ const ShoppingBasket = ({ navigation }) => {
                         <Text style={styles.amountText}>
                           {/* 🟢 */}
                           {returnAmount(item)}
-                          {/* {question(item)} */}
                         </Text>
                         {/* 🟢 */}
                         <TouchableOpacity
@@ -416,10 +476,8 @@ const ShoppingBasket = ({ navigation }) => {
                     <View style={styles.ViewLine} />
                     <View style={styles.deliveryChargeView}>
                       <Text style={styles.deliveryChargeText}>배송비</Text>
-                      {item.deliveryCharge == "무료" ? (
-                        <Text style={styles.deliveryChargeText}>
-                          {item.deliveryCharge}
-                        </Text>
+                      {item.deliveryCharge == 0 ? (
+                        <Text style={styles.deliveryChargeText}>무료</Text>
                       ) : (
                         <Text style={styles.deliveryChargeText}>
                           {item.deliveryCharge}원
@@ -430,7 +488,7 @@ const ShoppingBasket = ({ navigation }) => {
                     <View style={styles.deliveryChargeView}>
                       <Text style={styles.deliveryChargeText}>총 결제금액</Text>
                       <Text style={styles.totalProductPriceText}>
-                        {returnProductTotalPrice(item)}원
+                        {returnTotalProductPrice(item)}원
                       </Text>
                     </View>
                     <View style={styles.purchaseButtonView}>
