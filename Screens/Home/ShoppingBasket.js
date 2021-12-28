@@ -320,7 +320,11 @@ const ShoppingBasket = ({ navigation }) => {
   return (
     <View style={styles.View}>
       <View style={styles.headerView}>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.goBack();
+          }}
+        >
           <Image
             style={styles.headerCancelIcon}
             source={require("../../assets/icon/cancel.png")}

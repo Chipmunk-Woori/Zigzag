@@ -20,6 +20,9 @@ import Collection from "./Screens/Collection/Collection";
 import Heart from "./Screens/Heart/Heart";
 import MyPage from "./Screens/MyPage/MyPage";
 
+import UserInformation from "./Screens/MyPage/UserInformation";
+import MemberInformationCorrection from "./Screens/MyPage/MemberInformationCorrection";
+
 import HomeTabView from "./Screens/Home/HomeTabView";
 import Brand from "./Screens/Home/Brand";
 import Best from "./Screens/Home/Best";
@@ -76,6 +79,23 @@ const App = () => {
           component={Ranking_Shoppingmall}
         />
         <Stack.Screen name="Ranking_Brand" component={Ranking_Brand} />
+      </Stack.Navigator>
+    );
+  };
+
+  const MypageNavigator = () => {
+    return (
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
+        }}
+      >
+        <Stack.Screen name="MyPage" component={MyPage} />
+        <Stack.Screen name="UserInformation" component={UserInformation} />
+        <Stack.Screen
+          name="MemberInformationCorrection"
+          component={MemberInformationCorrection}
+        />
       </Stack.Navigator>
     );
   };
@@ -175,7 +195,7 @@ const App = () => {
           />
           <Tab.Screen
             name="마이페이지"
-            component={MyPage}
+            component={MypageNavigator}
             options={({ route }) => ({
               tabBarIcon: ({ focused }) => {
                 return focused ? (

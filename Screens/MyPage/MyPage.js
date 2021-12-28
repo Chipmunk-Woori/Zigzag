@@ -16,7 +16,7 @@ import {
 const screenWidth = Dimensions.get("screen").width; // 전체화면 가로길이
 const screenHeight = Dimensions.get("screen").height; //전체화면 세로길이
 
-const MyPage = () => {
+const MyPage = ({ navigation }) => {
   const [headerName, setHeaderName] = useState("마이페이지");
   const [userName, setUserName] = useState("배우리");
   const [userEmail, setUserEmail] = useState("haha51015@naver.com");
@@ -49,7 +49,12 @@ const MyPage = () => {
         </View>
       </View>
 
-      <TouchableOpacity style={styles.myInformationTouch}>
+      <TouchableOpacity
+        style={styles.myInformationTouch}
+        onPress={() => {
+          navigation.navigate("UserInformation");
+        }}
+      >
         <View>
           <Text style={styles.userNameText}>{userName}님 안녕하세요!</Text>
           <Text style={styles.userEmailText}>{userEmail}</Text>
