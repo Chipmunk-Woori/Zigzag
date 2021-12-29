@@ -19,6 +19,9 @@ const screenWidth = Dimensions.get("screen").width; // 전체화면 가로길이
 const screenHeight = Dimensions.get("screen").height; //전체화면 세로길이
 
 const MemberInformationCorrection = ({ navigation }) => {
+  const [userName, setUserName] = useState("이름");
+  const [userCall, setUserCall] = useState("휴대폰번호");
+
   const [nameText, setNameText] = useState("배우리");
   const [callText, setCallText] = useState("01087489362");
   const [nameNumber, setNameNumber] = useState(null);
@@ -29,6 +32,17 @@ const MemberInformationCorrection = ({ navigation }) => {
     "· 본인인증을 하시면 본인인증할 때 입력하신 정보로 이름과 휴대폰 번호가",
     "  모두 변경돼요.",
   ]);
+  const [reload, setReload] = useState(false);
+
+  const nameCorrectionButton = nameText => {
+    setUserName(nameText);
+    setReload(!reload);
+  };
+
+  const callCorrectionButton = callText => {
+    setUserCall(callText);
+  };
+
   return (
     <View style={{ backgroundColor: "white", flex: 1 }}>
       <View style={styles.headerView}>
@@ -53,7 +67,12 @@ const MemberInformationCorrection = ({ navigation }) => {
             onChangeText={setNameText}
             value={nameText}
           />
-          <TouchableOpacity style={styles.correctionButton}>
+          <TouchableOpacity
+            style={styles.correctionButton}
+            onPress={() => {
+              nameCorrectionButton(nameText);
+            }}
+          >
             <Text style={styles.correctionText}>변경</Text>
           </TouchableOpacity>
         </View>
@@ -70,10 +89,19 @@ const MemberInformationCorrection = ({ navigation }) => {
             onChangeText={setCallText}
             value={callText}
           />
-          <TouchableOpacity style={styles.correctionButton}>
+          <TouchableOpacity
+            style={styles.correctionButton}
+            onPress={() => {
+              callCorrectionButton(callText);
+            }}
+          >
             <Text style={styles.correctionText}>변경</Text>
           </TouchableOpacity>
         </View>
+      </View>
+      <View style={styles.userNaneView}>
+        <Text style={styles.useNameText}>사용자 이름 : {userName}</Text>
+        <Text style={styles.useNameText}>휴대폰 번호 : {userCall}</Text>
       </View>
     </View>
   );
@@ -102,6 +130,7 @@ const styles = StyleSheet.create({
     height: 150,
     width: "100%",
     marginBottom: 10,
+    // backgroundColor: "red",
   },
   titleText: {
     fontSize: 12,
@@ -120,6 +149,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
     borderRadius: 10,
+    borderColor: "ECEDEE",
+    backgroundColor: "#F5F7F8",
+    color: "gray",
   },
   correctionButton: {
     backgroundColor: "black",
@@ -139,6 +171,17 @@ const styles = StyleSheet.create({
     fontSize: 12,
     marginBottom: 3,
     marginLeft: 9,
+  },
+  userNaneView: {
+    height: 70,
+    justifyContent: "center",
+    backgroundColor: "#F5F7F8",
+  },
+  useNameText: {
+    fontSize: 13,
+    marginLeft: 20,
+    marginBottom: 5,
+    marginTop: 5,
   },
 });
 export default MemberInformationCorrection;
