@@ -564,6 +564,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "lightgray",
     marginRight: 10,
+    marginBottom: 5,
+    marginTop: 5,
     // elevation: 2,
     // backgroundColor: "lavender",
   },

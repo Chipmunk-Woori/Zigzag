@@ -52,7 +52,12 @@ const UserInformation = ({ navigation }) => {
         />
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.categoryView}>
+      <TouchableOpacity
+        style={styles.categoryView}
+        onPress={() => {
+          navigation.navigate("BodyTypeInformation");
+        }}
+      >
         <Text style={styles.categoryText}>체형 정보</Text>
         <Image
           source={require("../../assets/icon/next.png")}
