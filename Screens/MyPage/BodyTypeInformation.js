@@ -79,14 +79,12 @@ const BodyTypeInformation = ({ navigation }) => {
           justifyContent: "center",
           alignItems: "center",
           paddingHorizontal: 15,
-          backgroundColor: "white",
         }}
       >
         <View
           style={{
             width: "100%",
             flexDirection: "row",
-            backgroundColor: "white",
           }}
         >
           <RollPickerNative
@@ -95,6 +93,7 @@ const BodyTypeInformation = ({ navigation }) => {
             onIndexChange={index => handleRoll("day", index)}
             selectHeight={35}
             containerHeight={130}
+            containerStyle={{ backgroundColor: "white" }}
             itemStyle={{ backgroundColor: "white" }}
             itemTextStyle={{
               fontSize: 27,
@@ -112,6 +111,7 @@ const BodyTypeInformation = ({ navigation }) => {
             onIndexChange={index => handleRoll("year", index)}
             selectHeight={35}
             containerHeight={130}
+            containerStyle={{ backgroundColor: "white" }}
             itemStyle={{ backgroundColor: "white" }}
             itemTextStyle={{
               fontSize: 27,
