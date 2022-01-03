@@ -19,18 +19,49 @@ import RollPickerNative from "roll-picker-native";
 const screenWidth = Dimensions.get("screen").width; // 전체화면 가로길이
 const screenHeight = Dimensions.get("screen").height; //전체화면 세로길이
 
-const topSize = ["33 이하", "44", "55", "66", "77", "88", "99 이상"];
-const bottomSize = ["22 이하", "23", "24", "25", "26", "27", "28", "29 이상"];
+// const topSize = ["33 이하", "44", "55", "66", "77", "88", "99 이상"];
+// const bottomSize = ["22 이하", "23", "24", "25", "26", "27", "28", "29 이상"];
+// const shoesSize = [
+//   "210 이하",
+//   "215",
+//   "220",
+//   "225",
+//   "230",
+//   "235",
+//   "240",
+//   "245",
+//   "250 이상",
+// ];
+
+const topSize = [
+  { type: "topSize", value: "33 이하" },
+  { type: "topSize", value: "44" },
+  { type: "topSize", value: "55" },
+  { type: "topSize", value: "66" },
+  { type: "topSize", value: "77" },
+  { type: "topSize", value: "88" },
+  { type: "topSize", value: "99 이상" },
+];
+const bottomSize = [
+  { type: "bottomSize", value: "22 이하" },
+  { type: "bottomSize", value: "23" },
+  { type: "bottomSize", value: "24" },
+  { type: "bottomSize", value: "25" },
+  { type: "bottomSize", value: "26" },
+  { type: "bottomSize", value: "27" },
+  { type: "bottomSize", value: "28" },
+  { type: "bottomSize", value: "29 이상" },
+];
 const shoesSize = [
-  "210 이하",
-  "215",
-  "220",
-  "225",
-  "230",
-  "235",
-  "240",
-  "245",
-  "250 이상",
+  { type: "shoesSize", value: "210 이하" },
+  { type: "shoesSize", value: "215" },
+  { type: "shoesSize", value: "220" },
+  { type: "shoesSize", value: "225" },
+  { type: "shoesSize", value: "230" },
+  { type: "shoesSize", value: "235" },
+  { type: "shoesSize", value: "240" },
+  { type: "shoesSize", value: "245" },
+  { type: "shoesSize", value: "250 이하" },
 ];
 
 const BodyTypeInformation = ({ navigation }) => {
@@ -38,8 +69,10 @@ const BodyTypeInformation = ({ navigation }) => {
   const years = Array.from({ length: 101 }, (_, i) => (i + 30).toString());
   const [year, setYear] = useState(0);
   const [day, setDay] = useState(0);
+  const [agreementState, setAgreementState] = useState(true);
 
   const [choicedSize, setChoicedSize] = useState([]);
+  const [reload, setReload] = useState(false);
 
   const handleRoll = useCallback((field, index) => {
     switch (field) {
@@ -54,26 +87,37 @@ const BodyTypeInformation = ({ navigation }) => {
     }
   }, []);
 
-  const choicedSizeButton = ({ item }) => {
-    let temp = [...choicedSize];
-    temp.push({ item });
-    setChoicedSize(temp);
+  const choicedSizeButton = item => {
+    let tempArray = [...choicedSize];
+
+    if (choicedSize.length !== 0) {
+      choicedSize.map(ci => {
+        if (ci.type == item.type) {
+          tempArray = tempArray.filter(fi => {
+            return fi.type !== item.type;
+          });
+        }
+      });
+    }
+    tempArray.push(item);
+    setChoicedSize(tempArray);
+
+    setReload(!reload);
   };
 
-  const buttonState = ({ item }) => {
+  const buttonState = item => {
     let state = false;
-    choicedSize.map(i => {
-      if (i == { item }) {
-        state = true;
-      }
-    });
+
+    if (choicedSize.length !== 0) {
+      choicedSize.map(i => {
+        if (i.value == item.value) {
+          state = true;
+        }
+      });
+    }
 
     return state;
   };
-
-  // useEffect(() => {
-  //   buttonState({ item });
-  // }, [choicedSize]);
 
   const returnSizeSelect = (dataArray, title) => {
     return (
@@ -91,16 +135,24 @@ const BodyTypeInformation = ({ navigation }) => {
             renderItem={({ item }) => {
               return (
                 <TouchableOpacity
-                  style={styles.sizeButton}
-                  onPress={({ item }) => {
-                    choicedSizeButton({ item });
+                  style={
+                    buttonState(item)
+                      ? [styles.sizeButton, styles.choicedSizeButton]
+                      : styles.sizeButton
+                  }
+                  onPress={() => {
+                    choicedSizeButton(item);
                   }}
                 >
-                  {buttonState({ item }) ? (
-                    <Text style={styles.sizeText2}>{item}</Text>
-                  ) : (
-                    <Text style={styles.sizeText}>{item}</Text>
-                  )}
+                  <Text
+                    style={
+                      buttonState(item)
+                        ? styles.choicedSizeText
+                        : styles.sizeText
+                    }
+                  >
+                    {item.value}
+                  </Text>
                 </TouchableOpacity>
               );
             }}
@@ -111,8 +163,8 @@ const BodyTypeInformation = ({ navigation }) => {
   };
 
   return (
-    <ScrollView>
-      <View style={{ backgroundColor: "white", flex: 1 }}>
+    <View style={{ backgroundColor: "white", flex: 1 }}>
+      <ScrollView>
         <View style={styles.headerView}>
           <TouchableOpacity
             onPress={() => {
@@ -213,16 +265,36 @@ const BodyTypeInformation = ({ navigation }) => {
             미 입력 시 서비스 이용의 불이익이 없으며, 입력하신 정보는 서비스
             탈퇴 시까지 보관됩니다.
           </Text>
-          <TouchableOpacity style={styles.agreementTouch}>
+          <TouchableOpacity
+            style={styles.agreementTouch}
+            onPress={() => {
+              setAgreementState(!agreementState);
+            }}
+          >
             <Image
-              source={require("../../assets/icon/unchecked_gray.png")}
+              source={
+                agreementState
+                  ? require("../../assets/icon/checked.png")
+                  : require("../../assets/icon/unchecked_gray.png")
+              }
               style={styles.agreementTouchImage}
             />
             <Text>동의합니다.</Text>
           </TouchableOpacity>
         </View>
+      </ScrollView>
+      <View style={styles.saveButtonBackroundView}>
+        <TouchableOpacity
+          style={
+            agreementState
+              ? styles.saveButton
+              : [styles.saveButton, styles.saveButton_none]
+          }
+        >
+          <Text style={styles.saveButtonText}>저장</Text>
+        </TouchableOpacity>
       </View>
-    </ScrollView>
+    </View>
   );
 };
 
@@ -302,12 +374,15 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginRight: 6,
   },
+  choicedSizeButton: {
+    borderColor: "#F719A3",
+  },
   sizeText: {
     fontSize: 12,
   },
-  sizeText2: {
+  choicedSizeText: {
     fontSize: 12,
-    color: "red",
+    color: "#F719A3",
   },
   agreementView: {
     paddingHorizontal: 23,
@@ -325,6 +400,35 @@ const styles = StyleSheet.create({
   agreementTouch: {
     flexDirection: "row",
     marginTop: 23,
+  },
+  saveButtonBackroundView: {
+    height: 50,
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+    borderTopColor: "lightgray",
+    borderTopWidth: 0.3,
+    borderStyle: "solid",
+  },
+  saveButton: {
+    borderColor: "black",
+    borderWidth: 1,
+    borderStyle: "solid",
+    borderRadius: 20,
+    height: 40,
+    width: "90%",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "black",
+  },
+  saveButtonText: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 14,
+  },
+  saveButton_none: {
+    backgroundColor: "lightgray",
+    borderColor: "lightgray",
   },
 });
 export default BodyTypeInformation;
