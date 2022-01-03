@@ -98,7 +98,12 @@ const MyPage = ({ navigation }) => {
           />
           <Text style={styles.TouchIconText}>쿠폰</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.TouchIconsTouch}>
+        <TouchableOpacity
+          style={styles.TouchIconsTouch}
+          onPress={() => {
+            navigation.navigate("Point");
+          }}
+        >
           <Image
             source={require("../../assets/icon/point.png")}
             style={styles.TouchIconsicon}

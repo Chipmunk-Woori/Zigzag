@@ -23,6 +23,7 @@ import MyPage from "./Screens/MyPage/MyPage";
 import UserInformation from "./Screens/MyPage/UserInformation";
 import MemberInformationCorrection from "./Screens/MyPage/MemberInformationCorrection";
 import BodyTypeInformation from "./Screens/MyPage/BodyTypeInformation";
+import Point from "./Screens/MyPage/Point";
 
 import HomeTabView from "./Screens/Home/HomeTabView";
 import Brand from "./Screens/Home/Brand";
@@ -101,6 +102,7 @@ const App = () => {
           name="MemberInformationCorrection"
           component={MemberInformationCorrection}
         />
+        <Stack.Screen name="Point" component={Point} />
       </Stack.Navigator>
     );
   };
