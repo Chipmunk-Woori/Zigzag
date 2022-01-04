@@ -24,6 +24,7 @@ import UserInformation from "./Screens/MyPage/UserInformation";
 import MemberInformationCorrection from "./Screens/MyPage/MemberInformationCorrection";
 import BodyTypeInformation from "./Screens/MyPage/BodyTypeInformation";
 import Point from "./Screens/MyPage/Point";
+import Review from "./Screens/MyPage/Review";
 
 import HomeTabView from "./Screens/Home/HomeTabView";
 import Brand from "./Screens/Home/Brand";
@@ -94,6 +95,7 @@ const App = () => {
       >
         <Stack.Screen name="MyPage" component={MyPage} />
         <Stack.Screen name="UserInformation" component={UserInformation} />
+        <Stack.Screen name="Review" component={Review} />
         <Stack.Screen
           name="BodyTypeInformation"
           component={BodyTypeInformation}

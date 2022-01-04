@@ -84,7 +84,12 @@ const MyPage = ({ navigation }) => {
           />
           <Text style={styles.TouchIconText}>주문 · 배송</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.TouchIconsTouch}>
+        <TouchableOpacity
+          style={styles.TouchIconsTouch}
+          onPress={() => {
+            navigation.navigate("Review");
+          }}
+        >
           <Image
             source={require("../../assets/icon/review.png")}
             style={styles.TouchIconsicon}
