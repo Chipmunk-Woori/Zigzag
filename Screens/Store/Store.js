@@ -22,6 +22,8 @@ const screenWidth = Dimensions.get("screen").width; // 전체화면 가로길이
 const screenHeight = Dimensions.get("screen").height; //전체화면 세로길이
 
 const Store = ({ navigation }) => {
+  const [tabChange, setTabChange] = useState(false);
+  const [bookmarkEditMode, setBookmarkEditMode] = useState(false);
   const [index, setIndex] = useState(0);
   const [routes] = useState([
     { key: "first", title: "랭킹" },
@@ -33,8 +35,11 @@ const Store = ({ navigation }) => {
       return <Ranking />;
     },
     second: () => {
-      return <Bookmark />;
+      return Bookmark(bookmarkEditMode);
     },
+    // second: () => {
+    //   return <Bookmark />;
+    // },
   });
 
   const renderTabBar = props => (
@@ -42,6 +47,14 @@ const Store = ({ navigation }) => {
       {...props}
       indicatorStyle={{ backgroundColor: "black" }} //bar color
       style={{ backgroundColor: "white" }} //tab color
+      onTabPress={({ route }) => {
+        if (route.key === "first") {
+          setTabChange(true);
+          setBookmarkEditMode(false);
+        } else if (route.key === "second") {
+          setTabChange(false);
+        }
+      }}
       renderLabel={({ route, color, focused }) => (
         <Text
           style={{
@@ -57,39 +70,68 @@ const Store = ({ navigation }) => {
 
   return (
     <View style={styles.View}>
-      <View style={styles.headerView}>
-        <View>
-          <Text style={styles.headerText}>스토어</Text>
+      {!bookmarkEditMode ? (
+        <View style={styles.headerView}>
+          <View>
+            <Text style={styles.headerText}>스토어</Text>
+          </View>
+
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+            }}
+          >
+            <TouchableOpacity>
+              <Image
+                style={styles.headerIcon}
+                source={require("../../assets/icon/hashtag.png")}
+              />
+            </TouchableOpacity>
+
+            {!tabChange ? (
+              <TouchableOpacity
+                onPress={() => {
+                  setBookmarkEditMode(true);
+                }}
+              >
+                <Image
+                  style={styles.headerIcon}
+                  source={require("../../assets/icon/scissors.png")}
+                />
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity>
+                <Image
+                  style={styles.headerIcon}
+                  source={require("../../assets/icon/search.png")}
+                />
+              </TouchableOpacity>
+            )}
+
+            <TouchableOpacity>
+              <Image
+                style={styles.headerIconShoppingBasket}
+                source={require("../../assets/icon/shoppingBasket.png")}
+              />
+            </TouchableOpacity>
+          </View>
         </View>
-
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-          }}
-        >
-          <TouchableOpacity>
-            <Image
-              style={styles.headerIcon}
-              source={require("../../assets/icon/hashtag.png")}
-            />
-          </TouchableOpacity>
-
-          <TouchableOpacity>
-            <Image
-              style={styles.headerIcon}
-              source={require("../../assets/icon/search.png")}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <Image
-              style={styles.headerIconShoppingBasket}
-              source={require("../../assets/icon/shoppingBasket.png")}
-            />
+      ) : (
+        <View style={styles.headerView_editMode}>
+          <Text style={styles.headerText_eidtMode}>즐겨찾기 편집</Text>
+          <TouchableOpacity
+            style={styles.headerEditModeCompletion_editMode}
+            onPress={() => {
+              setBookmarkEditMode(false);
+            }}
+          >
+            <Text style={styles.headerEditModeCompletionText_editMode}>
+              완료
+            </Text>
           </TouchableOpacity>
         </View>
-      </View>
-
+      )}
       <TabView
         navigationState={{ index, routes }}
         renderScene={renderScene}
@@ -113,14 +155,38 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
   },
+  headerView_editMode: {
+    marginTop: screenHeight * 0.055,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
   headerText: {
     fontSize: 21,
+    fontWeight: "bold",
+  },
+  headerText_eidtMode: {
+    fontSize: 16,
     fontWeight: "bold",
   },
   headerIcon: {
     width: screenWidth * 0.046,
     height: screenHeight * 0.022,
     marginLeft: screenWidth * 0.06,
+  },
+  headerEditModeCompletion_editMode: {
+    borderRadius: 20,
+    borderStyle: "solid",
+    borderColor: "#F719A3",
+    borderWidth: 1,
+    backgroundColor: "#F719A3",
+    padding: 8,
+    paddingHorizontal: 10,
+  },
+  headerEditModeCompletionText_editMode: {
+    color: "white",
+    fontSize: 12,
+    fontWeight: "900",
   },
   headerIconShoppingBasket: {
     width: screenWidth * 0.062,

@@ -16,33 +16,29 @@ import {
 const screenWidth = Dimensions.get("screen").width; // 전체화면 가로길이
 const screenHeight = Dimensions.get("screen").height; //전체화면 세로길이
 
-const Review_TabView2 = () => {
+const PointGuide = () => {
   return (
     <View style={styles.View}>
-      <Image
-        source={require("../../assets/icon/notepad.png")}
-        style={styles.iconImage}
-      />
-      <Text style={styles.Text}>작성 가능한 리뷰가 없어요</Text>
+      <View style={styles.backView}>
+        <Image
+          style={styles.bookIcon}
+          source={require("../../assets/icon/book.png")}
+        />
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  View: {
+  View: { flex: 1 },
+  backView: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
     // backgroundColor: "lavender",
   },
-  iconImage: {
-    width: 100,
-    height: 100,
-    marginBottom: 35,
-  },
-  Text: {
-    fontSize: 18,
-    fontWeight: "bold",
+  bookIcon: {
+    width: 180,
+    height: 180,
+    marginTop: 100,
   },
 });
-export default Review_TabView2;
+export default PointGuide;

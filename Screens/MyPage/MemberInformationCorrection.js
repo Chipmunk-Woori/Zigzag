@@ -13,7 +13,6 @@ import {
   Dimensions,
   TextInput,
 } from "react-native";
-import { TabView, SceneMap } from "react-native-tab-view";
 
 const screenWidth = Dimensions.get("screen").width; // 전체화면 가로길이
 const screenHeight = Dimensions.get("screen").height; //전체화면 세로길이

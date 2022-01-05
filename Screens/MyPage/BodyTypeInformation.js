@@ -12,7 +12,6 @@ import {
   Pressable,
   Dimensions,
 } from "react-native";
-import { TabView, SceneMap } from "react-native-tab-view";
 
 import RollPickerNative from "roll-picker-native";
 

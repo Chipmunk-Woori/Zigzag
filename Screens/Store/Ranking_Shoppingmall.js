@@ -11,7 +11,7 @@ import {
   Modal,
   Pressable,
 } from "react-native";
-import { linear } from "react-native/Libraries/Animated/Easing";
+
 import { useSelector } from "react-redux";
 
 const screenWidth = Dimensions.get("screen").width; // 전체화면 가로길이

@@ -253,7 +253,12 @@ const Point = ({ navigation }) => {
         })}
       </View>
 
-      <TouchableOpacity style={styles.questionTouch}>
+      <TouchableOpacity
+        style={styles.questionTouch}
+        onPress={() => {
+          navigation.navigate("PointGuide");
+        }}
+      >
         <Text style={styles.questionText}>
           포인트 적립, 사용방법이 궁금해요 👀
         </Text>
