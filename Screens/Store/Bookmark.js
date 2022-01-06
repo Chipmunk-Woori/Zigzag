@@ -10,45 +10,45 @@ import {
 
 const shoppingmallList = [
   {
-    id: "shop_1",
-    shopName: "프롬비기닝",
+    id: "shop_6",
+    shopName: "롬비기닝",
     discount: "최대 3,000원 할인",
     img: require("../../assets/shoppingmall/shoppingmall_1.png"),
   },
   {
-    id: "shop_2",
+    id: "shop_5",
     shopName: "플라이모델",
     discount: "",
     img: require("../../assets/shoppingmall/shoppingmall_2.png"),
   },
   {
-    id: "shop_3",
+    id: "shop_4",
     shopName: "글램라인",
     discount: "",
     img: require("../../assets/shoppingmall/shoppingmall_3.png"),
   },
   {
-    id: "shop_4",
+    id: "shop_3",
     shopName: "횰릭",
     discount: "",
-    img: require("../../assets/shoppingmall/shoppingmall_1.png"),
+    img: require("../../assets/shoppingmall/shoppingmall_4.png"),
   },
   {
-    id: "shop_5",
+    id: "shop_2",
     shopName: "립합",
     discount: "최대 5,000원 할인",
-    img: require("../../assets/shoppingmall/shoppingmall_2.png"),
+    img: require("../../assets/shoppingmall/shoppingmall_5.png"),
   },
   {
-    id: "shop_6",
+    id: "shop_1",
     shopName: "소보",
     discount: "최대 10,000원 할인",
-    img: require("../../assets/shoppingmall/shoppingmall_3.png"),
+    img: require("../../assets/shoppingmall/shoppingmall_6.png"),
   },
 ];
 
 const Bookmark = bookmarkEditMode => {
-  const [bookmarkNumber, setBookmarkNumber] = useState("15");
+  const [bookmarkNumber, setBookmarkNumber] = useState("20");
   const [editMode, setEditMode] = useState(bookmarkEditMode);
   return (
     <View style={styles.View}>
@@ -71,7 +71,7 @@ const Bookmark = bookmarkEditMode => {
           <View style={styles.totalNewView}>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
               <Image
-                source={require("../../assets/icon/circle.png")}
+                source={require("../../assets/shoppingmall/shoppingmall_3.png")}
                 style={styles.totalNewImg}
               />
               <Text style={styles.shoppingmallNameText}>신상 몰아보기</Text>
