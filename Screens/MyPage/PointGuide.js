@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 import {
   ScrollView,
@@ -11,6 +11,7 @@ import {
   FlatList,
   Pressable,
   Dimensions,
+  Animated,
 } from "react-native";
 
 const screenWidth = Dimensions.get("screen").width; // 전체화면 가로길이
@@ -18,9 +19,41 @@ const screenHeight = Dimensions.get("screen").height; //전체화면 세로길�
 // 회색 : "#EEF0F6"
 
 const PointGuide = ({ navigation }) => {
+  const [coin2Y, setcoin2Y] = useState(360);
+  const [coinY, setcoinY] = useState(620);
+  const [usePoint, setUsePoint] = useState([
+    {
+      id: "usePoint_1",
+      title: "포인트 사용방법 하나!",
+      guideText: "결제 상품을 이용해주세요.",
+      instruction: "Z결제 미입점 상품은 포인트가 적립되지 않아요.",
+    },
+    {
+      id: "usePoint_2",
+      title: "포인트 사용방법 둘!",
+      guideText: "Z결제하기 버튼으로 원하는 상품을 담으시고!",
+      instruction: "",
+    },
+    {
+      id: "usePoint_3",
+      title: "포인트 사용방법 셋!",
+      guideText: "결제하실 때 지급해드린 포인트를 사용해주세요!",
+      instruction: "",
+    },
+  ]);
+
+  const coinChangeTop = event => {
+    let scrollHeight = event.nativeEvent.contentOffset.y; //화면에서 스크롤 위치
+
+    let temp2 = -1 * scrollHeight + 360;
+    setcoin2Y(temp2);
+    let temp = (-100 / 200) * scrollHeight + 620;
+    setcoinY(temp);
+  };
+
   return (
     <View style={styles.View}>
-      <ScrollView>
+      <ScrollView onScroll={coinChangeTop} scrollEventThrottle={10}>
         <View style={styles.backParallelogramShapeView}>
           <View style={styles.backParallelogramShape} />
         </View>
@@ -49,14 +82,15 @@ const PointGuide = ({ navigation }) => {
         <View style={{ position: "absolute" }}>
           <Image
             source={require("../../assets/icon/goldCoin.png")}
-            style={styles.coinIconImg}
+            style={[styles.coinIconImg, { top: coinY }]}
           />
           <Image
             source={require("../../assets/icon/goldCoin.png")}
-            style={styles.coinIconImg2}
+            style={[styles.coinIconImg2, { top: coin2Y }]}
           />
         </View>
 
+        {/* --------------------------------------------------------- */}
         <View style={styles.warningView}>
           <Text style={styles.warningText1}>Stop!</Text>
           <Text style={styles.warningText2}>Z결제 상픔만</Text>
@@ -73,9 +107,15 @@ const PointGuide = ({ navigation }) => {
           <View style={styles.line} />
         </View>
 
-        <View>
-          <Text>포인트 사용방법 하나!</Text>
+        <View style={{ alignItems: "center" }}>
+          <Text style={styles.usePointTitle}>{usePoint[0].title}</Text>
+          <Text style={styles.usePointGuideText}>{usePoint[0].guideText}</Text>
+          <Text style={styles.usePointInstruction}>
+            {usePoint[0].instruction}
+          </Text>
         </View>
+
+        <View style={{ height: 400, backgroundColor: "orange" }} />
       </ScrollView>
 
       {/* --------------------------------------------------------- */}
@@ -127,8 +167,8 @@ const styles = StyleSheet.create({
   },
   backParallelogramShape: {
     width: "100%",
-    height: 440,
-    transform: [{ skewY: "170deg" }],
+    height: 428,
+    transform: [{ skewY: "165deg" }],
     backgroundColor: "#F719A3",
     top: 220,
   },
@@ -150,36 +190,34 @@ const styles = StyleSheet.create({
   guideTextView: {
     alignItems: "center",
     position: "absolute",
-    top: 320,
+    top: 355,
     width: "100%",
   },
   MainGuideText: {
     color: "white",
-    fontSize: 79,
+    fontSize: 68,
     fontWeight: "bold",
   },
   subGuideText: {
     color: "white",
-    fontSize: 14,
+    fontSize: 13,
   },
   coinIconImg: {
     width: 100,
     height: 100,
-    transform: [{ rotate: "70deg" }],
-    top: 620,
-    left: 40,
+    transform: [{ rotate: "55deg" }],
+    left: 37,
   },
   coinIconImg2: {
     width: 70,
     height: 70,
     transform: [{ rotate: "120deg" }],
-    top: 360,
-    left: 284,
+    left: 275,
   },
   warningView: {
     alignItems: "center",
     marginBottom: 50,
-    marginTop: 20,
+    marginTop: 35,
   },
   warningText1: {
     color: "#F719A3",
@@ -208,7 +246,20 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     borderColor: "lightgray",
     width: "80%",
-    marginBottom: 100,
+    marginBottom: 110,
+  },
+  usePointTitle: {
+    fontWeight: "bold",
+    fontSize: 30,
+  },
+  usePointGuideText: {
+    fontSize: 20,
+    marginTop: 30,
+  },
+  usePointInstruction: {
+    fontSize: 14,
+    marginTop: 10,
+    color: "#B0B6BC",
   },
 });
 export default PointGuide;

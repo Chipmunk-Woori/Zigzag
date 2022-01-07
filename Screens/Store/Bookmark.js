@@ -11,13 +11,13 @@ import {
 const shoppingmallList = [
   {
     id: "shop_6",
-    shopName: "롬비기닝",
+    shopName: "프롬비기닝",
     discount: "최대 3,000원 할인",
     img: require("../../assets/shoppingmall/shoppingmall_1.png"),
   },
   {
     id: "shop_5",
-    shopName: "플라이모델",
+    shopName: "모델",
     discount: "",
     img: require("../../assets/shoppingmall/shoppingmall_2.png"),
   },
@@ -47,9 +47,32 @@ const shoppingmallList = [
   },
 ];
 
-const Bookmark = bookmarkEditMode => {
+const Bookmark = ({ bookmarkEditMode }) => {
   const [bookmarkNumber, setBookmarkNumber] = useState("20");
   const [editMode, setEditMode] = useState(bookmarkEditMode);
+  const [shoppingmallListArray, setShoppingmallListArray] = useState([]);
+  const [deletionArray, setDeletionArray] = useState([]);
+
+  useEffect(() => {
+    setShoppingmallListArray(shoppingmallList);
+  }, []);
+
+  const deletionFunction = item => {
+    let tempArray = [...shoppingmallListArray];
+
+    if (shoppingmallListArray.length !== 0) {
+      tempArray.map(mi => {
+        if (item.id == mi.id) {
+          tempArray = tempArray.filter(fi => {
+            return item.id !== fi.id;
+          });
+          console.log(item);
+        }
+      });
+    }
+    setShoppingmallListArray(tempArray);
+  };
+
   return (
     <View style={styles.View}>
       <View style={styles.bookmarkNumberView}>
@@ -87,13 +110,18 @@ const Bookmark = bookmarkEditMode => {
 
       <View>
         <FlatList
-          data={shoppingmallList}
+          data={shoppingmallListArray}
+          // extraData={shoppingmallList}
           keyExtractor={item => item.id}
           renderItem={({ item }) => {
             return (
               <View style={styles.shopView}>
                 {editMode && (
-                  <TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => {
+                      deletionFunction(item);
+                    }}
+                  >
                     <Image
                       source={require("../../assets/icon/minusIcon.png")}
                       style={styles.minusIconImg}
@@ -166,6 +194,7 @@ const styles = StyleSheet.create({
   totalNewImg: {
     width: 50,
     height: 50,
+    borderRadius: 30,
   },
   shoppingmallNameText: {
     fontSize: 15,

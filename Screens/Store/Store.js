@@ -35,10 +35,10 @@ const Store = ({ navigation }) => {
       return <Ranking />;
     },
     second: () => {
-      return Bookmark(bookmarkEditMode);
+      return <Bookmark bookmarkEditMode={bookmarkEditMode} />;
     },
     // second: () => {
-    //   return <Bookmark />;
+    //   return {Bookmark(bookmarkEditMode)}
     // },
   });
 
