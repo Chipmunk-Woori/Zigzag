@@ -5958,6 +5958,13 @@
     "invariant" "^2.2.4"
     "prop-types" "^15.7.2"
 
+"react-native-image-slider-box@^1.1.14":
+  "integrity" "sha512-BcU3vvRnRe4tFDYwiruxKyTeh53GjY6QMK/x3UGysMACqPO8VguQThSOjcCGemOFBvqNpIRJREHcyJF5ydIryw=="
+  "resolved" "https://registry.npmjs.org/react-native-image-slider-box/-/react-native-image-slider-box-1.1.14.tgz"
+  "version" "1.1.14"
+  dependencies:
+    "react-native-snap-carousel" "latest"
+
 "react-native-pager-view@*", "react-native-pager-view@^5.4.8":
   "integrity" "sha512-Zfsdirwu4LIKtPMAFgt5ctE/Yg9QKG3k2pom0mDyLbUXQD/O0/yeK36JBJjsMEd/z0JJ4PsrHZ+BcGyzNVgUaQ=="
   "resolved" "https://registry.npmjs.org/react-native-pager-view/-/react-native-pager-view-5.4.8.tgz"
@@ -5998,7 +6005,7 @@
   dependencies:
     "prop-types" "^15.5.10"
 
-"react-native-snap-carousel@^3.9.1":
+"react-native-snap-carousel@^3.9.1", "react-native-snap-carousel@latest":
   "integrity" "sha512-xWEGusacIgK1YaDXLi7Gao2+ISLoGPVEBR8fcMf4tOOJQufutlNwkoLu0l6B8Qgsrre0nTxoVZikRgGRDWlLaQ=="
   "resolved" "https://registry.npmjs.org/react-native-snap-carousel/-/react-native-snap-carousel-3.9.1.tgz"
   "version" "3.9.1"
