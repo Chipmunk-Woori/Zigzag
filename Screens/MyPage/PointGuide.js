@@ -26,6 +26,18 @@ const PointGuide = ({ navigation }) => {
 
   const [usePointIndex, setUsePointIndex] = useState(0);
 
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  const fadeIn = event => {
+    // Will change fadeAnim value to 1 in 1 seconds
+    let scrollHeight = event.nativeEvent.contentOffset.y; //화면에서 스크롤 위치
+    if (scrollHeight >= 1450) {
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 500,
+      }).start();
+    }
+  };
+
   const [usePoint, setUsePoint] = useState([
     {
       id: "usePoint_1",
@@ -88,13 +100,16 @@ const PointGuide = ({ navigation }) => {
   };
 
   const returnPointGuideText = index => {
-    console.log("index : " + index);
     setUsePointIndex(index);
   };
 
   return (
     <View style={styles.View}>
-      <ScrollView onScroll={coinChangeTop} scrollEventThrottle={10}>
+      <ScrollView
+        onScroll={coinChangeTop}
+        onScroll={fadeIn}
+        scrollEventThrottle={10}
+      >
         <View style={styles.backParallelogramShapeView}>
           <View style={styles.backParallelogramShape} />
         </View>
@@ -158,7 +173,7 @@ const PointGuide = ({ navigation }) => {
         <View style={{ alignItems: "center" }}>
           <View
             style={{
-              width: 270,
+              width: 200,
               alignItems: "center",
               height: 220,
             }}
@@ -172,6 +187,7 @@ const PointGuide = ({ navigation }) => {
                 width: 10,
                 height: 10,
                 borderRadius: 10,
+                marginLeft: -10,
               }}
               ImageComponentStyle={{ width: 260 }}
               currentImageEmitter={index => returnPointGuideText(index)}
@@ -195,7 +211,6 @@ const PointGuide = ({ navigation }) => {
               을 눌러야 포인트가 적립돼요.
             </Text>
           </View>
-
           <View style={{ marginBottom: 80 }}>
             <View style={{ flexDirection: "row" }}>
               <Text style={styles.pointSavingMethodWarning}>· </Text>
@@ -222,7 +237,7 @@ const PointGuide = ({ navigation }) => {
             </View>
           </View>
 
-          <View style={styles.goShoppingView}>
+          <Animated.View style={[styles.goShoppingView, { opacity: fadeAnim }]}>
             <Image
               style={styles.goShoppingIconImg}
               source={require("../../assets/icon/shoppingBasket.png")}
@@ -244,7 +259,8 @@ const PointGuide = ({ navigation }) => {
                 Z결제 쇼핑하러 가기
               </Text>
             </TouchableOpacity>
-          </View>
+          </Animated.View>
+
           <View style={styles.noteView}>
             <Text style={styles.noteTitleText}>유의사항</Text>
 
