@@ -12,6 +12,7 @@ import {
   Image,
   TouchableOpacity,
   FlatList,
+  Modal,
 } from "react-native";
 
 import { useSelector } from "react-redux";
@@ -113,6 +114,72 @@ const productNumber = () => {
 };
 
 const Heart = () => {
+  var folder = [
+    {
+      folderKey: 2,
+      title: "상의",
+      item: [
+        {
+          itemKey: 1,
+          title: "트렌디어페럴",
+          name: "브이넥 니트",
+          price: 49000,
+        },
+        { itemKey: 2, title: "아리숍", name: "꽈배기 니트", price: 62900 },
+      ],
+    },
+    {
+      folderKey: 3,
+      title: "하의",
+      item: [
+        {
+          itemKey: 1,
+          title: "횰릭",
+          name: "밍크 조거팬츠",
+          price: 34000,
+        },
+        {
+          itemKey: 2,
+          title: "쵸퍼",
+          name: "밴딩 레더 숏팬츠",
+          price: 18000,
+        },
+      ],
+    },
+    {
+      folderKey: 4,
+      title: "악세사리",
+      item: {
+        itemKey: 1,
+        title: "트렌디어페럴",
+        name: "드엘 펄 네크리스",
+        price: 16000,
+      },
+    },
+  ];
+
+  // var folder = [
+  //   {
+  //     folderKey: 1,
+  //     title: "상의",
+  //   },
+  //   {
+  //     folderKey: 2,
+  //     title: "하의",
+  //   },
+  //   {
+  //     folderKey: 3,
+  //     title: "신발",
+  //   },
+  // ];
+
+  // var folderMapper = [
+  //   { folderKey: 1, itemKey: 1 },
+  //   { folderKey: 1, itemKey: 2 },
+  //   { folderKey: 1, itemKey: 3 },
+  //   { folderKey: 2, itemKey: 4 },
+  // ];
+
   const [HeartProductList, setHeartProductList] = useState([
     {
       id: 1,
@@ -292,10 +359,17 @@ const Heart = () => {
         )}
       </View>
       <View style={styles.headerSecondView}>
-        <Image
-          style={styles.headerSecondIconHeart}
-          source={require("../../assets/icon/love.png")}
-        />
+        {/* 🟠---------------------------------------------------- */}
+        <View style={{ backgroundColor: "yellow", width: "80%" }}>
+          <FlatList />
+          <TouchableOpacity>
+            <Image
+              style={styles.headerSecondIconHeart}
+              source={require("../../assets/icon/love.png")}
+            />
+          </TouchableOpacity>
+        </View>
+        {/* 🟠---------------------------------------------------- */}
         <TouchableOpacity>
           <Image
             style={styles.headerSecondIcon}

@@ -27,16 +27,6 @@ const PointGuide = ({ navigation }) => {
   const [usePointIndex, setUsePointIndex] = useState(0);
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
-  const fadeIn = event => {
-    // Will change fadeAnim value to 1 in 1 seconds
-    let scrollHeight = event.nativeEvent.contentOffset.y; //화면에서 스크롤 위치
-    if (scrollHeight >= 1450) {
-      Animated.timing(fadeAnim, {
-        toValue: 1,
-        duration: 500,
-      }).start();
-    }
-  };
 
   const [usePoint, setUsePoint] = useState([
     {
@@ -89,6 +79,13 @@ const PointGuide = ({ navigation }) => {
     setcoin2Y(temp2);
     let temp = (-100 / 200) * scrollHeight + 620;
     setcoinY(temp);
+
+    if (scrollHeight >= 1450) {
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 600,
+      }).start();
+    }
   };
 
   const carouselState = {
@@ -105,11 +102,7 @@ const PointGuide = ({ navigation }) => {
 
   return (
     <View style={styles.View}>
-      <ScrollView
-        onScroll={coinChangeTop}
-        onScroll={fadeIn}
-        scrollEventThrottle={10}
-      >
+      <ScrollView onScroll={coinChangeTop} scrollEventThrottle={10}>
         <View style={styles.backParallelogramShapeView}>
           <View style={styles.backParallelogramShape} />
         </View>
