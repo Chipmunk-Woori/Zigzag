@@ -24,6 +24,125 @@ const productHeight = screenHeight * 0.35;
 const commonMargin = screenWidth * 0.045;
 const textMarginBottom = screenHeight * 0.0019;
 
+var folderList = [
+  {
+    folderKey: 1,
+    title: "상의",
+    item: [
+      {
+        id: 1,
+        img: require("../../assets/product/product_1.png"),
+        brandName: "사뿐",
+        productName: "알마 니트 집업 가디건",
+        discountPercentage: "",
+        zDiscount: false,
+        originalPrice: "",
+        price: "52,900",
+        brand: false,
+        freeShipping: true,
+        firstTypeSeq: 1,
+        secondTypeSeq: 1,
+      },
+      {
+        id: 2,
+        img: require("../../assets/product/product_2.png"),
+        brandName: "쇼퍼랜드",
+        productName: "아가일 가디건",
+        discountPercentage: "5%",
+        zDiscount: false,
+        originalPrice: "",
+        price: "119,700",
+        brand: true,
+        freeShipping: true,
+        firstTypeSeq: 1,
+        secondTypeSeq: 1,
+      },
+    ],
+  },
+  {
+    folderKey: 2,
+    title: "하의",
+    item: [
+      {
+        id: 3,
+        img: require("../../assets/product/product_3.png"),
+        brandName: "달트",
+        productName: "베어 무스탕",
+        discountPercentage: "40%",
+        zDiscount: true,
+        originalPrice: "38,900",
+        price: "23,340",
+        brand: false,
+        freeShipping: true,
+        firstTypeSeq: 1,
+        secondTypeSeq: 2,
+      },
+      {
+        id: 4,
+        img: require("../../assets/product/product_4.png"),
+        brandName: "달바",
+        productName: "오프숄더 니트",
+        discountPercentage: "73%",
+        zDiscount: true,
+        originalPrice: "36,000",
+        price: "9,800",
+        brand: false,
+        freeShipping: true,
+        firstTypeSeq: 2,
+        secondTypeSeq: 2,
+      },
+      {
+        id: 5,
+        img: require("../../assets/product/product_5.png"),
+        brandName: "프롬비기닝",
+        productName: "프리미엄 밀크숏퍼자켓",
+        discountPercentage: "10%",
+        zDiscount: false,
+        originalPrice: "",
+        price: "34,100",
+        brand: false,
+        freeShipping: false,
+        firstTypeSeq: 1,
+        secondTypeSeq: 2,
+      },
+      {
+        id: 6,
+        img: require("../../assets/product/product_6.png"),
+        brandName: "어텀뮤트",
+        productName: "하이퀄리티 울 자켓",
+        discountPercentage: "",
+        zDiscount: false,
+        originalPrice: "",
+        price: "109,000",
+        brand: false,
+        freeShipping: true,
+        firstTypeSeq: 1,
+        secondTypeSeq: 2,
+      },
+    ],
+  },
+  {
+    folderKey: 3,
+    title: "악세사리",
+    item: [
+      {
+        id: 9,
+        img: require("../../assets/product/product_9.png"),
+        brandName: "로즐리",
+        productName: "[serenity] 세실리아 뷔스티에 원피스",
+        discountPercentage: "73%",
+        zDiscount: true,
+        originalPrice: "59,000",
+        price: "39,900",
+        brand: false,
+        freeShipping: true,
+        firstTypeSeq: 3,
+        secondTypeSeq: 1,
+      },
+    ],
+  },
+];
+
 const zDiscountText = item => {
   const tempItem = item;
 
@@ -114,72 +233,6 @@ const productNumber = () => {
 };
 
 const Heart = () => {
-  var folder = [
-    {
-      folderKey: 2,
-      title: "상의",
-      item: [
-        {
-          itemKey: 1,
-          title: "트렌디어페럴",
-          name: "브이넥 니트",
-          price: 49000,
-        },
-        { itemKey: 2, title: "아리숍", name: "꽈배기 니트", price: 62900 },
-      ],
-    },
-    {
-      folderKey: 3,
-      title: "하의",
-      item: [
-        {
-          itemKey: 1,
-          title: "횰릭",
-          name: "밍크 조거팬츠",
-          price: 34000,
-        },
-        {
-          itemKey: 2,
-          title: "쵸퍼",
-          name: "밴딩 레더 숏팬츠",
-          price: 18000,
-        },
-      ],
-    },
-    {
-      folderKey: 4,
-      title: "악세사리",
-      item: {
-        itemKey: 1,
-        title: "트렌디어페럴",
-        name: "드엘 펄 네크리스",
-        price: 16000,
-      },
-    },
-  ];
-
-  // var folder = [
-  //   {
-  //     folderKey: 1,
-  //     title: "상의",
-  //   },
-  //   {
-  //     folderKey: 2,
-  //     title: "하의",
-  //   },
-  //   {
-  //     folderKey: 3,
-  //     title: "신발",
-  //   },
-  // ];
-
-  // var folderMapper = [
-  //   { folderKey: 1, itemKey: 1 },
-  //   { folderKey: 1, itemKey: 2 },
-  //   { folderKey: 1, itemKey: 3 },
-  //   { folderKey: 2, itemKey: 4 },
-  // ];
-
   const [HeartProductList, setHeartProductList] = useState([
     {
       id: 1,
@@ -243,6 +296,7 @@ const Heart = () => {
     },
   ]);
 
+  let [choicedTabTitle, setChoicedTabTitle] = useState(["상의"]);
   let [editMode, setEditMode] = useState(false); // 편집 모드
   let [choicedCheckList, setChoicedCheckList] = useState([]); // 체크된 id 배열
   let [reload, setReload] = useState(false);
@@ -312,6 +366,30 @@ const Heart = () => {
     setReload(!reload);
   };
 
+  //🟠탭 타이틀을 누르면 그 탭에 맞는 내용 보여줘야함.
+  //탭 타이틀 누르면 타이틀 == folderList의 title 인 객체(map.item)를 찾아서(map)
+  //그 객체를 HeartProductList에 넣어주면 됨.
+  const returnTabContent = item => {
+    let tempItem = [];
+    if (folderList) {
+      folderList.map(folderItem => {
+        if (folderItem.title == item) {
+          tempItem = folderItem.item;
+        }
+      });
+    }
+
+    setHeartProductList(tempItem);
+  };
+
+  useEffect(() => {
+    let tempArray = [];
+    folderList.map(fi => {
+      tempArray.push(fi.title);
+    });
+    setChoicedTabTitle(tempArray);
+  }, []);
+
   return (
     <View style={styles.View}>
       <View style={styles.headerView}>
@@ -360,14 +438,34 @@ const Heart = () => {
       </View>
       <View style={styles.headerSecondView}>
         {/* 🟠---------------------------------------------------- */}
-        <View style={{ backgroundColor: "yellow", width: "80%" }}>
-          <FlatList />
-          <TouchableOpacity>
-            <Image
-              style={styles.headerSecondIconHeart}
-              source={require("../../assets/icon/love.png")}
-            />
-          </TouchableOpacity>
+        <View style={styles.tabBackgroundView}>
+          <FlatList
+            data={choicedTabTitle}
+            keyExtractor={index => index.toString()}
+            horizontal={true}
+            ListHeaderComponent={() => {
+              return (
+                <TouchableOpacity>
+                  <Image
+                    style={styles.totalItemTab}
+                    source={require("../../assets/icon/love.png")}
+                  />
+                </TouchableOpacity>
+              );
+            }}
+            renderItem={({ item }) => {
+              return (
+                <TouchableOpacity
+                  style={styles.tabTitleView}
+                  onPress={() => {
+                    returnTabContent(item);
+                  }}
+                >
+                  <Text style={styles.tabTitleText}>{item}</Text>
+                </TouchableOpacity>
+              );
+            }}
+          />
         </View>
         {/* 🟠---------------------------------------------------- */}
         <TouchableOpacity>
@@ -484,18 +582,36 @@ const styles = StyleSheet.create({
   },
   headerSecondView: {
     flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
     marginBottom: screenHeight * 0.022,
     //backgroundColor: "yellow",
+  },
+  tabBackgroundView: {
+    // backgroundColor: "yellow",
+    width: "92%",
+    flexDirection: "row",
+  },
+  tabTitleView: {
+    borderColor: "lightgray",
+    borderWidth: 1,
+    borderStyle: "solid",
+    borderRadius: 20,
+    paddingHorizontal: 10,
+    justifyContent: "center",
+    marginRight: 5,
   },
   headerSecondIcon: {
     width: screenWidth * 0.048,
     height: screenHeight * 0.022,
   },
-  headerSecondIconHeart: {
+  totalItemTab: {
     width: screenWidth * 0.065,
     height: screenHeight * 0.03,
+    marginRight: 5,
+  },
+  tabTitleText: {
+    fontSize: 12,
+    fontWeight: "bold",
   },
   productNumberText: {
     fontSize: 13,
