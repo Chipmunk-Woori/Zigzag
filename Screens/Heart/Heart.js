@@ -30,24 +30,24 @@ var folderList = [
     title: "상의",
     item: [
       {
-        id: 1,
-        img: require("../../assets/product/product_1.png"),
-        brandName: "사뿐",
-        productName: "알마 니트 집업 가디건",
-        discountPercentage: "",
-        zDiscount: false,
-        originalPrice: "",
-        price: "52,900",
+        id: 9,
+        img: require("../../assets/product/product_9.png"),
+        brandName: "로즐리",
+        productName: "세실리아 벌룬니트",
+        discountPercentage: "73%",
+        zDiscount: true,
+        originalPrice: "59,000",
+        price: "39,900",
         brand: false,
         freeShipping: true,
-        firstTypeSeq: 1,
+        firstTypeSeq: 3,
         secondTypeSeq: 1,
       },
       {
         id: 2,
         img: require("../../assets/product/product_2.png"),
         brandName: "쇼퍼랜드",
-        productName: "아가일 가디건",
+        productName: "마르디 맨투맨",
         discountPercentage: "5%",
         zDiscount: false,
         originalPrice: "",
@@ -57,31 +57,11 @@ var folderList = [
         firstTypeSeq: 1,
         secondTypeSeq: 1,
       },
-    ],
-  },
-  {
-    folderKey: 2,
-    title: "하의",
-    item: [
-      {
-        id: 3,
-        img: require("../../assets/product/product_3.png"),
-        brandName: "달트",
-        productName: "베어 무스탕",
-        discountPercentage: "40%",
-        zDiscount: true,
-        originalPrice: "38,900",
-        price: "23,340",
-        brand: false,
-        freeShipping: true,
-        firstTypeSeq: 1,
-        secondTypeSeq: 2,
-      },
       {
         id: 4,
         img: require("../../assets/product/product_4.png"),
         brandName: "달바",
-        productName: "오프숄더 니트",
+        productName: "루즈핏 맨투맨",
         discountPercentage: "73%",
         zDiscount: true,
         originalPrice: "36,000",
@@ -95,7 +75,7 @@ var folderList = [
         id: 5,
         img: require("../../assets/product/product_5.png"),
         brandName: "프롬비기닝",
-        productName: "프리미엄 밀크숏퍼자켓",
+        productName: "프리미엄 집업",
         discountPercentage: "10%",
         zDiscount: false,
         originalPrice: "",
@@ -105,11 +85,17 @@ var folderList = [
         firstTypeSeq: 1,
         secondTypeSeq: 2,
       },
+    ],
+  },
+  {
+    folderKey: 2,
+    title: "가방",
+    item: [
       {
         id: 6,
         img: require("../../assets/product/product_6.png"),
         brandName: "어텀뮤트",
-        productName: "하이퀄리티 울 자켓",
+        productName: "하이퀄리티 토트백",
         discountPercentage: "",
         zDiscount: false,
         originalPrice: "",
@@ -123,20 +109,34 @@ var folderList = [
   },
   {
     folderKey: 3,
-    title: "악세사리",
+    title: "신발",
     item: [
       {
-        id: 9,
-        img: require("../../assets/product/product_9.png"),
-        brandName: "로즐리",
-        productName: "[serenity] 세실리아 뷔스티에 원피스",
-        discountPercentage: "73%",
+        id: 3,
+        img: require("../../assets/product/product_3.png"),
+        brandName: "달트",
+        productName: "스퀘어 로퍼",
+        discountPercentage: "40%",
         zDiscount: true,
-        originalPrice: "59,000",
-        price: "39,900",
+        originalPrice: "38,900",
+        price: "23,340",
         brand: false,
         freeShipping: true,
-        firstTypeSeq: 3,
+        firstTypeSeq: 1,
+        secondTypeSeq: 2,
+      },
+      {
+        id: 1,
+        img: require("../../assets/product/product_1.png"),
+        brandName: "사뿐",
+        productName: "블랙 베이직 로퍼",
+        discountPercentage: "",
+        zDiscount: false,
+        originalPrice: "",
+        price: "52,900",
+        brand: false,
+        freeShipping: true,
+        firstTypeSeq: 1,
         secondTypeSeq: 1,
       },
     ],
@@ -233,72 +233,13 @@ const productNumber = () => {
 };
 
 const Heart = () => {
-  const [HeartProductList, setHeartProductList] = useState([
-    {
-      id: 1,
-      img: require("../../assets/product/product_1.png"),
-      brandName: "사뿐",
-      productName: "뮤이안 베이직 롱부츠",
-      discountPercentage: "",
-      zDiscount: false,
-      originalPrice: "",
-      price: "52,900",
-      brand: false,
-      freeShipping: true,
-    },
-    {
-      id: 2,
-      img: require("../../assets/product/product_2.png"),
-      brandName: "시티브리즈",
-      productName: "[21FW]케이블 니트",
-      discountPercentage: "5%",
-      zDiscount: false,
-      originalPrice: "",
-      price: "119,700",
-      brand: true,
-      freeShipping: true,
-    },
-    {
-      id: 6,
-      img: require("../../assets/product/product_6.png"),
-      brandName: "어텀뮤트",
-      productName: "하이퀄리티 울 자켓",
-      discountPercentage: "",
-      zDiscount: false,
-      originalPrice: "",
-      price: "109,000",
-      brand: false,
-      freeShipping: true,
-    },
-    {
-      id: 4,
-      img: require("../../assets/product/product_4.png"),
-      brandName: "순키",
-      productName: "오프숄더 니트",
-      discountPercentage: "73%",
-      zDiscount: true,
-      originalPrice: "36,000",
-      price: "9,800",
-      brand: false,
-      freeShipping: true,
-    },
-    {
-      id: 5,
-      img: require("../../assets/product/product_5.png"),
-      brandName: "더무드",
-      productName: "실크원피스",
-      discountPercentage: "10%",
-      zDiscount: false,
-      originalPrice: "",
-      price: "34,100",
-      brand: false,
-      freeShipping: false,
-    },
-  ]);
+  const [HeartProductList, setHeartProductList] = useState([]);
 
-  let [choicedTabTitle, setChoicedTabTitle] = useState(["상의"]);
-  let [editMode, setEditMode] = useState(false); // 편집 모드
-  let [choicedCheckList, setChoicedCheckList] = useState([]); // 체크된 id 배열
+  let [TabTitle, setTabTitle] = useState([]); //탭 title 배열
+  let [choicedTabTitle, setChoicedTabTitle] = useState(); //누른 탭 title
+  let [choicedTotal, setChoicedTotal] = useState(false); //total title이 눌리면 true
+  let [editMode, setEditMode] = useState(false); //편집 모드
+  let [choicedCheckList, setChoicedCheckList] = useState([]); //체크된 id 배열
   let [reload, setReload] = useState(false);
 
   // 가위 버튼 누르면 편집모드로 변경하는 함수
@@ -366,20 +307,45 @@ const Heart = () => {
     setReload(!reload);
   };
 
-  //🟠탭 타이틀을 누르면 그 탭에 맞는 내용 보여줘야함.
+  //탭 타이틀을 누르면 그 탭에 맞는 내용 보여줘야함.
   //탭 타이틀 누르면 타이틀 == folderList의 title 인 객체(map.item)를 찾아서(map)
   //그 객체를 HeartProductList에 넣어주면 됨.
   const returnTabContent = item => {
-    let tempItem = [];
+    let tempItemList = [];
     if (folderList) {
       folderList.map(folderItem => {
         if (folderItem.title == item) {
-          tempItem = folderItem.item;
+          tempItemList = folderItem.item;
         }
       });
     }
 
-    setHeartProductList(tempItem);
+    setHeartProductList(tempItemList);
+  };
+
+  const returnState = item => {
+    let state = false;
+
+    if (item == choicedTabTitle) {
+      state = true;
+    }
+    return state;
+  };
+
+  const returnTotalItem = () => {
+    let tempItemList = [];
+    if (folderList) {
+      folderList.map(folderItem => {
+        let tempItem = folderItem.item;
+        tempItem.map(i => {
+          tempItemList.push(i);
+        });
+      });
+    }
+
+    setChoicedTotal(true);
+    setHeartProductList(tempItemList);
+    setChoicedTabTitle("");
   };
 
   useEffect(() => {
@@ -387,7 +353,19 @@ const Heart = () => {
     folderList.map(fi => {
       tempArray.push(fi.title);
     });
-    setChoicedTabTitle(tempArray);
+    setTabTitle(tempArray);
+
+    let tempItemList = [];
+    if (folderList) {
+      folderList.map(folderItem => {
+        let tempItem = folderItem.item;
+        tempItem.map(i => {
+          tempItemList.push(i);
+        });
+      });
+    }
+
+    setHeartProductList(tempItemList);
   }, []);
 
   return (
@@ -437,18 +415,28 @@ const Heart = () => {
         )}
       </View>
       <View style={styles.headerSecondView}>
-        {/* 🟠---------------------------------------------------- */}
         <View style={styles.tabBackgroundView}>
           <FlatList
-            data={choicedTabTitle}
+            data={TabTitle}
             keyExtractor={index => index.toString()}
             horizontal={true}
-            ListHeaderComponent={() => {
+            ListHeaderComponent={({ item }) => {
               return (
-                <TouchableOpacity>
+                <TouchableOpacity
+                  onPress={returnTotalItem}
+                  style={
+                    choicedTotal
+                      ? [styles.tabTitleView, styles.choicedTabTitle]
+                      : styles.tabTitleView
+                  }
+                >
                   <Image
                     style={styles.totalItemTab}
-                    source={require("../../assets/icon/love.png")}
+                    source={
+                      choicedTotal
+                        ? require("../../assets/icon/heart_fullWhite.png")
+                        : require("../../assets/icon/heart_fullBlack.png")
+                    }
                   />
                 </TouchableOpacity>
               );
@@ -456,18 +444,32 @@ const Heart = () => {
             renderItem={({ item }) => {
               return (
                 <TouchableOpacity
-                  style={styles.tabTitleView}
+                  style={
+                    returnState(item)
+                      ? [styles.tabTitleView, styles.choicedTabTitle]
+                      : styles.tabTitleView
+                  }
                   onPress={() => {
                     returnTabContent(item);
+                    setChoicedTabTitle(item);
+                    setChoicedTotal(false);
                   }}
                 >
-                  <Text style={styles.tabTitleText}>{item}</Text>
+                  <Text
+                    style={
+                      returnState(item)
+                        ? [styles.tabTitleText, { color: "white" }]
+                        : styles.tabTitleText
+                    }
+                  >
+                    {item}
+                  </Text>
                 </TouchableOpacity>
               );
             }}
           />
         </View>
-        {/* 🟠---------------------------------------------------- */}
+
         <TouchableOpacity>
           <Image
             style={styles.headerSecondIcon}
@@ -584,10 +586,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginBottom: screenHeight * 0.022,
-    //backgroundColor: "yellow",
   },
   tabBackgroundView: {
-    // backgroundColor: "yellow",
     width: "92%",
     flexDirection: "row",
   },
@@ -597,17 +597,22 @@ const styles = StyleSheet.create({
     borderStyle: "solid",
     borderRadius: 20,
     paddingHorizontal: 10,
+    paddingVertical: 6,
     justifyContent: "center",
     marginRight: 5,
+    alignItems: "center",
+  },
+  choicedTabTitle: {
+    borderColor: "black",
+    backgroundColor: "black",
   },
   headerSecondIcon: {
     width: screenWidth * 0.048,
     height: screenHeight * 0.022,
   },
   totalItemTab: {
-    width: screenWidth * 0.065,
-    height: screenHeight * 0.03,
-    marginRight: 5,
+    width: 17,
+    height: 17,
   },
   tabTitleText: {
     fontSize: 12,
@@ -622,9 +627,9 @@ const styles = StyleSheet.create({
     borderColor: "white",
     borderStyle: "solid",
     borderWidth: 1,
-    marginRight: screenWidth * 0.01,
+    marginHorizontal: screenWidth * 0.007,
     marginBottom: screenHeight * 0.02,
-    //backgroundColor: "yellow",
+    width: screenWidth * 0.29,
   },
   productMiniSizeImg: {
     height: screenHeight * 0.16,
@@ -651,6 +656,8 @@ const styles = StyleSheet.create({
     fontSize: 11,
     color: "black",
     marginBottom: textMarginBottom,
+    width: screenWidth * 0.29,
+    height: 13,
   },
   productMiniSizeZdiscount: {
     flexDirection: "row",
