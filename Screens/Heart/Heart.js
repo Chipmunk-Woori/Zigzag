@@ -26,8 +26,8 @@ const textMarginBottom = screenHeight * 0.0019;
 
 var folderList = [
   {
-    folderKey: 1,
-    title: "상의",
+    folderKey: 0,
+    title: "♥",
     item: [
       {
         id: 9,
@@ -46,8 +46,112 @@ var folderList = [
       {
         id: 2,
         img: require("../../assets/product/product_2.png"),
-        brandName: "쇼퍼랜드",
-        productName: "마르디 맨투맨",
+        brandName: "메종 마르지엘라",
+        productName: "베이직 맨투맨",
+        discountPercentage: "5%",
+        zDiscount: false,
+        originalPrice: "",
+        price: "119,700",
+        brand: true,
+        freeShipping: true,
+        firstTypeSeq: 1,
+        secondTypeSeq: 1,
+      },
+      {
+        id: 4,
+        img: require("../../assets/product/product_4.png"),
+        brandName: "달바",
+        productName: "루즈핏 맨투맨",
+        discountPercentage: "73%",
+        zDiscount: true,
+        originalPrice: "36,000",
+        price: "9,800",
+        brand: false,
+        freeShipping: true,
+        firstTypeSeq: 2,
+        secondTypeSeq: 2,
+      },
+      {
+        id: 5,
+        img: require("../../assets/product/product_5.png"),
+        brandName: "프롬비기닝",
+        productName: "프리미엄 집업",
+        discountPercentage: "10%",
+        zDiscount: false,
+        originalPrice: "",
+        price: "34,100",
+        brand: false,
+        freeShipping: false,
+        firstTypeSeq: 1,
+        secondTypeSeq: 2,
+      },
+      {
+        id: 6,
+        img: require("../../assets/product/product_6.png"),
+        brandName: "어텀뮤트",
+        productName: "하이퀄리티 토트백",
+        discountPercentage: "",
+        zDiscount: false,
+        originalPrice: "",
+        price: "109,000",
+        brand: false,
+        freeShipping: true,
+        firstTypeSeq: 1,
+        secondTypeSeq: 2,
+      },
+      {
+        id: 3,
+        img: require("../../assets/product/product_3.png"),
+        brandName: "달트",
+        productName: "스퀘어 로퍼",
+        discountPercentage: "40%",
+        zDiscount: true,
+        originalPrice: "38,900",
+        price: "23,340",
+        brand: false,
+        freeShipping: true,
+        firstTypeSeq: 1,
+        secondTypeSeq: 2,
+      },
+      {
+        id: 1,
+        img: require("../../assets/product/product_1.png"),
+        brandName: "사뿐",
+        productName: "블랙 베이직 로퍼",
+        discountPercentage: "",
+        zDiscount: false,
+        originalPrice: "",
+        price: "52,900",
+        brand: false,
+        freeShipping: true,
+        firstTypeSeq: 1,
+        secondTypeSeq: 1,
+      },
+    ],
+  },
+  {
+    folderKey: 1,
+    title: "상의테스트",
+    item: [
+      {
+        id: 9,
+        img: require("../../assets/product/product_9.png"),
+        brandName: "로즐리",
+        productName: "세실리아 벌룬니트",
+        discountPercentage: "73%",
+        zDiscount: true,
+        originalPrice: "59,000",
+        price: "39,900",
+        brand: false,
+        freeShipping: true,
+        firstTypeSeq: 3,
+        secondTypeSeq: 1,
+      },
+      {
+        id: 2,
+        img: require("../../assets/product/product_2.png"),
+        brandName: "메종 마르지엘라",
+        productName: "베이직 맨투맨",
         discountPercentage: "5%",
         zDiscount: false,
         originalPrice: "",
@@ -237,7 +341,7 @@ const Heart = () => {
 
   let [TabTitle, setTabTitle] = useState([]); //탭 title 배열
   let [choicedTabTitle, setChoicedTabTitle] = useState(); //누른 탭 title
-  let [choicedTotal, setChoicedTotal] = useState(false); //total title이 눌리면 true
+
   let [editMode, setEditMode] = useState(false); //편집 모드
   let [choicedCheckList, setChoicedCheckList] = useState([]); //체크된 id 배열
   let [reload, setReload] = useState(false);
@@ -332,40 +436,18 @@ const Heart = () => {
     return state;
   };
 
-  const returnTotalItem = () => {
-    let tempItemList = [];
-    if (folderList) {
-      folderList.map(folderItem => {
-        let tempItem = folderItem.item;
-        tempItem.map(i => {
-          tempItemList.push(i);
-        });
-      });
-    }
-
-    setChoicedTotal(true);
-    setHeartProductList(tempItemList);
-    setChoicedTabTitle("");
-  };
-
   useEffect(() => {
-    let tempArray = [];
+    let tempTabTitle = [];
     folderList.map(fi => {
-      tempArray.push(fi.title);
+      tempTabTitle.push(fi.title);
     });
-    setTabTitle(tempArray);
+    setTabTitle(tempTabTitle);
 
-    let tempItemList = [];
-    if (folderList) {
-      folderList.map(folderItem => {
-        let tempItem = folderItem.item;
-        tempItem.map(i => {
-          tempItemList.push(i);
-        });
-      });
-    }
+    let tempFolder = folderList[0].item;
+    setHeartProductList(tempFolder);
 
-    setHeartProductList(tempItemList);
+    let tempChoicedTabTitle = folderList[0].title;
+    setChoicedTabTitle(tempChoicedTabTitle);
   }, []);
 
   return (
@@ -420,27 +502,6 @@ const Heart = () => {
             data={TabTitle}
             keyExtractor={index => index.toString()}
             horizontal={true}
-            ListHeaderComponent={({ item }) => {
-              return (
-                <TouchableOpacity
-                  onPress={returnTotalItem}
-                  style={
-                    choicedTotal
-                      ? [styles.tabTitleView, styles.choicedTabTitle]
-                      : styles.tabTitleView
-                  }
-                >
-                  <Image
-                    style={styles.totalItemTab}
-                    source={
-                      choicedTotal
-                        ? require("../../assets/icon/heart_fullWhite.png")
-                        : require("../../assets/icon/heart_fullBlack.png")
-                    }
-                  />
-                </TouchableOpacity>
-              );
-            }}
             renderItem={({ item }) => {
               return (
                 <TouchableOpacity
@@ -452,7 +513,6 @@ const Heart = () => {
                   onPress={() => {
                     returnTabContent(item);
                     setChoicedTabTitle(item);
-                    setChoicedTotal(false);
                   }}
                 >
                   <Text
@@ -610,10 +670,7 @@ const styles = StyleSheet.create({
     width: screenWidth * 0.048,
     height: screenHeight * 0.022,
   },
-  totalItemTab: {
-    width: 17,
-    height: 17,
-  },
+
   tabTitleText: {
     fontSize: 12,
     fontWeight: "bold",
