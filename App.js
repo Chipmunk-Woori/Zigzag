@@ -17,7 +17,7 @@ import {
 import Home from "./Screens/Home/Home";
 import Store from "./Screens/Store/Store";
 import Collection from "./Screens/Collection/Collection";
-import Heart from "./Screens/Heart/Heart";
+
 import MyPage from "./Screens/MyPage/MyPage";
 
 import UserInformation from "./Screens/MyPage/UserInformation";
@@ -38,6 +38,9 @@ import Ranking from "./Screens/Store/Ranking";
 import Bookmark from "./Screens/Store/Bookmark";
 import Ranking_Brand from "./Screens/Store/Ranking_Brand";
 import Ranking_Shoppingmall from "./Screens/Store/Ranking_Shoppingmall";
+
+import Heart from "./Screens/Heart/Heart";
+import addFolder from "./Screens/Heart/addFolder";
 
 // redux
 import { store } from "./Store/Store_ProductList";
@@ -107,6 +110,15 @@ const App = () => {
           component={MemberInformationCorrection}
         />
         <Stack.Screen name="Point" component={Point} />
+      </Stack.Navigator>
+    );
+  };
+
+  const HeartNavigator = () => {
+    return (
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Heart" component={Heart} />
+        <Stack.Screen name="addFolder" component={addFolder} />
       </Stack.Navigator>
     );
   };
@@ -187,7 +199,7 @@ const App = () => {
           />
           <Tab.Screen
             name="찜"
-            component={Heart}
+            component={HeartNavigator}
             options={({ route }) => ({
               tabBarIcon: ({ focused }) => {
                 return focused ? (

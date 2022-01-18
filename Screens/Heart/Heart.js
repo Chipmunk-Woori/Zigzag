@@ -17,235 +17,14 @@ import {
 
 import { useSelector } from "react-redux";
 
+import addFolder from "./addFolder";
+
 //장바구니 아이콘 색상 : #F719A3
 const screenWidth = Dimensions.get("screen").width; // 전체화면 가로길이
 const screenHeight = Dimensions.get("screen").height; //전체화면 세로길이
 const productHeight = screenHeight * 0.35;
 const commonMargin = screenWidth * 0.045;
 const textMarginBottom = screenHeight * 0.0019;
-
-var folderList = [
-  {
-    folderKey: 0,
-    title: "♥",
-    item: [
-      {
-        id: 9,
-        img: require("../../assets/product/product_9.png"),
-        brandName: "로즐리",
-        productName: "세실리아 벌룬니트",
-        discountPercentage: "73%",
-        zDiscount: true,
-        originalPrice: "59,000",
-        price: "39,900",
-        brand: false,
-        freeShipping: true,
-        firstTypeSeq: 3,
-        secondTypeSeq: 1,
-      },
-      {
-        id: 2,
-        img: require("../../assets/product/product_2.png"),
-        brandName: "메종 마르지엘라",
-        productName: "베이직 맨투맨",
-        discountPercentage: "5%",
-        zDiscount: false,
-        originalPrice: "",
-        price: "119,700",
-        brand: true,
-        freeShipping: true,
-        firstTypeSeq: 1,
-        secondTypeSeq: 1,
-      },
-      {
-        id: 4,
-        img: require("../../assets/product/product_4.png"),
-        brandName: "달바",
-        productName: "루즈핏 맨투맨",
-        discountPercentage: "73%",
-        zDiscount: true,
-        originalPrice: "36,000",
-        price: "9,800",
-        brand: false,
-        freeShipping: true,
-        firstTypeSeq: 2,
-        secondTypeSeq: 2,
-      },
-      {
-        id: 5,
-        img: require("../../assets/product/product_5.png"),
-        brandName: "프롬비기닝",
-        productName: "프리미엄 집업",
-        discountPercentage: "10%",
-        zDiscount: false,
-        originalPrice: "",
-        price: "34,100",
-        brand: false,
-        freeShipping: false,
-        firstTypeSeq: 1,
-        secondTypeSeq: 2,
-      },
-      {
-        id: 6,
-        img: require("../../assets/product/product_6.png"),
-        brandName: "어텀뮤트",
-        productName: "하이퀄리티 토트백",
-        discountPercentage: "",
-        zDiscount: false,
-        originalPrice: "",
-        price: "109,000",
-        brand: false,
-        freeShipping: true,
-        firstTypeSeq: 1,
-        secondTypeSeq: 2,
-      },
-      {
-        id: 3,
-        img: require("../../assets/product/product_3.png"),
-        brandName: "달트",
-        productName: "스퀘어 로퍼",
-        discountPercentage: "40%",
-        zDiscount: true,
-        originalPrice: "38,900",
-        price: "23,340",
-        brand: false,
-        freeShipping: true,
-        firstTypeSeq: 1,
-        secondTypeSeq: 2,
-      },
-      {
-        id: 1,
-        img: require("../../assets/product/product_1.png"),
-        brandName: "사뿐",
-        productName: "블랙 베이직 로퍼",
-        discountPercentage: "",
-        zDiscount: false,
-        originalPrice: "",
-        price: "52,900",
-        brand: false,
-        freeShipping: true,
-        firstTypeSeq: 1,
-        secondTypeSeq: 1,
-      },
-    ],
-  },
-  {
-    folderKey: 1,
-    title: "상의테스트",
-    item: [
-      {
-        id: 9,
-        img: require("../../assets/product/product_9.png"),
-        brandName: "로즐리",
-        productName: "세실리아 벌룬니트",
-        discountPercentage: "73%",
-        zDiscount: true,
-        originalPrice: "59,000",
-        price: "39,900",
-        brand: false,
-        freeShipping: true,
-        firstTypeSeq: 3,
-        secondTypeSeq: 1,
-      },
-      {
-        id: 2,
-        img: require("../../assets/product/product_2.png"),
-        brandName: "메종 마르지엘라",
-        productName: "베이직 맨투맨",
-        discountPercentage: "5%",
-        zDiscount: false,
-        originalPrice: "",
-        price: "119,700",
-        brand: true,
-        freeShipping: true,
-        firstTypeSeq: 1,
-        secondTypeSeq: 1,
-      },
-      {
-        id: 4,
-        img: require("../../assets/product/product_4.png"),
-        brandName: "달바",
-        productName: "루즈핏 맨투맨",
-        discountPercentage: "73%",
-        zDiscount: true,
-        originalPrice: "36,000",
-        price: "9,800",
-        brand: false,
-        freeShipping: true,
-        firstTypeSeq: 2,
-        secondTypeSeq: 2,
-      },
-      {
-        id: 5,
-        img: require("../../assets/product/product_5.png"),
-        brandName: "프롬비기닝",
-        productName: "프리미엄 집업",
-        discountPercentage: "10%",
-        zDiscount: false,
-        originalPrice: "",
-        price: "34,100",
-        brand: false,
-        freeShipping: false,
-        firstTypeSeq: 1,
-        secondTypeSeq: 2,
-      },
-    ],
-  },
-  {
-    folderKey: 2,
-    title: "가방",
-    item: [
-      {
-        id: 6,
-        img: require("../../assets/product/product_6.png"),
-        brandName: "어텀뮤트",
-        productName: "하이퀄리티 토트백",
-        discountPercentage: "",
-        zDiscount: false,
-        originalPrice: "",
-        price: "109,000",
-        brand: false,
-        freeShipping: true,
-        firstTypeSeq: 1,
-        secondTypeSeq: 2,
-      },
-    ],
-  },
-  {
-    folderKey: 3,
-    title: "신발",
-    item: [
-      {
-        id: 3,
-        img: require("../../assets/product/product_3.png"),
-        brandName: "달트",
-        productName: "스퀘어 로퍼",
-        discountPercentage: "40%",
-        zDiscount: true,
-        originalPrice: "38,900",
-        price: "23,340",
-        brand: false,
-        freeShipping: true,
-        firstTypeSeq: 1,
-        secondTypeSeq: 2,
-      },
-      {
-        id: 1,
-        img: require("../../assets/product/product_1.png"),
-        brandName: "사뿐",
-        productName: "블랙 베이직 로퍼",
-        discountPercentage: "",
-        zDiscount: false,
-        originalPrice: "",
-        price: "52,900",
-        brand: false,
-        freeShipping: true,
-        firstTypeSeq: 1,
-        secondTypeSeq: 1,
-      },
-    ],
-  },
-];
 
 const zDiscountText = item => {
   const tempItem = item;
@@ -336,7 +115,7 @@ const productNumber = () => {
   );
 };
 
-const Heart = () => {
+const Heart = ({ navigation }) => {
   const [HeartProductList, setHeartProductList] = useState([]);
 
   let [TabTitle, setTabTitle] = useState([]); //탭 title 배열
@@ -345,6 +124,8 @@ const Heart = () => {
   let [editMode, setEditMode] = useState(false); //편집 모드
   let [choicedCheckList, setChoicedCheckList] = useState([]); //체크된 id 배열
   let [reload, setReload] = useState(false);
+
+  let folderList = useSelector(state => state.reducer3);
 
   // 가위 버튼 누르면 편집모드로 변경하는 함수
   const scissorsButton = () => {
@@ -530,7 +311,11 @@ const Heart = () => {
           />
         </View>
 
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("addFolder");
+          }}
+        >
           <Image
             style={styles.headerSecondIcon}
             source={require("../../assets/icon/folder.png")}
