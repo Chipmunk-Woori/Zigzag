@@ -274,7 +274,7 @@ let folderList = [
   },
   {
     folderKey: 1,
-    title: "상의테스트",
+    title: "상의",
     item: [
       {
         id: 9,
@@ -409,7 +409,31 @@ let reducer1 = (state = ProductListState, action) => {
 };
 
 let reducer3 = (state = folderList, action) => {
-  return state;
+  if (action.type == "changeTitle") {
+    let copy = [...folderList];
+    copy.map(copyItem => {
+      if (copyItem.folderKey == action.payload.folderKey) {
+        copyItem.title = action.payload.title;
+        folderList = copy;
+      }
+    });
+
+    console.log(action.payload.folderKey);
+    return folderList;
+  } else if (action.type == "addTitle") {
+    let copy = [...folderList];
+    let add = {
+      folderKey: 10,
+      title: action.payload.title,
+      item: [],
+    };
+    copy.push(add);
+
+    folderList = copy;
+    return folderList;
+  } else {
+    return state;
+  }
 };
 
 export let store = createStore(

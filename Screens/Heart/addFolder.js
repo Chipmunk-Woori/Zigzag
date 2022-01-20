@@ -10,105 +10,175 @@ import {
   FlatList,
   Dimensions,
   Modal,
+  TextField,
+  TextInput,
 } from "react-native";
-import { TextInput } from "react-native-gesture-handler";
 
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 const screenWidth = Dimensions.get("screen").width; // 전체화면 가로길이
 const screenHeight = Dimensions.get("screen").height; //전체화면 세로길이
 
 const addFolder = ({ navigation }) => {
   let folderList = useSelector(state => state.reducer3);
-  const [folderName, setFolderName] = useState("폴더 이름 입력");
-  const [number, setChangeNumber] = useState(null);
-  const [modalVisible, setModalVisible] = useState(false);
+  let dispatch = useDispatch();
+  const [folderName, setFolderName] = useState("타이틀");
+  const [addFolderName, setAddFolderName] = useState(null);
+  const [editModalVisible, setEditModalVisible] = useState(false);
+  const [modalProductImg, setModalProductImg] = useState(
+    require("../../assets/product/temp.png")
+  );
+  const [modalProductId, setModalProductId] = useState(1);
+  const [addModalVisible, setAddModalVisible] = useState(false);
+
   return (
-    <View style={{ flex: 1, paddingHorizontal: 15 }}>
-      <View style={styles.headerView}>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.goBack();
+    <View style={{ position: "relative" }}>
+      <View style={styles.View}>
+        <View style={styles.headerView}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.goBack();
+            }}
+          >
+            <Image
+              source={require("../../assets/icon/backArrow.png")}
+              style={styles.headerBackIcon}
+            />
+          </TouchableOpacity>
+          <Text style={styles.headerText}>폴더 편집</Text>
+          <TouchableOpacity
+            onPress={() => {
+              setAddModalVisible(true);
+            }}
+          >
+            <Image
+              source={require("../../assets/icon/addFolder.png")}
+              style={styles.headerAddFolderIcon}
+            />
+          </TouchableOpacity>
+        </View>
+
+        <FlatList
+          data={folderList}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({ item }) => {
+            return (
+              <View style={styles.individualFolderView}>
+                <TouchableOpacity>
+                  <Image
+                    source={require("../../assets/icon/minusIcon.png")}
+                    style={styles.deleteButton}
+                  />
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={styles.titleView}
+                  onPress={() => {
+                    setEditModalVisible(true);
+                    setFolderName(item.title);
+                    setModalProductImg(
+                      require("../../assets/product/temp.png")
+                    );
+                    setModalProductId(item.folderKey);
+                  }}
+                >
+                  <Text>{item.title}</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity>
+                  <Image
+                    source={require("../../assets/icon/list.png")}
+                    style={{ width: 17, height: 17 }}
+                  />
+                </TouchableOpacity>
+              </View>
+            );
+          }}
+        />
+
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={addModalVisible}
+          onRequestClose={() => {
+            setAddModalVisible(!addModalVisible);
           }}
         >
-          <Image
-            source={require("../../assets/icon/backArrow.png")}
-            style={styles.headerBackIcon}
-          />
-        </TouchableOpacity>
-        <Text style={styles.headerText}>폴더 편집</Text>
-        <TouchableOpacity>
-          <Image
-            source={require("../../assets/icon/addFolder.png")}
-            style={styles.headerAddFolderIcon}
-          />
-        </TouchableOpacity>
-      </View>
-
-      <FlatList
-        data={folderList}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={({ item }) => {
-          return (
-            <View style={styles.individualFolderView}>
-              <TouchableOpacity>
-                <Image
-                  source={require("../../assets/icon/minusIcon.png")}
-                  style={styles.deleteButton}
-                />
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={styles.titleView}
-                onPress={() => setModalVisible(true)}
-              >
-                <Text>{item.title}</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity>
-                <Image
-                  source={require("../../assets/icon/list.png")}
-                  style={{ width: 17, height: 17 }}
-                />
-              </TouchableOpacity>
+          <View style={styles.centeredView}>
+            <Text style={styles.modalTitleText}>폴더 추가</Text>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <TextInput
+                style={[styles.textInput, { width: "90%" }]}
+                onChangeText={setAddFolderName}
+                value={addFolderName}
+                placeholder="폴더명을 입력해주세요."
+              />
             </View>
-          );
-        }}
-      />
-
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(!modalVisible);
-        }}
-      >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalText}>Hello World!</Text>
             <TouchableOpacity
               style={[styles.button, styles.buttonClose]}
-              onPress={() => setModalVisible(!modalVisible)}
+              onPress={() => {
+                setAddModalVisible(!addModalVisible);
+                dispatch({
+                  type: "addTitle",
+                  payload: { title: addFolderName },
+                });
+              }}
             >
-              <Text style={styles.textStyle}>Hide Modal</Text>
+              <Text style={styles.textStyle}>확인</Text>
             </TouchableOpacity>
           </View>
-        </View>
-      </Modal>
+        </Modal>
+
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={editModalVisible}
+          onRequestClose={() => {
+            setEditModalVisible(!editModalVisible);
+          }}
+        >
+          <View style={styles.centeredView}>
+            <Text style={styles.modalTitleText}>폴더 이름 변경</Text>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Image style={styles.modalProductImg} source={modalProductImg} />
+              <TextInput
+                style={styles.textInput}
+                onChangeText={setFolderName}
+                value={folderName}
+              />
+            </View>
+            <TouchableOpacity
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => {
+                setEditModalVisible(!editModalVisible);
+                dispatch({
+                  type: "changeTitle",
+                  payload: { folderKey: modalProductId, title: folderName },
+                });
+              }}
+            >
+              <Text style={styles.textStyle}>확인</Text>
+            </TouchableOpacity>
+          </View>
+        </Modal>
+      </View>
+      {editModalVisible && <View style={styles.modalTrueView} />}
     </View>
   );
 };
 
-{
-  /* <TextInput
-style={styles.textInput}
-onChangeText={setFolderName}
-value={folderName}
-/> */
-}
-
 const styles = StyleSheet.create({
+  View: {
+    paddingHorizontal: 15,
+    position: "absolute",
+  },
+  modalTrueView: {
+    height: 600,
+    width: "100%",
+    backgroundColor: "black",
+    opacity: 0.4,
+    position: "absolute",
+  },
   headerView: {
     flexDirection: "row",
     marginTop: 50,
@@ -146,8 +216,10 @@ const styles = StyleSheet.create({
   textInput: {
     height: 40,
     borderWidth: 1,
+    borderColor: "lightgray",
+    borderRadius: 8,
     padding: 10,
-    width: "70%",
+    width: "65%",
   },
   titleView: {
     height: 40,
@@ -159,36 +231,22 @@ const styles = StyleSheet.create({
     borderRadius: 7,
   },
   centeredView: {
-    flex: 1,
-    justifyContent: "center",
+    height: "55%",
+    marginTop: "75%",
     alignItems: "center",
-    marginTop: 22,
-    backgroundColor: "black",
-    transparent: "30%",
-  },
-  modalView: {
-    margin: 20,
     backgroundColor: "white",
-    borderRadius: 20,
-    padding: 35,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
+    borderRadius: 8,
   },
   button: {
     borderRadius: 20,
     padding: 10,
     elevation: 2,
   },
-
   buttonClose: {
-    backgroundColor: "#2196F3",
+    backgroundColor: "lightgray",
+    width: "90%",
+    paddingVertical: 14,
+    marginTop: 20,
   },
   textStyle: {
     color: "white",
@@ -198,6 +256,18 @@ const styles = StyleSheet.create({
   modalText: {
     marginBottom: 15,
     textAlign: "center",
+  },
+  modalTitleText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    marginTop: 20,
+    marginBottom: 25,
+  },
+  modalProductImg: {
+    width: 80,
+    height: 80,
+    borderRadius: 8,
+    marginRight: 15,
   },
 });
 export default addFolder;

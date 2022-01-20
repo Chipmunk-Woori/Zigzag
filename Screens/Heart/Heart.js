@@ -229,7 +229,7 @@ const Heart = ({ navigation }) => {
 
     let tempChoicedTabTitle = folderList[0].title;
     setChoicedTabTitle(tempChoicedTabTitle);
-  }, []);
+  }, [folderList]);
 
   return (
     <View style={styles.View}>
