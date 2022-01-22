@@ -281,7 +281,9 @@ const Heart = ({ navigation }) => {
         <View style={styles.tabBackgroundView}>
           <FlatList
             data={TabTitle}
-            keyExtractor={index => index.toString()}
+            keyExtractor={
+              TabTitle.length !== 0 ? index => index.toString() : "empty"
+            }
             horizontal={true}
             renderItem={({ item }) => {
               return (
@@ -329,7 +331,7 @@ const Heart = ({ navigation }) => {
         numColumns={3}
         ListHeaderComponent={productNumber}
         renderItem={({ item, index }) => {
-          return (
+          return HeartProductList.length !== 0 ? (
             <View key={item.id} style={styles.productMiniSizeView}>
               <View>
                 <View style={{ position: "relative" }}>
@@ -376,6 +378,8 @@ const Heart = ({ navigation }) => {
               </View>
               <View>{freeShippingText(item)}</View>
             </View>
+          ) : (
+            <View></View>
           );
         }}
       />

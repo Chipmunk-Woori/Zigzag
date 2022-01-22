@@ -392,10 +392,6 @@ let folderList = [
 
 let reducer2 = (state = heartProductListState, action) => {
   if (action.type === "plusHeart") {
-    //let tempArray = [...heartProductListState];
-    //tempArray.push(action.payload);
-    // ^ 기존 코드는 임시로 지금 추가한 하나만 보여주도록 되어있었음
-
     console.log(action.payload);
     heartProductListState.push(action.payload);
     return heartProductListState;
@@ -430,6 +426,15 @@ let reducer3 = (state = folderList, action) => {
     copy.push(add);
 
     folderList = copy;
+    return folderList;
+  } else if (action.type === "deleteTitle") {
+    folderList.map(mi => {
+      if (mi.title == action.payload.title) {
+        folderList = folderList.filter(fi => {
+          fi.title !== action.payload.title;
+        });
+      }
+    });
     return folderList;
   } else {
     return state;

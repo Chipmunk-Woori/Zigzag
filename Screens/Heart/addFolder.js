@@ -31,6 +31,21 @@ const addFolder = ({ navigation }) => {
   const [modalProductId, setModalProductId] = useState(1);
   const [addModalVisible, setAddModalVisible] = useState(false);
 
+  const titleCheck = () => {
+    let check = true;
+    folderList.map(i => {
+      if (i.title == addFolderName) {
+        check == false;
+      }
+    });
+
+    if (addFolderName == "") {
+      check == false;
+    }
+
+    return check;
+  };
+
   return (
     <View style={{ position: "relative" }}>
       <View style={styles.View}>
@@ -117,11 +132,12 @@ const addFolder = ({ navigation }) => {
             <TouchableOpacity
               style={[styles.button, styles.buttonClose]}
               onPress={() => {
-                setAddModalVisible(!addModalVisible);
-                dispatch({
-                  type: "addTitle",
-                  payload: { title: addFolderName },
-                });
+                titleCheck && setAddModalVisible(!addModalVisible);
+                titleCheck &&
+                  dispatch({
+                    type: "addTitle",
+                    payload: { title: addFolderName },
+                  });
               }}
             >
               <Text style={styles.textStyle}>확인</Text>
