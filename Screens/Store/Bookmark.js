@@ -66,7 +66,6 @@ const Bookmark = ({ bookmarkEditMode }) => {
           tempArray = tempArray.filter(fi => {
             return item.id !== fi.id;
           });
-          console.log(item);
         }
       });
     }

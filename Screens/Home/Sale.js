@@ -165,14 +165,9 @@ const Sale = props => {
 
   // reducer2 에 추가될 때마다
   useEffect(() => {
-    console.log({ reducer2 });
     setListProductList(reducer2);
     setReload(!reload);
   }, [reducer2]);
-
-  let consoleReducer2 = () => {
-    console.log(reducer2);
-  };
 
   // 하트 변경 함수
   // 내가 누른 상품이 핑크하트면 흰하트로 변경, 흰하트면 핑크하트로 변경
@@ -270,7 +265,6 @@ const Sale = props => {
                       payload: item,
                       // ^ {} 으로 하면 {item: (내용)} 으로 들어감
                     });
-                    consoleReducer2();
                   }}
                 >
                   <Image

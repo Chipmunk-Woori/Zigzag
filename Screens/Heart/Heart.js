@@ -224,10 +224,20 @@ const Heart = ({ navigation }) => {
     });
     setTabTitle(tempTabTitle);
 
-    let tempFolder = folderList[0].item;
+    let tempFolder;
+    let tempChoicedTabTitle;
+
+    folderList.map(mi => {
+      if (mi.folderKey == 0) {
+        tempFolder = mi.item;
+        tempChoicedTabTitle = mi.title;
+      }
+    });
+
+    // let tempFolder = folderList[0].item;
     setHeartProductList(tempFolder);
 
-    let tempChoicedTabTitle = folderList[0].title;
+    // let tempChoicedTabTitle = folderList[0].title;
     setChoicedTabTitle(tempChoicedTabTitle);
   }, [folderList]);
 
@@ -282,7 +292,9 @@ const Heart = ({ navigation }) => {
           <FlatList
             data={TabTitle}
             keyExtractor={
-              TabTitle.length !== 0 ? index => index.toString() : "empty"
+              TabTitle.length !== 0
+                ? index => index.toString()
+                : item => "empty"
             }
             horizontal={true}
             renderItem={({ item }) => {

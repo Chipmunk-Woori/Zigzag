@@ -23,7 +23,7 @@ const addFolder = ({ navigation }) => {
   let folderList = useSelector(state => state.reducer3);
   let dispatch = useDispatch();
   const [folderName, setFolderName] = useState("타이틀");
-  const [addFolderName, setAddFolderName] = useState(null);
+  const [addFolderName, setAddFolderName] = useState("");
   const [editModalVisible, setEditModalVisible] = useState(false);
   const [modalProductImg, setModalProductImg] = useState(
     require("../../assets/product/temp.png")
@@ -33,14 +33,17 @@ const addFolder = ({ navigation }) => {
 
   const titleCheck = () => {
     let check = true;
+
+    //이미 있는 title 인지 확인
     folderList.map(i => {
       if (i.title == addFolderName) {
-        check == false;
+        check = false;
       }
     });
 
+    //빈 칸인지 확인
     if (addFolderName == "") {
-      check == false;
+      check = false;
     }
 
     return check;
@@ -79,7 +82,14 @@ const addFolder = ({ navigation }) => {
           renderItem={({ item }) => {
             return (
               <View style={styles.individualFolderView}>
-                <TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    dispatch({
+                      type: "deleteTitle",
+                      payload: { item },
+                    });
+                  }}
+                >
                   <Image
                     source={require("../../assets/icon/minusIcon.png")}
                     style={styles.deleteButton}
@@ -115,9 +125,13 @@ const addFolder = ({ navigation }) => {
           animationType="slide"
           transparent={true}
           visible={addModalVisible}
-          onRequestClose={() => {
+          onPressOut={() => {
             setAddModalVisible(!addModalVisible);
           }}
+
+          // onRequestClose={() => {
+          //   setAddModalVisible(!addModalVisible);
+          // }}
         >
           <View style={styles.centeredView}>
             <Text style={styles.modalTitleText}>폴더 추가</Text>
@@ -132,12 +146,13 @@ const addFolder = ({ navigation }) => {
             <TouchableOpacity
               style={[styles.button, styles.buttonClose]}
               onPress={() => {
-                titleCheck && setAddModalVisible(!addModalVisible);
-                titleCheck &&
+                if (titleCheck() == true) {
+                  setAddModalVisible(!addModalVisible);
                   dispatch({
                     type: "addTitle",
                     payload: { title: addFolderName },
                   });
+                }
               }}
             >
               <Text style={styles.textStyle}>확인</Text>
