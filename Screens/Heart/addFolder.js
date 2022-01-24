@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-
+import Modal from "react-native-modal";
 import {
   ScrollView,
   StyleSheet,
@@ -9,7 +9,6 @@ import {
   TouchableOpacity,
   FlatList,
   Dimensions,
-  Modal,
   TextField,
   TextInput,
 } from "react-native";
@@ -140,6 +139,8 @@ const addFolder = ({ navigation }) => {
           animationType="slide"
           transparent={true}
           visible={addModalVisible}
+          onBackdropPress={() => setAddModalVisible(false)}
+          style={{ flex: 1, margin: 0 }}
         >
           <View style={styles.centeredView}>
             <Text style={styles.modalTitleText}>폴더 추가</Text>
@@ -174,9 +175,12 @@ const addFolder = ({ navigation }) => {
         </Modal>
 
         <Modal
+          coverScreen={false}
           animationType="slide"
           transparent={true}
           visible={editModalVisible}
+          onBackdropPress={() => setEditModalVisible(false)}
+          style={{ flex: 1, margin: 0 }}
         >
           <View style={styles.centeredView}>
             <Text style={styles.modalTitleText}>폴더 이름 변경</Text>
@@ -286,7 +290,7 @@ const styles = StyleSheet.create({
     borderRadius: 7,
   },
   centeredView: {
-    height: "55%",
+    height: "60%",
     width: "100%",
     marginTop: "75%",
     alignItems: "center",

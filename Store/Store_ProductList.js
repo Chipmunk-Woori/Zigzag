@@ -2,14 +2,7 @@ import { Provider } from "react-redux";
 import { createStore, combineReducers } from "redux";
 import { useState } from "react";
 
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
-  FlatList,
-} from "react-native";
+import { Text, View } from "react-native";
 
 let ProductListState = [
   {
