@@ -22,14 +22,14 @@ const screenHeight = Dimensions.get("screen").height; //전체화면 세로길�
 const addFolder = ({ navigation }) => {
   let folderList = useSelector(state => state.reducer3);
   let dispatch = useDispatch();
-  const [folderName, setFolderName] = useState("타이틀");
+  const [folderName, setFolderName] = useState("");
   const [addFolderName, setAddFolderName] = useState("");
   const [editModalVisible, setEditModalVisible] = useState(false);
+  const [addModalVisible, setAddModalVisible] = useState(false);
   const [modalProductImg, setModalProductImg] = useState(
     require("../../assets/product/temp.png")
   );
   const [modalProductId, setModalProductId] = useState(1);
-  const [addModalVisible, setAddModalVisible] = useState(false);
 
   const titleCheck = () => {
     let check = true;
@@ -45,6 +45,20 @@ const addFolder = ({ navigation }) => {
     if (addFolderName == "") {
       check = false;
     }
+
+    return check;
+  };
+
+  const titleChangeCheck = () => {
+    let check = true;
+
+    folderList.map(i => {
+      if (i.folderKey == modalProductId) {
+        if (folderName == i.title) {
+          check = false;
+        }
+      }
+    });
 
     return check;
   };
@@ -67,6 +81,7 @@ const addFolder = ({ navigation }) => {
           <TouchableOpacity
             onPress={() => {
               setAddModalVisible(true);
+              setAddFolderName("");
             }}
           >
             <Image
@@ -125,13 +140,6 @@ const addFolder = ({ navigation }) => {
           animationType="slide"
           transparent={true}
           visible={addModalVisible}
-          onPressOut={() => {
-            setAddModalVisible(!addModalVisible);
-          }}
-
-          // onRequestClose={() => {
-          //   setAddModalVisible(!addModalVisible);
-          // }}
         >
           <View style={styles.centeredView}>
             <Text style={styles.modalTitleText}>폴더 추가</Text>
@@ -140,13 +148,18 @@ const addFolder = ({ navigation }) => {
                 style={[styles.textInput, { width: "90%" }]}
                 onChangeText={setAddFolderName}
                 value={addFolderName}
+                clearTextOnFocus={true}
                 placeholder="폴더명을 입력해주세요."
               />
             </View>
             <TouchableOpacity
-              style={[styles.button, styles.buttonClose]}
+              style={[
+                styles.button,
+                styles.buttonClose,
+                titleCheck() && { backgroundColor: "black" },
+              ]}
               onPress={() => {
-                if (titleCheck() == true) {
+                if (titleCheck()) {
                   setAddModalVisible(!addModalVisible);
                   dispatch({
                     type: "addTitle",
@@ -164,9 +177,6 @@ const addFolder = ({ navigation }) => {
           animationType="slide"
           transparent={true}
           visible={editModalVisible}
-          onRequestClose={() => {
-            setEditModalVisible(!editModalVisible);
-          }}
         >
           <View style={styles.centeredView}>
             <Text style={styles.modalTitleText}>폴더 이름 변경</Text>
@@ -179,7 +189,11 @@ const addFolder = ({ navigation }) => {
               />
             </View>
             <TouchableOpacity
-              style={[styles.button, styles.buttonClose]}
+              style={[
+                styles.button,
+                styles.buttonClose,
+                titleChangeCheck() && { backgroundColor: "black" },
+              ]}
               onPress={() => {
                 setEditModalVisible(!editModalVisible);
                 dispatch({
@@ -193,7 +207,17 @@ const addFolder = ({ navigation }) => {
           </View>
         </Modal>
       </View>
-      {editModalVisible && <View style={styles.modalTrueView} />}
+      {(editModalVisible || addModalVisible) && (
+        <TouchableOpacity
+          onPress={() => {
+            // setAddModalVisible(false);
+            // console.log("addModalVisible : " + addModalVisible);
+            console.log("test");
+          }}
+        >
+          <View style={styles.modalTrueView} />
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
@@ -207,7 +231,7 @@ const styles = StyleSheet.create({
     height: 600,
     width: "100%",
     backgroundColor: "black",
-    opacity: 0.4,
+    opacity: 0.6,
     position: "absolute",
   },
   headerView: {
@@ -263,6 +287,7 @@ const styles = StyleSheet.create({
   },
   centeredView: {
     height: "55%",
+    width: "100%",
     marginTop: "75%",
     alignItems: "center",
     backgroundColor: "white",
