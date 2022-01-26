@@ -11,7 +11,6 @@ import {
   Dimensions,
   Image,
   TouchableOpacity,
-  FlatList,
   Modal,
   Pressable,
   useWindowDimensions,

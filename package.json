@@ -20,6 +20,8 @@
     "core-js": "^3.19.1",
     "react": "17.0.2",
     "react-native": "^0.66.1",
+    "react-native-drag-sort": "^2.4.4",
+    "react-native-draggable-flatlist": "^3.0.5",
     "react-native-gesture-handler": "^1.10.3",
     "react-native-image-slider-box": "^1.1.14",
     "react-native-modal": "^13.0.0",

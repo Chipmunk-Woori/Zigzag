@@ -11,12 +11,24 @@ import {
   Dimensions,
   TextField,
   TextInput,
+  SafeAreaView,
 } from "react-native";
-
 import { useSelector, useDispatch } from "react-redux";
+
+import DragSortableView from "../DragSortableView/DragSortableView";
 
 const screenWidth = Dimensions.get("screen").width; // 전체화면 가로길이
 const screenHeight = Dimensions.get("screen").height; //전체화면 세로길이
+
+const parentWidth = screenWidth;
+const childrenWidth = screenWidth;
+const childrenHeight = 55;
+
+const TEST_DATA = [
+  { icon: require("../../assets/product/product_1.png"), txt: 1 },
+  { icon: require("../../assets/product/product_2.png"), txt: 2 },
+  { icon: require("../../assets/product/product_3.png"), txt: 3 },
+];
 
 const addFolder = ({ navigation }) => {
   let folderList = useSelector(state => state.reducer3);
@@ -29,6 +41,48 @@ const addFolder = ({ navigation }) => {
     require("../../assets/product/temp.png")
   );
   const [modalProductId, setModalProductId] = useState(1);
+  const [scrollEnabled, setScrollEnabled] = useState(true);
+
+  const dragRenderItem = item => {
+    if (item) {
+      return (
+        <View style={{ width: parentWidth * 0.92 }}>
+          <View style={styles.individualFolderView}>
+            <TouchableOpacity
+              onPress={() => {
+                dispatch({
+                  type: "deleteTitle",
+                  payload: { item },
+                });
+              }}
+            >
+              <Image
+                source={require("../../assets/icon/minusIcon.png")}
+                style={styles.deleteButton}
+              />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.titleView}
+              onPress={() => {
+                setEditModalVisible(true);
+                setFolderName(item.title);
+                setModalProductImg(require("../../assets/product/temp.png"));
+                setModalProductId(item.folderKey);
+              }}
+            >
+              <Text>{item.title}</Text>
+            </TouchableOpacity>
+
+            <Image
+              source={require("../../assets/icon/list.png")}
+              style={{ width: 14, height: 14 }}
+            />
+          </View>
+        </View>
+      );
+    }
+  };
 
   const titleCheck = () => {
     let check = true;
@@ -90,7 +144,7 @@ const addFolder = ({ navigation }) => {
           </TouchableOpacity>
         </View>
 
-        <FlatList
+        {/* <FlatList
           data={folderList}
           keyExtractor={(item, index) => index.toString()}
           renderItem={({ item }) => {
@@ -127,13 +181,47 @@ const addFolder = ({ navigation }) => {
                 <TouchableOpacity>
                   <Image
                     source={require("../../assets/icon/list.png")}
-                    style={{ width: 17, height: 17 }}
+                    style={{ width: 14, height: 14 }}
                   />
                 </TouchableOpacity>
               </View>
             );
           }}
-        />
+        /> */}
+
+        {/* ------------------------------------------------------------------------------- */}
+        <View style={{ flex: 1 }}>
+          <ScrollView
+            ref={scrollView => (scrollView = scrollView)}
+            scrollEnabled={scrollEnabled}
+            style={styles.container}
+          >
+            <DragSortableView
+              dataSource={folderList}
+              parentWidth={parentWidth}
+              childrenWidth={childrenWidth}
+              childrenHeight={childrenHeight}
+              scaleStatus={"scaleY"}
+              onDragStart={(startIndex, endIndex) => {
+                setScrollEnabled(false);
+              }}
+              onDragEnd={startIndex => {
+                setScrollEnabled(true);
+              }}
+              onDataChange={data => {
+                if (data.length != folderList.length) {
+                  data = folderList;
+                }
+              }}
+              keyExtractor={(item, index) => index.toString()}
+              //  onClickItem={(data, item, index) => {}}
+              renderItem={(item, index) => {
+                return dragRenderItem(item);
+              }}
+            />
+          </ScrollView>
+        </View>
+        {/* ------------------------------------------------------------------------------- */}
 
         <Modal
           animationType="slide"
@@ -150,6 +238,7 @@ const addFolder = ({ navigation }) => {
                 onChangeText={setAddFolderName}
                 value={addFolderName}
                 clearTextOnFocus={true}
+                autoFocus={true}
                 placeholder="폴더명을 입력해주세요."
               />
             </View>
@@ -190,6 +279,7 @@ const addFolder = ({ navigation }) => {
                 style={styles.textInput}
                 onChangeText={setFolderName}
                 value={folderName}
+                autoFocus={true}
               />
             </View>
             <TouchableOpacity
@@ -212,15 +302,7 @@ const addFolder = ({ navigation }) => {
         </Modal>
       </View>
       {(editModalVisible || addModalVisible) && (
-        <TouchableOpacity
-          onPress={() => {
-            // setAddModalVisible(false);
-            // console.log("addModalVisible : " + addModalVisible);
-            console.log("test");
-          }}
-        >
-          <View style={styles.modalTrueView} />
-        </TouchableOpacity>
+        <View style={styles.modalTrueView} />
       )}
     </View>
   );
@@ -260,7 +342,7 @@ const styles = StyleSheet.create({
   },
   individualFolderView: {
     width: "100%",
-    height: 55,
+    height: childrenHeight,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
@@ -328,6 +410,36 @@ const styles = StyleSheet.create({
     height: 80,
     borderRadius: 8,
     marginRight: 15,
+  },
+  container: {
+    flex: 1,
+    backgroundColor: "#f0f0f0",
+    marginBottom: 40,
+  },
+  item: {
+    width: childrenWidth,
+    height: childrenHeight,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  item_children: {
+    width: childrenWidth * 0.9,
+    height: childrenHeight - 4,
+    backgroundColor: "#ffffff",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginTop: 4,
+  },
+  item_icon: {
+    width: childrenHeight * 0.6,
+    height: childrenHeight * 0.6,
+    marginLeft: 15,
+    resizeMode: "contain",
+  },
+  item_text: {
+    marginRight: 15,
+    color: "#2ecc71",
   },
 });
 export default addFolder;
