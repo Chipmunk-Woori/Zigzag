@@ -102,7 +102,7 @@ const PointGuide = ({ navigation }) => {
 
   return (
     <View style={styles.View}>
-      <ScrollView onScroll={coinChangeTop} scrollEventThrottle={10}>
+      <ScrollView onScroll={coinChangeTop} scrollEventThrottle={5}>
         <View style={styles.backParallelogramShapeView}>
           <View style={styles.backParallelogramShape} />
         </View>

@@ -1,11 +1,6 @@
-import React, { useState, useEffect, useRef } from "react";
-
-import Carousel from "react-native-snap-carousel";
-
+import React, { useState, useEffect } from "react";
 import {
-  SafeAreaView,
   ScrollView,
-  StatusBar,
   StyleSheet,
   Text,
   useColorScheme,
@@ -15,87 +10,114 @@ import {
   Dimensions,
   TouchableOpacity,
 } from "react-native";
+import { SwiperFlatList } from "react-native-swiper-flatlist";
 
 const screenWidth = Dimensions.get("screen").width; // 전체화면 가로길이
 const screenHeight = Dimensions.get("screen").height; //전체화면 세로길이
-
-const carouselItems = [
+const celebrity = [
   {
-    title: "Item 1",
-    text: "Text 1",
+    id: 1,
+    img: require("../../assets/celebrity/picture_1.png"),
+    text: ["지그재그 단독,", "아이유의 PICK 아이템"],
   },
   {
-    title: "Item 2",
-    text: "Text 2",
+    id: 2,
+    img: require("../../assets/celebrity/picture_2.png"),
+    text: ["1월 지인 피셜,", "악세사리 스타일링"],
   },
   {
-    title: "Item 3",
-    text: "Text 3",
+    id: 3,
+    img: require("../../assets/celebrity/picture_3.jpeg"),
+    text: ["1월 가장 사랑받은", "BEST ITEM 5"],
   },
   {
-    title: "Item 4",
-    text: "Text 4",
+    id: 4,
+    img: require("../../assets/celebrity/picture_4.jpeg"),
+    text: ["지금 바로 주목해야 할 ", "이 달의 신상"],
   },
   {
-    title: "Item 5",
-    text: "Text 5",
+    id: 5,
+    img: require("../../assets/celebrity/picture_5.jpeg"),
+    text: ["주목해야 할 브랜드", "-캐주얼-"],
   },
 ];
 
-const _renderItem = ({ item, index }) => {
-  return (
-    <View
-      style={{
-        //🌟각 게시물의 스타일
-        backgroundColor: "pink",
-        borderRadius: 5,
-        height: 300,
-        padding: 30, //게시물 안 내용
-        marginLeft: 50,
-        marginRight: 50,
-      }}
-    >
-      <Text style={{ fontSize: 30 }}>{item.title}</Text>
-      <Text>{item.text}</Text>
-    </View>
-  );
-};
-
 const Brand = () => {
-  const [activeIndex, setActiveIndex] = useState(0);
-  let carousel = useRef(null);
   return (
-    <View>
-      <View>
-        <SafeAreaView
-          style={{
-            //🌟전체 화면 스타일
-            height: 500,
-            width: 350,
-            backgroundColor: "rebeccapurple",
-            paddingTop: 50,
-          }}
-        >
-          <View style={{ flexDirection: "row", justifyContent: "center" }}>
-            <Carousel
-              layout={"default"}
-              ref={ref => {
-                carousel = ref;
-              }}
-              data={carouselItems}
-              sliderWidth={300} //슬라이드 전체 너비
-              itemWidth={300}
-              //한 화면에서 (게시물 하나 + 양 옆 여비) 너비
-              //이게 너무 작으면 다음 게시물과 겹쳐
+    <View style={styles.View}>
+      <View style={styles.carouselView}>
+        <SwiperFlatList
+          autoplay
+          autoplayDelay={2}
+          autoplayLoop
+          index={0}
+          showPagination
+          data={celebrity}
+          paginationStyleItemActive={{ backgroundColor: "pink" }}
+          renderItem={({ item }) => (
+            <View style={styles.child}>
+              <Image
+                style={{ width: "100%", height: "100%", position: "absolute" }}
+                source={item.img}
+              />
+              <View style={styles.itemTextView}>
+                {item.text.map(i => {
+                  return (
+                    <View>
+                      <Text style={styles.itemText}>{i}</Text>
+                    </View>
+                  );
+                })}
+              </View>
+            </View>
+          )}
+        />
+      </View>
 
-              renderItem={_renderItem}
-              onSnapToItem={index => setActiveIndex(index)}
-            />
-          </View>
-        </SafeAreaView>
+      <View style={styles.bestItemsTitleView}>
+        <Text style={styles.bestItemsTitleText}>Best Items</Text>
       </View>
     </View>
   );
 };
 
+const styles = StyleSheet.create({
+  View: {
+    flex: 1,
+  },
+  carouselView: {
+    width: screenWidth,
+    height: "80%",
+  },
+  bestItemsTitleView: {
+    width: "100%",
+    height: "10%",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "white",
+  },
+  bestItemsTitleText: {
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  container: {
+    flex: 1,
+    backgroundColor: "white",
+  },
+  child: {
+    width: screenWidth,
+    justifyContent: "center",
+  },
+  itemTextView: {
+    position: "absolute",
+    bottom: 60,
+    left: 30,
+    width: 250,
+  },
+  itemText: {
+    fontSize: 25,
+    color: "white",
+    fontWeight: "bold",
+  },
+});
 export default Brand;

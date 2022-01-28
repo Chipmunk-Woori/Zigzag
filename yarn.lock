@@ -5934,6 +5934,11 @@ react-native-snap-carousel@^3.9.1, react-native-snap-carousel@latest:
     prop-types "^15.6.1"
     react-addons-shallow-compare "15.6.2"
 
+react-native-swiper-flatlist@^3.0.16:
+  version "3.0.16"
+  resolved "https://registry.yarnpkg.com/react-native-swiper-flatlist/-/react-native-swiper-flatlist-3.0.16.tgz#626770e36479793ace806888d84bbd2d0a496465"
+  integrity sha512-8Mkh5DnGP7x42GBI870vpiliAdXAJObi8uDdqCjd3cWJBDgVv1xmo3y11CZzqpf6241EyddX0LygSt1Rv61LYg==
+
 react-native-tab-view@^3.1.1:
   version "3.1.1"
   resolved "https://registry.npmjs.org/react-native-tab-view/-/react-native-tab-view-3.1.1.tgz"

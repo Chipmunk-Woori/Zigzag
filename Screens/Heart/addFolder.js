@@ -24,12 +24,6 @@ const parentWidth = screenWidth;
 const childrenWidth = screenWidth;
 const childrenHeight = 55;
 
-const TEST_DATA = [
-  { icon: require("../../assets/product/product_1.png"), txt: 1 },
-  { icon: require("../../assets/product/product_2.png"), txt: 2 },
-  { icon: require("../../assets/product/product_3.png"), txt: 3 },
-];
-
 const addFolder = ({ navigation }) => {
   let folderList = useSelector(state => state.reducer3);
   let dispatch = useDispatch();
@@ -46,7 +40,7 @@ const addFolder = ({ navigation }) => {
   const dragRenderItem = item => {
     if (item) {
       return (
-        <View style={{ width: parentWidth * 0.92 }}>
+        <View style={{ width: parentWidth * 0.92, backgroundColor: "white" }}>
           <View style={styles.individualFolderView}>
             <TouchableOpacity
               onPress={() => {
@@ -117,7 +111,7 @@ const addFolder = ({ navigation }) => {
   };
 
   return (
-    <View style={{ position: "relative" }}>
+    <View style={styles.ViewStyle}>
       <View style={styles.View}>
         <View style={styles.headerView}>
           <TouchableOpacity
@@ -309,6 +303,11 @@ const addFolder = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
+  ViewStyle: {
+    flex: 1,
+    position: "relative",
+    backgroundColor: "white",
+  },
   View: {
     paddingHorizontal: 15,
     position: "absolute",
@@ -357,6 +356,7 @@ const styles = StyleSheet.create({
   textInput: {
     height: 40,
     borderWidth: 1,
+    borderStyle: "solid",
     borderColor: "lightgray",
     borderRadius: 8,
     padding: 10,
@@ -413,7 +413,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: "#f0f0f0",
+    backgroundColor: "white",
     marginBottom: 40,
   },
   item: {
