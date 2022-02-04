@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import {
-  ScrollView,
   StyleSheet,
   Text,
   useColorScheme,
   View,
-  FlatList,
   Image,
   Dimensions,
   TouchableOpacity,
+  FlatList,
+  ScrollView,
 } from "react-native";
 import { SwiperFlatList } from "react-native-swiper-flatlist";
 
@@ -199,22 +199,238 @@ const bestItems = [
       },
     ],
   },
+  {
+    folderKey: 4,
+    title: "가방",
+    products: [
+      {
+        id: 1,
+        img: require("../../assets/bestItems/outer_1.jpeg"),
+        brandName: "멜란지 마스터",
+        productName: "스탠다드 후드 스웨트 집업",
+        discountPercentage: "20%",
+        zDiscount: true,
+        originalPrice: "39,900",
+        price: "31,920",
+        brand: false,
+        freeShipping: true,
+      },
+      {
+        id: 2,
+        img: require("../../assets/bestItems/outer_2.jpeg"),
+        brandName: "엘무드",
+        productName: "화란 세미오버 가디건",
+        discountPercentage: "25%",
+        zDiscount: true,
+        originalPrice: "84,900",
+        price: "63,675",
+        brand: true,
+        freeShipping: true,
+      },
+      {
+        id: 3,
+        img: require("../../assets/bestItems/outer_3.jpeg"),
+        brandName: "꼼파뇨",
+        productName: "헤비오버핏 램스울 가디건",
+        discountPercentage: "50%",
+        zDiscount: true,
+        originalPrice: "11,9000",
+        price: "89,250",
+        brand: false,
+        freeShipping: true,
+      },
+      {
+        id: 4,
+        img: require("../../assets/bestItems/outer_4.jpeg"),
+        brandName: "니티드",
+        productName: "벌키 브러쉬 아가일 가디건",
+        discountPercentage: "10%",
+        zDiscount: true,
+        originalPrice: "72,000",
+        price: "64,800",
+        brand: true,
+        freeShipping: false,
+      },
+      {
+        id: 5,
+        img: require("../../assets/bestItems/outer_5.jpeg"),
+        brandName: "엄브로",
+        productName: "클래식 웜업 자켓 블랙",
+        discountPercentage: "",
+        zDiscount: false,
+        originalPrice: "",
+        price: "139,000",
+        brand: true,
+        freeShipping: true,
+      },
+      {
+        id: 6,
+        img: require("../../assets/bestItems/outer_6.jpeg"),
+        brandName: "이십오퍼센테이지",
+        productName: "25P 트라이앵글 로고 가디건",
+        discountPercentage: "10%",
+        zDiscount: true,
+        originalPrice: "72,000",
+        price: "64,800",
+        brand: false,
+        freeShipping: true,
+      },
+    ],
+  },
 ];
 
 const Brand = () => {
   const [showIndex, setShowIndex] = useState(3);
   const [reload, setReload] = useState(false);
+  const [pressedTitle, setPressedTitle] = useState();
+  const [bestItemsProductsList, setBestItemsProductsList] = useState([
+    {
+      id: 1,
+      img: require("../../assets/bestItems/outer_1.jpeg"),
+      brandName: "멜란지 마스터",
+      productName: "스탠다드 후드 스웨트 집업",
+      discountPercentage: "20%",
+      zDiscount: true,
+      originalPrice: "39,900",
+      price: "31,920",
+      brand: false,
+      freeShipping: true,
+    },
+    {
+      id: 2,
+      img: require("../../assets/bestItems/outer_2.jpeg"),
+      brandName: "엘무드",
+      productName: "화란 세미오버 가디건",
+      discountPercentage: "25%",
+      zDiscount: true,
+      originalPrice: "84,900",
+      price: "63,675",
+      brand: true,
+      freeShipping: true,
+    },
+    {
+      id: 3,
+      img: require("../../assets/bestItems/outer_3.jpeg"),
+      brandName: "꼼파뇨",
+      productName: "헤비오버핏 램스울 가디건",
+      discountPercentage: "50%",
+      zDiscount: true,
+      originalPrice: "11,9000",
+      price: "89,250",
+      brand: false,
+      freeShipping: true,
+    },
+    {
+      id: 4,
+      img: require("../../assets/bestItems/outer_4.jpeg"),
+      brandName: "니티드",
+      productName: "벌키 브러쉬 아가일 가디건",
+      discountPercentage: "10%",
+      zDiscount: true,
+      originalPrice: "72,000",
+      price: "64,800",
+      brand: true,
+      freeShipping: false,
+    },
+    {
+      id: 5,
+      img: require("../../assets/bestItems/outer_5.jpeg"),
+      brandName: "엄브로",
+      productName: "클래식 웜업 자켓 블랙",
+      discountPercentage: "",
+      zDiscount: false,
+      originalPrice: "",
+      price: "139,000",
+      brand: true,
+      freeShipping: true,
+    },
+    {
+      id: 6,
+      img: require("../../assets/bestItems/outer_6.jpeg"),
+      brandName: "이십오퍼센테이지",
+      productName: "25P 트라이앵글 로고 가디건",
+      discountPercentage: "10%",
+      zDiscount: true,
+      originalPrice: "72,000",
+      price: "64,800",
+      brand: false,
+      freeShipping: true,
+    },
+  ]);
+
+  const bestItemsProduct = (propsItem, propsIndex) => {
+    let index = propsIndex;
+    let item = bestItemsProductsList[index];
+
+    return (
+      <View style={{ flexDirection: "row", marginVertical: 5 }}>
+        <Text style={styles.bestItemsProducts_num}>{index + 1}</Text>
+        <Image source={item.img} style={styles.bestItemsProducts_img} />
+        <View style={{ marginTop: 7 }}>
+          <Text
+            style={[
+              styles.bestItemsProducts_productName,
+              { fontWeight: "500" },
+            ]}
+          >
+            {bestItemsProductsList[index].brandName}
+          </Text>
+          <Text style={styles.bestItemsProducts_productName}>
+            {bestItemsProductsList[index].productName}
+          </Text>
+          {item.zDiscount == true && (
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+              }}
+            >
+              <Text style={styles.bestItemsProducts_zDiscount}>제트할인가</Text>
+              <Text style={styles.bestItemsProducts_originalPrice}>
+                {item.originalPrice}
+              </Text>
+            </View>
+          )}
+          <View style={{ flexDirection: "row" }}>
+            {item.discountPercentage !== "" && (
+              <View>
+                <Text style={styles.bestItemsProducts_discountPercentage}>
+                  {item.discountPercentage}
+                </Text>
+              </View>
+            )}
+            <Text
+              style={[
+                styles.bestItemsProducts_discountPercentage,
+                { color: "black" },
+              ]}
+            >
+              {item.price}
+            </Text>
+          </View>
+          {item.freeShipping == true && (
+            <View style={styles.bestItemsProducts_freeShippingView}>
+              <Text style={styles.bestItemsProducts_freeShipping}>
+                무료배송
+              </Text>
+            </View>
+          )}
+        </View>
+      </View>
+    );
+  };
+
   return (
     <View style={styles.View}>
-      <ScrollView>
+      <ScrollView style={{ height: 1000 }}>
         <View style={styles.carouselView}>
           <SwiperFlatList
-            autoplay={false}
+            autoplay={true}
             autoplayDelay={2}
-            autoplayLoop={false}
+            autoplayLoop={true}
             index={0}
-            showPagination={false}
             data={celebrity}
+            showPagination={false}
             onChangeIndex={({ index, prevIndex }) => {
               setShowIndex(index + 1);
             }}
@@ -269,13 +485,56 @@ const Brand = () => {
             horizontal={true}
             renderItem={({ item }) => {
               return (
-                <View style={styles.bestItemsView}>
+                <TouchableOpacity
+                  style={styles.bestItemsView}
+                  onPress={() => {
+                    bestItems.map(i => {
+                      if (i.folderKey == item.folderKey) {
+                        setBestItemsProductsList(item.products);
+                      }
+                    });
+                  }}
+                >
                   <Text style={styles.bestItemsTitleText}>{item.title}</Text>
-                </View>
+                </TouchableOpacity>
               );
             }}
           />
         </View>
+
+        <View style={styles.bestItemsProducts_outsideView}>
+          <SwiperFlatList
+            horizontal={true}
+            data={bestItemsProductsList}
+            renderItem={({ item, index }) => {
+              let lastIndex = bestItemsProductsList.length - 1;
+              let nextIndex;
+              if (index < lastIndex) {
+                nextIndex = index + 1;
+              }
+
+              return (
+                index % 3 == 0 && (
+                  <View style={styles.bestItemsProducts_InnderView}>
+                    {bestItemsProduct(item, index)}
+                    {bestItemsProduct(item, nextIndex)}
+                    {bestItemsProduct(item, nextIndex + 1)}
+                  </View>
+                )
+              );
+            }}
+          />
+        </View>
+
+        <View style={styles.allBestItemsButton_View}>
+          <TouchableOpacity style={styles.allBestItemsButton_TouchOpacity}>
+            <Text style={styles.allBestItemsButton_Text}>
+              카테고리 베스트 전체보기
+            </Text>
+          </TouchableOpacity>
+        </View>
+
+        <View style={{ width: "100%", height: 600 }} />
       </ScrollView>
     </View>
   );
@@ -291,10 +550,11 @@ const styles = StyleSheet.create({
   },
   bestItemsTitleView: {
     width: "100%",
-    height: screenHeight * 0.07,
+    height: screenHeight * 0.05,
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "white",
+    marginTop: 15,
   },
   bestItemsTitle: {
     fontSize: 19,
@@ -336,16 +596,86 @@ const styles = StyleSheet.create({
     fontSize: 13,
   },
   bestItemsView: {
-    height: 40,
-    padding: 10,
-    backgroundColor: "orange",
+    height: 45,
+    paddingHorizontal: 10,
     alignItems: "center",
     justifyContent: "center",
   },
   bestItemsTitleText: {
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: "bold",
+    color: "#BBBBBC",
+  },
+  bestItemsProducts_outsideView: {
+    width: screenWidth,
+    height: screenHeight * 0.42,
+    paddingLeft: screenWidth * 0.04,
+  },
+  bestItemsProducts_InnderView: {
+    width: screenWidth * 0.7,
+    height: "100%",
+    // backgroundColor: "yellow",
+  },
+  bestItemsProducts_num: {
+    fontSize: 29,
+    color: "black",
+  },
+  bestItemsProducts_img: {
+    width: screenWidth * 0.22,
+    height: screenHeight * 0.128,
+    borderRadius: 4,
+    marginHorizontal: screenWidth * 0.03,
+  },
+  bestItemsProducts_productName: {
+    fontSize: 12,
+    marginBottom: 3,
+  },
+  bestItemsProducts_zDiscount: {
+    fontWeight: "bold",
+    fontSize: 12,
+    color: "#F719A3",
+    marginBottom: 3,
+  },
+  bestItemsProducts_originalPrice: {
+    fontSize: 10,
     color: "gray",
+    marginLeft: 2,
+  },
+  bestItemsProducts_discountPercentage: {
+    fontSize: 15,
+    color: "#F719A3",
+    fontWeight: "600",
+    marginRight: 4,
+  },
+  bestItemsProducts_freeShippingView: {
+    backgroundColor: "#EEF0F6",
+    width: screenWidth * 0.1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 2,
+    marginTop: 5,
+  },
+  bestItemsProducts_freeShipping: {
+    fontSize: 9,
+    color: "gray",
+  },
+  allBestItemsButton_View: {
+    alignItems: "center",
+    justifyContent: "center",
+    marginVertical: screenHeight * 0.02,
+  },
+  allBestItemsButton_TouchOpacity: {
+    borderWidth: 1,
+    borderColor: "#DCDCDC",
+    borderStyle: "solid",
+    borderRadius: 5,
+    width: "90%",
+    paddingVertical: 14,
+    alignItems: "center",
+  },
+  allBestItemsButton_Text: {
+    fontWeight: "700",
+    fontSize: 15,
   },
 });
 export default Brand;
