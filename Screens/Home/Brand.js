@@ -282,7 +282,8 @@ const bestItems = [
 const Brand = () => {
   const [showIndex, setShowIndex] = useState(3);
   const [reload, setReload] = useState(false);
-  const [pressedTitle, setPressedTitle] = useState();
+  const [pressedTitle, setPressedTitle] = useState(2);
+
   const [bestItemsProductsList, setBestItemsProductsList] = useState([
     {
       id: 1,
@@ -420,6 +421,14 @@ const Brand = () => {
     );
   };
 
+  const pressedTitleCheck = item => {
+    let check = false;
+    if (item.folderKey == pressedTitle) {
+      check = true;
+    }
+    return check;
+  };
+
   return (
     <View style={styles.View}>
       <ScrollView style={{ height: 1000 }}>
@@ -488,6 +497,8 @@ const Brand = () => {
                 <TouchableOpacity
                   style={styles.bestItemsView}
                   onPress={() => {
+                    setPressedTitle(item.folderKey);
+
                     bestItems.map(i => {
                       if (i.folderKey == item.folderKey) {
                         setBestItemsProductsList(item.products);
@@ -495,7 +506,14 @@ const Brand = () => {
                     });
                   }}
                 >
-                  <Text style={styles.bestItemsTitleText}>{item.title}</Text>
+                  <Text
+                    style={[
+                      styles.bestItemsTitleText,
+                      pressedTitleCheck(item) && { color: "black" },
+                    ]}
+                  >
+                    {item.title}
+                  </Text>
                 </TouchableOpacity>
               );
             }}
