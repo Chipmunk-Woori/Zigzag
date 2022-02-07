@@ -1,31 +1,34 @@
 import React, { useState, useEffect } from "react";
-
 import {
-  SafeAreaView,
   ScrollView,
-  StatusBar,
   StyleSheet,
   Text,
-  useColorScheme,
   View,
   Image,
   FlatList,
   Dimensions,
   TouchableOpacity,
 } from "react-native";
+import { SwiperFlatList } from "react-native-swiper-flatlist";
 
 const posterData = [
   {
-    id: "poster1",
+    id: "poster_1",
     img: require("../../assets/poster/poster_1.png"),
+    text: ["대세 정호연 만난", "캘빈클라인 진 봄 신상"],
+    textColor: "black",
   },
   {
-    id: "poster2",
+    id: "poster_2",
     img: require("../../assets/poster/poster_2.png"),
+    text: ["로고로 힘 더했다!", "엠엘비 청키 라이너 발매"],
+    textColor: "white",
   },
   {
-    id: "poster3",
+    id: "poster_3",
     img: require("../../assets/poster/poster_3.png"),
+    text: ["제이에스티나", "22 S/S 핸드백 컬렉션 발매"],
+    textColor: "white",
   },
 ];
 
@@ -108,10 +111,11 @@ const productBigSize = [
 ];
 const screenWidth = Dimensions.get("screen").width;
 const screenHeight = Dimensions.get("screen").height;
-const posterHeight = screenHeight * 0.26;
+const posterHeight = screenHeight * 0.28;
 const productHeight = screenHeight * 0.35;
 const commonMargin = screenWidth * 0.045;
 const textMarginBottom = screenHeight * 0.0019;
+const colors = ["tomato", "thistle", "skyblue", "teal"];
 
 const zDiscountText = item => {
   const tempItem = item;
@@ -194,34 +198,64 @@ const freeShippingText = item => {
   }
 };
 
-getHeader = () => {
-  return (
-    <FlatList
-      data={posterData}
-      keyExtractor={item => item.id}
-      horizontal={true}
-      renderItem={({ item }) => {
-        return (
-          <View key={item.id} style={styles.posterView}>
-            <Image
-              source={item.img}
-              style={{
-                width: screenWidth,
-                height: posterHeight,
-              }}
-            />
-          </View>
-        );
-      }}
-    />
-  );
-};
-
 const HomeTabView = ({ navigation }) => {
+  const [showIndex, setShowIndex] = useState(1);
   const [nextState, setNextState] = useState(false);
   const [posterNumber, setPosterNumber] = useState(0);
   const [userName, setUserName] = useState("배우리");
   const tempFlatListDataArray = [0, 1, 2];
+
+  getHeader = () => {
+    return (
+      <View style={{ position: "relative" }}>
+        <SwiperFlatList
+          autoplay={true}
+          autoplayDelay={2}
+          autoplayLoop={true}
+          index={0}
+          showPagination={false}
+          data={posterData}
+          onChangeIndex={({ index, prevIndex }) => {
+            setShowIndex(index + 1);
+          }}
+          renderItem={({ item, index }) => (
+            <View style={styles.posterChild}>
+              <Image
+                source={item.img}
+                style={{
+                  width: screenWidth,
+                  height: posterHeight,
+                }}
+              />
+              <View style={styles.posterTextView}>
+                {item.text.map(i => {
+                  return (
+                    <Text
+                      style={[styles.posterText, { color: item.textColor }]}
+                    >
+                      {i}
+                    </Text>
+                  );
+                })}
+              </View>
+            </View>
+          )}
+        />
+        <View
+          style={[styles.posterNumberView, styles.posterNumberBackground]}
+        />
+        <View style={[styles.posterNumberView, { flexDirection: "row" }]}>
+          <Text style={styles.posterNumberText}>{showIndex}</Text>
+          <Text style={[styles.posterNumberText, { color: "lightgray" }]}>
+            /
+          </Text>
+          <Text style={[styles.posterNumberText, { color: "lightgray" }]}>
+            {posterData.length}
+          </Text>
+        </View>
+      </View>
+    );
+  };
 
   return (
     <View>
@@ -370,10 +404,6 @@ const HomeTabView = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  posterView: {
-    height: posterHeight,
-    width: screenWidth,
-  },
   firstProductTitleName: {
     color: "black",
     fontSize: 15,
@@ -422,6 +452,41 @@ const styles = StyleSheet.create({
     borderStyle: "solid",
     borderWidth: 1,
     marginRight: screenWidth * 0.055,
+  },
+  posterChild: {
+    width: screenWidth,
+    height: posterHeight,
+  },
+  posterText: {
+    fontSize: 20,
+    fontWeight: "700",
+    color: "black",
+    marginBottom: 5,
+  },
+  posterTextView: {
+    position: "absolute",
+    top: screenHeight * 0.18,
+    left: 19,
+  },
+  posterNumberView: {
+    position: "absolute",
+    right: 15,
+    top: screenHeight * 0.24,
+    width: screenWidth * 0.09,
+    height: screenHeight * 0.023,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  posterNumberBackground: {
+    borderStyle: "solid",
+    borderWidth: 1,
+    borderRadius: 10,
+    backgroundColor: "black",
+    opacity: 0.5,
+  },
+  posterNumberText: {
+    color: "white",
+    fontSize: 12,
   },
 });
 

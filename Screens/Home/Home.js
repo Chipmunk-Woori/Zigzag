@@ -3,13 +3,10 @@ import React, { useState, useEffect } from "react";
 import {
   SafeAreaView,
   ScrollView,
-  StatusBar,
   StyleSheet,
   Text,
-  useColorScheme,
   View,
   Image,
-  useWindowDimensions,
   TextInput,
   Dimensions,
   TouchableOpacity,
@@ -28,9 +25,6 @@ const screenHeight = Dimensions.get("screen").height;
 
 const Home = ({ navigation }) => {
   const [text, onChangeText] = React.useState("검색어를 입력해주세요");
-
-  const layout = useWindowDimensions();
-
   const [index, setIndex] = useState(0);
   const [routes] = useState([
     { key: "first", title: "홈" },

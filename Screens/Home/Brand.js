@@ -280,7 +280,7 @@ const bestItems = [
 ];
 
 const Brand = () => {
-  const [showIndex, setShowIndex] = useState(3);
+  const [showIndex, setShowIndex] = useState(1);
   const [reload, setReload] = useState(false);
   const [pressedTitle, setPressedTitle] = useState(2);
 
@@ -431,15 +431,15 @@ const Brand = () => {
 
   return (
     <View style={styles.View}>
-      <ScrollView style={{ height: 1000 }}>
+      <ScrollView style={{ height: 1000, position: "relative" }}>
         <View style={styles.carouselView}>
           <SwiperFlatList
             autoplay={true}
             autoplayDelay={2}
             autoplayLoop={true}
             index={0}
-            data={celebrity}
             showPagination={false}
+            data={celebrity}
             onChangeIndex={({ index, prevIndex }) => {
               setShowIndex(index + 1);
             }}
@@ -587,10 +587,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   itemTextView: {
-    position: "absolute",
     bottom: 60,
     left: 30,
     width: 250,
+    position: "absolute",
   },
   itemText: {
     fontSize: 25,
@@ -599,19 +599,19 @@ const styles = StyleSheet.create({
   },
   carouselIndexView: {
     flexDirection: "row",
-    width: 40,
-    height: 25,
+    width: screenWidth * 0.09,
+    height: screenHeight * 0.023,
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 20,
     position: "absolute",
-    bottom: 120,
+    top: 380,
     right: 15,
     marginBottom: 20,
   },
   carouselIndexText: {
     color: "white",
-    fontSize: 13,
+    fontSize: 12,
   },
   bestItemsView: {
     height: 45,

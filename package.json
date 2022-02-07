@@ -17,6 +17,7 @@
     "@react-navigation/bottom-tabs": "^6.0.9",
     "@react-navigation/native": "^6.0.6",
     "@react-navigation/native-stack": "^6.2.5",
+    "axios": "^0.25.0",
     "core-js": "^3.19.1",
     "package": "^1.0.1",
     "react": "17.0.2",
