@@ -440,7 +440,7 @@ const Brand = () => {
             index={0}
             showPagination={false}
             data={celebrity}
-            onChangeIndex={({ index, prevIndex }) => {
+            onChangeIndex={({ index }) => {
               setShowIndex(index + 1);
             }}
             renderItem={({ item, index }) => {

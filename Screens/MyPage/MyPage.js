@@ -23,130 +23,147 @@ const MyPage = ({ navigation }) => {
 
   return (
     <View style={styles.View}>
-      <View style={styles.headerView}>
-        <View>
-          <Text style={styles.headerText}>{headerName}</Text>
+      <ScrollView>
+        <View style={styles.headerView}>
+          <View>
+            <Text style={styles.headerText}>{headerName}</Text>
+          </View>
+
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+            }}
+          >
+            <TouchableOpacity>
+              <Image
+                style={styles.headerIconShoppingBasket}
+                source={require("../../assets/icon/bell.png")}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <Image
+                style={styles.headerIconShoppingBasket}
+                source={require("../../assets/icon/shoppingBasket.png")}
+              />
+            </TouchableOpacity>
+          </View>
         </View>
 
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-          }}
-        >
-          <TouchableOpacity>
-            <Image
-              style={styles.headerIconShoppingBasket}
-              source={require("../../assets/icon/bell.png")}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <Image
-              style={styles.headerIconShoppingBasket}
-              source={require("../../assets/icon/shoppingBasket.png")}
-            />
-          </TouchableOpacity>
-        </View>
-      </View>
-
-      <TouchableOpacity
-        style={styles.myInformationTouch}
-        onPress={() => {
-          navigation.navigate("UserInformation");
-        }}
-      >
-        <View>
-          <Text style={styles.userNameText}>{userName}님 안녕하세요!</Text>
-          <Text style={styles.userEmailText}>{userEmail}</Text>
-        </View>
-        <Image
-          source={require("../../assets/icon/next.png")}
-          style={{ width: 20, height: 20 }}
-        />
-      </TouchableOpacity>
-      <View style={styles.gradeView}>
-        <TouchableOpacity style={styles.gradeTouch}>
-          <Image
-            source={require("../../assets/icon/pinkGrade.png")}
-            style={styles.gradeIconImg}
-          />
-          <Text style={styles.gradeIconText}>P</Text>
-          <Text style={styles.gradeText}>PINK</Text>
-
-          <Text style={styles.userEmailText}>혜택보기</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.TouchIconsView}>
-        <TouchableOpacity style={styles.TouchIconsTouch}>
-          <Image
-            source={require("../../assets/icon/truck.png")}
-            style={styles.TouchIconsicon}
-          />
-          <Text style={styles.TouchIconText}>주문 · 배송</Text>
-        </TouchableOpacity>
         <TouchableOpacity
-          style={styles.TouchIconsTouch}
+          style={styles.myInformationTouch}
           onPress={() => {
-            navigation.navigate("Review");
+            navigation.navigate("UserInformation");
           }}
         >
+          <View>
+            <Text style={styles.userNameText}>{userName}님 안녕하세요!</Text>
+            <Text style={styles.userEmailText}>{userEmail}</Text>
+          </View>
           <Image
-            source={require("../../assets/icon/review.png")}
-            style={styles.TouchIconsicon}
+            source={require("../../assets/icon/next.png")}
+            style={{ width: 20, height: 20 }}
           />
-          <Text style={styles.TouchIconText}>리뷰</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.TouchIconsTouch}>
-          <Image
-            source={require("../../assets/icon/coupon.png")}
-            style={styles.TouchIconsicon}
-          />
-          <Text style={styles.TouchIconText}>쿠폰</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.TouchIconsTouch}
-          onPress={() => {
-            navigation.navigate("Point");
-          }}
-        >
-          <Image
-            source={require("../../assets/icon/point.png")}
-            style={styles.TouchIconsicon}
-          />
-          <Text style={styles.TouchIconText}>포인트</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.bannerView}></View>
-      <View style={styles.bannerTextView}>
-        <Text style={styles.bannerText}>
-          마이픽쿠폰은 앱 6.84.0이상 버전에서 볼 수 있어요
-        </Text>
-      </View>
-      <View style={styles.ViewLine} />
+        <View style={styles.gradeView}>
+          <TouchableOpacity style={styles.gradeTouch}>
+            <Image
+              source={require("../../assets/icon/pinkGrade.png")}
+              style={styles.gradeIconImg}
+            />
+            <Text style={styles.gradeIconText}>P</Text>
+            <Text style={styles.gradeText}>PINK</Text>
 
-      <View>
-        <View style={styles.categoryView}>
-          <Text style={styles.categoryViewText}>쇼핑</Text>
+            <Text style={styles.userEmailText}>혜택보기</Text>
+          </TouchableOpacity>
         </View>
-        <View style={styles.categoryOptionView}>
-          <Text style={styles.categoryOptionText}>문의 내역</Text>
+        <View style={styles.TouchIconsView}>
+          <TouchableOpacity style={styles.TouchIconsTouch}>
+            <Image
+              source={require("../../assets/icon/truck.png")}
+              style={styles.TouchIconsicon}
+            />
+            <Text style={styles.TouchIconText}>주문 · 배송</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.TouchIconsTouch}
+            onPress={() => {
+              navigation.navigate("Review");
+            }}
+          >
+            <Image
+              source={require("../../assets/icon/review.png")}
+              style={styles.TouchIconsicon}
+            />
+            <Text style={styles.TouchIconText}>리뷰</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.TouchIconsTouch}>
+            <Image
+              source={require("../../assets/icon/coupon.png")}
+              style={styles.TouchIconsicon}
+            />
+            <Text style={styles.TouchIconText}>쿠폰</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.TouchIconsTouch}
+            onPress={() => {
+              navigation.navigate("Point");
+            }}
+          >
+            <Image
+              source={require("../../assets/icon/point.png")}
+              style={styles.TouchIconsicon}
+            />
+            <Text style={styles.TouchIconText}>포인트</Text>
+          </TouchableOpacity>
         </View>
-        <View style={styles.categoryOptionView}>
-          <Text style={styles.categoryOptionText}>최근 본 상품</Text>
+        <View style={styles.bannerView}></View>
+        <View style={styles.bannerTextView}>
+          <Text style={styles.bannerText}>
+            마이픽쿠폰은 앱 6.84.0이상 버전에서 볼 수 있어요
+          </Text>
         </View>
-      </View>
-      <View style={styles.ViewLine_2} />
-      <View>
-        <View style={styles.categoryView}>
-          <Text style={styles.categoryViewText}>서비스 설정</Text>
+        <View style={styles.ViewLine} />
+
+        <View>
+          <View style={styles.categoryView}>
+            <Text style={styles.categoryViewText}>쇼핑</Text>
+          </View>
+          <View style={styles.categoryOptionView}>
+            <Text style={styles.categoryOptionText}>문의 내역</Text>
+          </View>
+          <View style={styles.categoryOptionView}>
+            <Text style={styles.categoryOptionText}>최근 본 상품</Text>
+          </View>
         </View>
-        <View style={styles.categoryOptionView}>
-          <Text style={styles.categoryOptionText}>실험실</Text>
+        <View style={styles.ViewLine_2} />
+        <View>
+          <View style={styles.categoryView}>
+            <Text style={styles.categoryViewText}>서비스 설정</Text>
+          </View>
+          <View style={styles.categoryOptionView}>
+            <Text style={styles.categoryOptionText}>실험실</Text>
+          </View>
+          <View style={styles.categoryOptionView}>
+            <Text style={styles.categoryOptionText}>설정</Text>
+          </View>
         </View>
-        <View style={styles.categoryOptionView}>
-          <Text style={styles.categoryOptionText}>설정</Text>
+        <View style={styles.ViewLine} />
+        <View>
+          <View style={styles.categoryView}>
+            <Text style={styles.categoryViewText}>에픽</Text>
+          </View>
+          <TouchableOpacity
+            style={styles.categoryOptionView}
+            onPress={() => {
+              navigation.navigate("EpickMain");
+            }}
+          >
+            <Text style={styles.categoryOptionText}>epick 프로필</Text>
+          </TouchableOpacity>
         </View>
-      </View>
+        <View style={styles.ViewLine} />
+      </ScrollView>
     </View>
   );
 };

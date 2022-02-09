@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import {
-  ScrollView,
   StyleSheet,
   Text,
+  useColorScheme,
   View,
   Image,
-  FlatList,
   Dimensions,
   TouchableOpacity,
+  FlatList,
+  ScrollView,
 } from "react-native";
 import { SwiperFlatList } from "react-native-swiper-flatlist";
 
@@ -215,8 +216,9 @@ const HomeTabView = ({ navigation }) => {
           index={0}
           showPagination={false}
           data={posterData}
-          onChangeIndex={({ index, prevIndex }) => {
-            setShowIndex(index + 1);
+          onChangeIndex={({ index }) => {
+            console.log(index);
+            // setShowIndex(index + 1);
           }}
           renderItem={({ item, index }) => (
             <View style={styles.posterChild}>
@@ -259,12 +261,61 @@ const HomeTabView = ({ navigation }) => {
 
   return (
     <View>
+      <View style={{ position: "relative" }}>
+        <SwiperFlatList
+          autoplay={true}
+          autoplayDelay={2}
+          autoplayLoop={true}
+          index={0}
+          showPagination={false}
+          data={posterData}
+          onChangeIndex={({ index }) => {
+            // console.log(index);
+            setShowIndex(index + 1);
+          }}
+          renderItem={({ item, index }) => (
+            <View style={styles.posterChild}>
+              <Image
+                source={item.img}
+                style={{
+                  width: screenWidth,
+                  height: posterHeight,
+                }}
+              />
+              <View style={styles.posterTextView}>
+                {item.text.map(i => {
+                  return (
+                    <Text
+                      style={[styles.posterText, { color: item.textColor }]}
+                    >
+                      {i}
+                    </Text>
+                  );
+                })}
+              </View>
+            </View>
+          )}
+        />
+        <View
+          style={[styles.posterNumberView, styles.posterNumberBackground]}
+        />
+        <View style={[styles.posterNumberView, { flexDirection: "row" }]}>
+          <Text style={styles.posterNumberText}>{showIndex}</Text>
+          <Text style={[styles.posterNumberText, { color: "lightgray" }]}>
+            /
+          </Text>
+          <Text style={[styles.posterNumberText, { color: "lightgray" }]}>
+            {posterData.length}
+          </Text>
+        </View>
+      </View>
       <FlatList
         data={tempFlatListDataArray}
         listKey={(item, index) => {
           "a" + index.toString();
         }}
-        ListHeaderComponent={getHeader}
+        // 🟠질문 : getHeader() 에서 state변경하는건 왜 바로 적용안돼?
+        // ListHeaderComponent={getHeader}
         renderItem={({ item }) => {
           return (
             <View

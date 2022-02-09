@@ -19,6 +19,7 @@ import Store from "./Screens/Store/Store";
 import Collection from "./Screens/Collection/Collection";
 
 import MyPage from "./Screens/MyPage/MyPage";
+import EpickMain from "./Screens/MyPage/EpickMain";
 
 import UserInformation from "./Screens/MyPage/UserInformation";
 import MemberInformationCorrection from "./Screens/MyPage/MemberInformationCorrection";
@@ -110,6 +111,7 @@ const App = () => {
           component={MemberInformationCorrection}
         />
         <Stack.Screen name="Point" component={Point} />
+        <Stack.Screen name="EpickMain" component={EpickMain} />
       </Stack.Navigator>
     );
   };
