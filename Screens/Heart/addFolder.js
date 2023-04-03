@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Modal from "react-native-modal";
 import {
   ScrollView,
@@ -7,18 +7,14 @@ import {
   View,
   Image,
   TouchableOpacity,
-  FlatList,
   Dimensions,
-  TextField,
   TextInput,
-  SafeAreaView,
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 
 import DragSortableView from "../DragSortableView/DragSortableView";
 
 const screenWidth = Dimensions.get("screen").width; // 전체화면 가로길이
-const screenHeight = Dimensions.get("screen").height; //전체화면 세로길이
 
 const parentWidth = screenWidth;
 const childrenWidth = screenWidth;
@@ -138,52 +134,6 @@ const addFolder = ({ navigation }) => {
           </TouchableOpacity>
         </View>
 
-        {/* <FlatList
-          data={folderList}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={({ item }) => {
-            return (
-              <View style={styles.individualFolderView}>
-                <TouchableOpacity
-                  onPress={() => {
-                    dispatch({
-                      type: "deleteTitle",
-                      payload: { item },
-                    });
-                  }}
-                >
-                  <Image
-                    source={require("../../assets/icon/minusIcon.png")}
-                    style={styles.deleteButton}
-                  />
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                  style={styles.titleView}
-                  onPress={() => {
-                    setEditModalVisible(true);
-                    setFolderName(item.title);
-                    setModalProductImg(
-                      require("../../assets/product/temp.png")
-                    );
-                    setModalProductId(item.folderKey);
-                  }}
-                >
-                  <Text>{item.title}</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity>
-                  <Image
-                    source={require("../../assets/icon/list.png")}
-                    style={{ width: 14, height: 14 }}
-                  />
-                </TouchableOpacity>
-              </View>
-            );
-          }}
-        /> */}
-
-        {/* ------------------------------------------------------------------------------- */}
         <View style={{ flex: 1 }}>
           <ScrollView
             ref={scrollView => (scrollView = scrollView)}
@@ -215,7 +165,6 @@ const addFolder = ({ navigation }) => {
             />
           </ScrollView>
         </View>
-        {/* ------------------------------------------------------------------------------- */}
 
         <Modal
           animationType="slide"

@@ -138,7 +138,6 @@ const styles = StyleSheet.create({
     marginLeft: 15,
     flexDirection: "row",
     position: "relative",
-    // backgroundColor: "lavender",
   },
   searchTextInput: {
     height: "80%",
@@ -154,7 +153,6 @@ const styles = StyleSheet.create({
     height: 14,
     position: "absolute",
     left: 10,
-    //#ACACAC
   },
 });
 

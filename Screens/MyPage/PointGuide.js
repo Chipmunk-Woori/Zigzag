@@ -1,15 +1,12 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 
 import {
   ScrollView,
   StyleSheet,
   Text,
-  useColorScheme,
   View,
   Image,
   TouchableOpacity,
-  FlatList,
-  Pressable,
   Dimensions,
   Animated,
 } from "react-native";
@@ -139,7 +136,7 @@ const PointGuide = ({ navigation }) => {
           />
         </View>
 
-        {/* --------------------------------------------------------- */}
+
         <View style={styles.warningView}>
           <Text style={styles.warningText1}>Stop!</Text>
           <Text style={styles.warningText2}>Z결제 상픔만</Text>
@@ -291,7 +288,6 @@ const PointGuide = ({ navigation }) => {
         </View>
       </ScrollView>
 
-      {/* --------------------------------------------------------- */}
       <TouchableOpacity
         style={styles.backButtonTouch}
         onPress={() => {

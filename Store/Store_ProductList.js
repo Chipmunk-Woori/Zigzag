@@ -1,6 +1,5 @@
 import { Provider } from "react-redux";
 import { createStore, combineReducers } from "redux";
-import { useState } from "react";
 
 import { Text, View } from "react-native";
 
@@ -385,7 +384,6 @@ let folderList = [
 
 let reducer2 = (state = heartProductListState, action) => {
   if (action.type === "plusHeart") {
-    // console.log(action.payload);
     heartProductListState.push(action.payload);
     return heartProductListState;
   } else {
@@ -407,7 +405,6 @@ let reducer3 = (state = folderList, action) => {
       }
     });
 
-    // console.log(action.payload.folderKey);
     return folderList;
   } else if (action.type == "addTitle") {
     let copy = [...folderList];
@@ -417,7 +414,6 @@ let reducer3 = (state = folderList, action) => {
       item: [],
     };
     copy.push(add);
-    // console.log(add.folderKey);
 
     folderList = copy;
     return folderList;

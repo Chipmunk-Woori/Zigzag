@@ -1,36 +1,16 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useCallback } from "react";
 
 import {
   ScrollView,
   StyleSheet,
   Text,
-  useColorScheme,
   View,
   Image,
   TouchableOpacity,
   FlatList,
-  Pressable,
-  Dimensions,
 } from "react-native";
 
 import RollPickerNative from "roll-picker-native";
-
-const screenWidth = Dimensions.get("screen").width; // 전체화면 가로길이
-const screenHeight = Dimensions.get("screen").height; //전체화면 세로길이
-
-// const topSize = ["33 이하", "44", "55", "66", "77", "88", "99 이상"];
-// const bottomSize = ["22 이하", "23", "24", "25", "26", "27", "28", "29 이상"];
-// const shoesSize = [
-//   "210 이하",
-//   "215",
-//   "220",
-//   "225",
-//   "230",
-//   "235",
-//   "240",
-//   "245",
-//   "250 이상",
-// ];
 
 const topSize = [
   { type: "topSize", value: "33 이하" },
@@ -349,7 +329,6 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   sizeView: {
-    // backgroundColor: "orange",
     marginBottom: 10,
     marginBottom: 38,
   },

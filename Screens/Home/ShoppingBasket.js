@@ -1,24 +1,16 @@
 import React, { useState, useEffect } from "react";
 
 import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
   StyleSheet,
   Text,
-  useColorScheme,
   View,
   Dimensions,
   Image,
   TouchableOpacity,
   FlatList,
-  Modal,
-  Pressable,
-  useWindowDimensions,
 } from "react-native";
 import { useSelector } from "react-redux";
 
-const screenWidth = Dimensions.get("screen").width; // 전체화면 가로길이
 const screenHeight = Dimensions.get("screen").height; //전체화면 세로길이
 
 const Basketproducts = [
@@ -57,10 +49,8 @@ const Basketproducts = [
 const ShoppingBasket = ({ navigation }) => {
   const [reload, setReload] = useState(false);
   const [shoppingList, setShoppingList] = useState([]); //구매 목록(체크된 상품들)
-  const [productTotalPriceArr, setProductTotalPriceArr] = useState([]); //🔥총 결제금액 합계
+  const [productTotalPriceArr, setProductTotalPriceArr] = useState([]); //총 결제금액 합계
   const [shoppingResultArr, setShoppingResultArr] = useState([]);
-  //🟢amount 추가해 새로 만든 배열
-  //🟢[{productId : 101, price : 10000, deliveryCharge: 3000, amount: 5, checkYn: Y}]
   let [wholeSelectionState, setWholeSelectionState] = useState(false);
 
   //체크박스 누르면 shoppingList에 넣어주는 함수
@@ -152,7 +142,7 @@ const ShoppingBasket = ({ navigation }) => {
     setReload(!reload);
   };
 
-  //🟢상품 + 버튼
+  //상품 + 버튼
   const returnAmount = item => {
     let amount = 1;
     shoppingResultArr.map(shoppingResult => {
@@ -164,9 +154,8 @@ const ShoppingBasket = ({ navigation }) => {
     return amount;
   };
 
-  //🟢상품 한 칸 당 '총 결제금액'
+  //상품 한 칸 당 '총 결제금액'
   const returnTotalProductPrice = item => {
-    //🟢
     let amount = 1;
     shoppingResultArr.map(shoppingResult => {
       if (shoppingResult.productId == item.productId) {
@@ -223,7 +212,7 @@ const ShoppingBasket = ({ navigation }) => {
     return lastTotalDeliveryCharge;
   };
 
-  //최종 '총 결제예상금액' : 상품 가격 + 배송비 더한 금액🔥
+  //최종 '총 결제예상금액' : 상품 가격 + 배송비 더한 금액
   const returnLastTotalPrice = () => {
     let a = returnLastTotalProductPrice();
     let b = returnLastTotalDeliveryCharge();
@@ -256,7 +245,6 @@ const ShoppingBasket = ({ navigation }) => {
     };
   }, [shoppingList, Basketproducts]);
 
-  //🟢
   useEffect(() => {
     let initShoppingResultArr = [];
     Basketproducts.map(item => {
@@ -449,10 +437,8 @@ const ShoppingBasket = ({ navigation }) => {
                           />
                         </TouchableOpacity>
                         <Text style={styles.amountText}>
-                          {/* 🟢 */}
                           {returnAmount(item)}
                         </Text>
-                        {/* 🟢 */}
                         <TouchableOpacity
                           onPress={() => {
                             let newShoppingResultArr = [];
@@ -577,7 +563,6 @@ const styles = StyleSheet.create({
   productView: {
     width: "100%",
     marginTop: 10,
-    // backgroundColor: "orange",
   },
   shoppingmallView: {
     flexDirection: "row",
@@ -650,7 +635,6 @@ const styles = StyleSheet.create({
     height: 10,
     backgroundColor: "#E8EDEF",
     borderRadius: 20,
-    // marginLeft: 5,
   },
   amountText: {
     marginLeft: 10,
@@ -664,7 +648,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     height: 47,
     alignItems: "center",
-    // backgroundColor: "yellow",
   },
   deliveryChargeText: {
     color: "gray",

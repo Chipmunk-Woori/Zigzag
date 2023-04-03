@@ -270,7 +270,6 @@ const HomeTabView = ({ navigation }) => {
           showPagination={false}
           data={posterData}
           onChangeIndex={({ index }) => {
-            // console.log(index);
             setShowIndex(index + 1);
           }}
           renderItem={({ item, index }) => (
@@ -287,6 +286,7 @@ const HomeTabView = ({ navigation }) => {
                   return (
                     <Text
                       style={[styles.posterText, { color: item.textColor }]}
+                      key={i}
                     >
                       {i}
                     </Text>
@@ -314,8 +314,6 @@ const HomeTabView = ({ navigation }) => {
         listKey={(item, index) => {
           "a" + index.toString();
         }}
-        // 🟠질문 : getHeader() 에서 state변경하는건 왜 바로 적용안돼?
-        // ListHeaderComponent={getHeader}
         renderItem={({ item }) => {
           return (
             <View
@@ -329,6 +327,7 @@ const HomeTabView = ({ navigation }) => {
                 style={{
                   marginTop: screenHeight * 0.02,
                   flexDirection: "row",
+                  alignItems: 'center'
                 }}
               >
                 <Text style={styles.firstProductTitleName}>{userName}님</Text>

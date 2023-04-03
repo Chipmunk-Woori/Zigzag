@@ -1,21 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 import {
-  ScrollView,
   StyleSheet,
   Text,
-  useColorScheme,
   View,
-  Image,
-  TouchableOpacity,
-  FlatList,
-  Pressable,
-  Dimensions,
+  Image
 } from "react-native";
 import { TabView } from "react-native-tab-view";
-
-const screenWidth = Dimensions.get("screen").width; // 전체화면 가로길이
-const screenHeight = Dimensions.get("screen").height; //전체화면 세로길이
 
 const Review_TabView1 = () => {
   return (
@@ -34,7 +25,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    // backgroundColor: "lavender",
   },
   iconImage: {
     width: 100,

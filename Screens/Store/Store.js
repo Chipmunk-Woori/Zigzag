@@ -1,17 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
   StyleSheet,
   Text,
-  useColorScheme,
   View,
   Dimensions,
   TouchableOpacity,
   Image,
-  useWindowDimensions,
 } from "react-native";
 import { SceneMap, TabView, TabBar } from "react-native-tab-view";
 
@@ -36,10 +31,7 @@ const Store = ({ navigation }) => {
     },
     second: () => {
       return <Bookmark bookmarkEditMode={bookmarkEditMode} />;
-    },
-    // second: () => {
-    //   return {Bookmark(bookmarkEditMode)}
-    // },
+    }
   });
 
   const renderTabBar = props => (

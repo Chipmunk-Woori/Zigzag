@@ -22,8 +22,6 @@ import addFolder from "./addFolder";
 //장바구니 아이콘 색상 : #F719A3
 const screenWidth = Dimensions.get("screen").width; // 전체화면 가로길이
 const screenHeight = Dimensions.get("screen").height; //전체화면 세로길이
-const productHeight = screenHeight * 0.35;
-const commonMargin = screenWidth * 0.045;
 const textMarginBottom = screenHeight * 0.0019;
 
 const zDiscountText = item => {
@@ -119,7 +117,7 @@ const Heart = ({ navigation }) => {
   const [HeartProductList, setHeartProductList] = useState([]);
 
   let [TabTitle, setTabTitle] = useState([]); //탭 title 배열
-  let [choicedTabTitle, setChoicedTabTitle] = useState(); //누른 탭 title
+  let [choicedTabTitle, setChoicedTabTitle] = useState(); //선택한 탭 title
 
   let [editMode, setEditMode] = useState(false); //편집 모드
   let [choicedCheckList, setChoicedCheckList] = useState([]); //체크된 id 배열

@@ -170,14 +170,11 @@ const Sale = props => {
   }, [reducer2]);
 
   // 하트 변경 함수
-  // 내가 누른 상품이 핑크하트면 흰하트로 변경, 흰하트면 핑크하트로 변경
   const heartChange = index => {
     let pressedIndex = index; // 내가 지금 누른 상품의 index
     let tempPinkHeartArray = pinkHeartArray; // pinkHeartArray 값 받은 임시 배열
     let check = false; // 하트의 상태를 바꿔주는 작업을 했는지 알려줌
 
-    // 내가 누른 하트가 핑크하트면 흰하트로 바꿔줄게
-    // 핑크하트 배열에서 빼자
     if (pinkHeartArray.length !== 0) {
       pinkHeartArray.map(item => {
         if (item === pressedIndex) {
@@ -185,22 +182,18 @@ const Sale = props => {
             return item !== pressedIndex;
           });
 
-          check = true; // 하트가 핑크하트길래 흰하트로 바꿔줬다는 표시
+          check = true;
         }
       });
     }
-    // 내가 누른 하트가 흰하트면 핑크하트로 바꿔줄게
-    // 핑크하트 배열에 넣자
+
     if (!check) {
-      // 윗 단계를 거치지않았다면
       tempPinkHeartArray.push(pressedIndex);
     }
 
-    // 변경된 값 적용
     setPinkHeartArray(tempPinkHeartArray);
 
-    // 새로고침
-    // 배열의 내용이 수정된 것은 인지하지못하므로
+    // 새로고침. 배열의 내용이 수정된 것은 인지하지못하므로
     setReload(!reload);
   };
 
@@ -220,8 +213,6 @@ const Sale = props => {
   };
 
   const getHeader = ({ item, index }) => {
-    //🌟각 게시물의 스타일
-
     return (
       <View>
         <View key={item} style={styles.firstContentView}>
@@ -263,7 +254,6 @@ const Sale = props => {
                     dispatch({
                       type: "plusHeart",
                       payload: item,
-                      // ^ {} 으로 하면 {item: (내용)} 으로 들어감
                     });
                   }}
                 >
@@ -289,8 +279,6 @@ const Sale = props => {
       <Text style={styles.firstContentTitle}>{firstContentTitle}</Text>
       <SafeAreaView
         style={{
-          //🌟전체 화면 스타일
-          // backgroundColor: "rebeccapurple",
           width: screenWidth,
           height: screenHeight * 0.4 + screenHeight * 0.13 + 30,
         }}
@@ -302,11 +290,8 @@ const Sale = props => {
               carousel = ref;
             }}
             data={firstContentData}
-            sliderWidth={300} //슬라이드 전체 너비ƒ
+            sliderWidth={300} //슬라이드 전체 너비
             itemWidth={320}
-            //한 화면에서 (게시물 하나 + 양 옆 여비) 너비
-            //이게 너무 작으면 다음 게시물과 겹쳐
-
             renderItem={getHeader}
             onSnapToItem={index => setActiveIndex(index)}
           />
@@ -338,7 +323,6 @@ const styles = StyleSheet.create({
     marginTop: textMarginBottom * 15,
   },
   firstContentView: {
-    // backgroundColor: "yellow",
     width: screenWidth * 0.75,
     height: screenHeight * 0.4 + screenHeight * 0.13,
     marginLeft: screenWidth * 0.06,

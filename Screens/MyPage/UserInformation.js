@@ -1,20 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 import {
-  ScrollView,
   StyleSheet,
   Text,
-  useColorScheme,
   View,
   Image,
-  TouchableOpacity,
-  FlatList,
-  Pressable,
-  Dimensions,
+  TouchableOpacity
 } from "react-native";
 
-const screenWidth = Dimensions.get("screen").width; // 전체화면 가로길이
-const screenHeight = Dimensions.get("screen").height; //전체화면 세로길이
 
 const UserInformation = ({ navigation }) => {
   const [userName, setUserName] = useState("배우리");
@@ -130,8 +123,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     marginHorizontal: 15,
-    // backgroundColor: "orange",
-
     borderbottomStyle: "solid",
     borderColor: "#F0F5F9",
     borderBottomWidth: 1,

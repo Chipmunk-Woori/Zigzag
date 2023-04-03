@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   View,
   Image,
@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   Dimensions,
   StyleSheet,
-  Alert,
   Modal,
   Pressable,
 } from "react-native";
@@ -156,7 +155,7 @@ const Ranking_Shoppingmall = () => {
     setReload(!reload);
   };
 
-  // 🍀옵션 현재 상태 체크
+  // 옵션 현재 상태 체크
   const OptionResult = optionItem => {
     let check = false;
 
@@ -171,19 +170,18 @@ const Ranking_Shoppingmall = () => {
     return check;
   };
 
-  // ⭐️배열일 필요가 없음 : 선택한 아이템만 들어갈거니까
-  // ⭐️체크박스처럼 여러 개를 넣을 경우 배열
+
   let [choicedItem, setChoicedItem] = useState();
 
-  // ⭐️누른 카테고리 객체를 choicedItem에 넣어줌
+  // 선택한 카테고리 객체를 choicedItem에 넣어줌
   const choiced = item => {
     setChoicedItem(item);
   };
 
-  // ⭐️choicedItem에 있는 애를 보여줌
+  // choicedItem에 있는 아이템을 보여줌
   const optionView = () => {
     if (choicedItem) {
-      // ⭐️choicedItem 가 null, undefined 가 아니라면(=유효하다면) true 반환
+      // choicedItem 가 null, undefined 가 아니라면(=유효하다면) true 반환
       return (
         <View style={styles.optionView}>
           {choicedItem.option.map(optionItem => {
@@ -213,9 +211,9 @@ const Ranking_Shoppingmall = () => {
         </View>
       );
     } else {
-      // ⭐️맨 처음 아무것도 선택하지 않았을 때
+      // 맨 처음 아무것도 선택하지 않았을 때
       if (optionArray.length > 0) {
-        // ⭐️에러 방지
+        // 에러 방지
         return (
           <View style={styles.optionView}>
             {optionArray[0].option.map(optionItem => {
@@ -279,13 +277,13 @@ const Ranking_Shoppingmall = () => {
           onPress={() => setModalVisible(true)}
           style={[styles.menuTouchableOpacity, styles.menuTextOpacityStyle]}
         >
-          <Text style={styles.menuText}>스타일 7</Text>
+          <Text style={styles.menuText}>스타일</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => setModalVisible(true)}
           style={[styles.menuTouchableOpacity, styles.menuTextOpacityStyle]}
         >
-          <Text style={styles.menuText}>연령대 3</Text>
+          <Text style={styles.menuText}>연령대</Text>
         </TouchableOpacity>
       </View>
 

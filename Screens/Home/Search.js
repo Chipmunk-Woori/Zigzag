@@ -23,7 +23,7 @@ const Search = ({ navigation, props }) => {
   const [editMode, setEditMode] = useState("basic"); //basic, search, submit
 
   // 검색했던 목록 배열
-  // ⭐️공유해야 다른 페이지 다녀와도 그대로 볼 수 있음
+  // 공유해야 다른 페이지 다녀와도 그대로 볼 수 있음
   const [submitArray, setSubmitArray] = useState([
     "횰릭",
     "프롬비기닝",
@@ -88,7 +88,7 @@ const Search = ({ navigation, props }) => {
             onChangeText={text => setInputText(text)}
             value={inputText}
             clearButtonMode={"while-editing"} //입력창 전부 지우는 버튼
-            clearTextOnFocus={editMode != "submit"} //입력창에 focus하면 빈 칸 만들어줌 //⭐️
+            clearTextOnFocus={editMode != "submit"} //입력창에 focus하면 빈 칸 만들어줌 
             onSubmitEditing={() => {
               submitEditing();
             }}
@@ -99,8 +99,6 @@ const Search = ({ navigation, props }) => {
           />
         </View>
       </View>
-
-      {/* ------------------------------------------------------------     */}
 
       {editMode == "search" && (
         <View style={styles.eidtModeView}>
@@ -123,8 +121,6 @@ const Search = ({ navigation, props }) => {
           />
         </View>
       )}
-
-      {/* ------------------------------------------------------------     */}
 
       {editMode == "basic" && (
         <View style={styles.EditModeView}>
@@ -171,14 +167,12 @@ const Search = ({ navigation, props }) => {
         </View>
       )}
 
-      {/* ------------------------------------------------------------     */}
       {editMode == "submit" && (
         <View style={{ flex: 1 }}>
           <Text style={{ padding: 30 }}>상품, 쇼핑몰 목록</Text>
         </View>
       )}
 
-      {/* ------------------------------------------------------------     */}
     </View>
   );
 };
@@ -208,7 +202,6 @@ const styles = StyleSheet.create({
     marginLeft: 15,
     flexDirection: "row",
     position: "relative",
-    //backgroundColor: "lavender",
   },
   searchTextInput: {
     height: "80%",
@@ -218,17 +211,12 @@ const styles = StyleSheet.create({
     fontSize: 12,
     borderRadius: 20,
     color: "gray",
-
-    // height: 40
-    // borderColor: "gray",
-    // borderWidth: 1,
   },
   searchImg: {
     width: 14,
     height: 14,
     position: "absolute",
     left: 10,
-    //#ACACAC
   },
   menuTouchableOpacity: {
     backgroundColor: "#EEF0F6",
@@ -238,7 +226,6 @@ const styles = StyleSheet.create({
   },
 
   menuTextOpacityStyle: {
-    // width: screenWidth * 0.15,
     height: screenHeight * 0.033,
     borderRadius: 13,
     alignSelf: "flex-start",

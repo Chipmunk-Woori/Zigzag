@@ -1,13 +1,11 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React from "react";
 
 import {
   ScrollView,
   StyleSheet,
   Text,
   View,
-  Image,
   TouchableOpacity,
-  FlatList,
   Dimensions,
 } from "react-native";
 
@@ -37,7 +35,7 @@ const EpickMain = ({ navigation }) => {
     <View style={styles.View}>
       <ScrollView>
         <View style={styles.profileSettingView}>
-          <Text style={{ marginBottom: 10 }}>프로필 설정</Text>
+          <Text style={{ marginBottom: 15 }}>프로필 설정</Text>
           <View style={{ flexDirection: "row" }}>
             <ProfileSettingButton
               title={"닉네임 설정"}

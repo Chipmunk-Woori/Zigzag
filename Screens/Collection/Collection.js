@@ -1,18 +1,13 @@
 import React, { useState, useEffect } from "react";
 
 import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
   StyleSheet,
   Text,
-  useColorScheme,
   View,
   Dimensions,
   Image,
   TouchableOpacity,
   Modal,
-  Pressable,
   useWindowDimensions,
 } from "react-native";
 import { useSelector } from "react-redux";
@@ -131,7 +126,6 @@ const Collection = props => {
   const layout = useWindowDimensions();
   const [index, setIndex] = useState(0);
 
-  // ---------------------------------------------------------
   const [routes, setRoutes] = useState([
     { key: 1, firstTypeSeq: 2, secondTypeName: "전체" },
     { key: 2, firstTypeSeq: 2, secondTypeName: "가디건" },
@@ -139,17 +133,14 @@ const Collection = props => {
 
   useEffect(() => {
     if (pressedCategory !== null) {
-      // ↓ tmpArray : B. 클릭한 first에 속하는 second 모음.
-      // ① ↓ 맨처음은 다 '전체'니까
       let tmpArray = [
         {
-          key: 0, // Q.다른 secondTypeSeq는 겹치지않게 했는데 이건 겹쳐도되는지?
+          key: 0,
           secondTypeName: "전체",
           firstTypeSeq: pressedCategory.firstTypeSeq,
         },
       ];
 
-      // ② ↓ second 전체에서 찾기
       secondCategoryArray.map(item => {
         if (item.firstTypeSeq == pressedCategory.firstTypeSeq) {
           let tmpSecondObject = {
@@ -167,8 +158,6 @@ const Collection = props => {
   const renderScene = ({ routes }) => {
     return <OptionScreen props={routes} />;
   };
-
-  // ---------------------------------------------------------
 
   const renderTabBar = props => (
     <TabBar
@@ -303,7 +292,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "20%",
     marginBottom: 15,
-    //backgroundColor: "orange",
   },
   categoryIcon: {
     width: 30,

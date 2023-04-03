@@ -19,7 +19,6 @@ const TEST_DATA = [
 ];
 
 const screenWidth = Dimensions.get("screen").width; // 전체화면 가로길이
-const screenHeight = Dimensions.get("screen").height; //전체화면 세로길이
 
 const parentWidth = screenWidth;
 const childrenWidth = screenWidth;

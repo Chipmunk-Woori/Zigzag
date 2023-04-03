@@ -1,21 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 import {
-  ScrollView,
   StyleSheet,
   Text,
-  useColorScheme,
   View,
   Image,
   TouchableOpacity,
-  FlatList,
-  Pressable,
-  Dimensions,
   TextInput,
 } from "react-native";
-
-const screenWidth = Dimensions.get("screen").width; // 전체화면 가로길이
-const screenHeight = Dimensions.get("screen").height; //전체화면 세로길이
 
 const MemberInformationCorrection = ({ navigation }) => {
   const [userName, setUserName] = useState("이름");
@@ -129,7 +121,6 @@ const styles = StyleSheet.create({
     height: 150,
     width: "100%",
     marginBottom: 10,
-    // backgroundColor: "red",
   },
   titleText: {
     fontSize: 12,
